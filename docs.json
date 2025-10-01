@@ -36,7 +36,7 @@
             "pages": ["api-reference/introduction"]
           },
           {
-            "group": "API Endpoints",
+            "group": "Projects",
             "pages": [
               "api-reference/endpoint/create-project",
               "api-reference/endpoint/get-projects",
@@ -44,7 +44,12 @@
               "api-reference/endpoint/update-project",
               "api-reference/endpoint/delete-project",
               "api-reference/endpoint/get-project-tasks",
-              "api-reference/endpoint/get-project-web",
+              "api-reference/endpoint/get-project-web"
+            ]
+          },
+          {
+            "group": "Tasks",
+            "pages": [
               "api-reference/endpoint/create-task",
               "api-reference/endpoint/get-tasks",
               "api-reference/endpoint/get-task",
