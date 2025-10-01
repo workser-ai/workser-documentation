@@ -15,10 +15,7 @@
         "groups": [
           {
             "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart"
-            ]
+            "pages": ["index", "quickstart"]
           }
         ]
       },
@@ -27,9 +24,7 @@
         "groups": [
           {
             "group": "Internal Use",
-            "pages": [
-              "/how-to/internal-tools"
-            ]
+            "pages": ["/how-to/internal-tools"]
           }
         ]
       },
@@ -38,9 +33,7 @@
         "groups": [
           {
             "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
+            "pages": ["api-reference/introduction"]
           },
           {
             "group": "Endpoint examples",
@@ -65,8 +58,8 @@
     }
   },
   "logo": {
-    "light": "/logo/workser-trademark.svg",
-    "dark": "/logo/workser-trademark.svg"
+    "light": "/logo/workser-trademark.png",
+    "dark": "/logo/workser-trademark.png"
   },
   "navbar": {
     "links": [
