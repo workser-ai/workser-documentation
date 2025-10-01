@@ -1,33 +1,26 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: "Introduction"
+description: "Workser is Vibe Coding API for Developers so they can integrate vibe coding into their platform made easy with custom template that ai agent will use your existing backend to help end-user vibe code and got their expected web app easier."
 ---
 
 <Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
+  If you have any question, please contact [support@workser.ai](mailto:support@workser.ai)
 </Note>
 
 ## Welcome
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+There are two ways to build with Workser: use Workser Vibe coding API or use Workser as [Internal tools](how-to/internal-tools.md) for vibe coding. This section will talking about API part only. 
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
+Now Workser has 3 main groups of API: Project, Task, Publish.
+
+<Card title="Project API" icon="file-binary" href="/api-reference/project.mdx">
+  Get data, Manage, and create project
 </Card>
 
-## Authentication
+<Card title="Task API" icon="list-check" href="/api-reference/task.mdx">
+  Get data, manage, and create task
+</Card>
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
-
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+<Card title="Publish API" icon="cloud-arrow-up" href="/api-reference/project.mdx">
+  Manage custom domain on workser.app and deployment alias
+</Card>
