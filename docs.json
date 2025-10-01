@@ -34,6 +34,10 @@
           {
             "group": "API documentation",
             "pages": ["api-reference/introduction"]
+          },
+          {
+            "group": "API Endpoints",
+            "pages": ["api-reference/endpoint/create-project"]
           }
         ]
       }
