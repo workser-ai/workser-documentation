@@ -23,6 +23,17 @@
         ]
       },
       {
+        "tab": "How to",
+        "groups": [
+          {
+            "group": "Internal Use",
+            "pages": [
+              "/how-to/internal-tools"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "API reference",
         "groups": [
           {
