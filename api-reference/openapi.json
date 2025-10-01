@@ -695,19 +695,6 @@
       }
     }
   },
-  "info": {
-    "title": "Workser Core API service",
-    "description": "Workser Core API service is the service for Workser Core functionalities.",
-    "version": "0.0.1",
-    "contact": {}
-  },
-  "tags": [
-    {
-      "name": "Workser Core API service",
-      "description": ""
-    }
-  ],
-  "servers": [],
   "components": {
     "schemas": {
       "CreateOrganizationDto": {

@@ -15,10 +15,7 @@
         "groups": [
           {
             "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart"
-            ]
+            "pages": ["index", "quickstart"]
           }
         ]
       },
@@ -27,9 +24,7 @@
         "groups": [
           {
             "group": "Internal Use",
-            "pages": [
-              "/how-to/internal-tools"
-            ]
+            "pages": ["/how-to/internal-tools"]
           }
         ]
       },
@@ -38,17 +33,7 @@
         "groups": [
           {
             "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },{
-            "group": "API Endpoints",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create-project",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
+            "pages": ["api-reference/introduction"]
           }
         ]
       }
@@ -99,12 +84,20 @@
     }
   },
   "api": {
-   "playground": {
-     "display": "interactive"
-   },
-   "examples": {
-     "languages": ["curl", "python", "javascript", "typescript", "go", "java", "ruby"],
-     "defaults": "required"
-   }
- }
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": [
+        "curl",
+        "python",
+        "javascript",
+        "typescript",
+        "go",
+        "java",
+        "ruby"
+      ],
+      "defaults": "required"
+    }
+  }
 }
