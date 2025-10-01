@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Workser Docs",
   "colors": {
     "primary": "#68fbc1",
     "light": "#94ffd1",
@@ -40,6 +40,12 @@
             "group": "API documentation",
             "pages": [
               "api-reference/introduction"
+            ]
+          },
+          {
+            "group": "API reference",
+            "pages": [
+              "api-reference/openapi.json"
             ]
           }
         ]
@@ -89,5 +95,14 @@
       "x": "https://x.com/workserai",
       "linkedin": "https://www.linkedin.com/company/workser/?viewAsMember=true"
     }
-  }
+  },
+  "api": {
+   "playground": {
+     "display": "interactive"
+   },
+   "examples": {
+     "languages": ["curl", "python", "javascript", "typescript", "go", "java", "ruby"],
+     "defaults": "required"
+   }
+ }
 }
