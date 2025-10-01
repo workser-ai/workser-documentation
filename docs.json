@@ -44,9 +44,7 @@
           },
           {
             "group": "API reference",
-            "openapi": [
-              "openapi.json"
-            ]
+            "openapi": "openapi.json"
           }
         ]
       }
