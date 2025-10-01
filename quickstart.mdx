@@ -44,10 +44,6 @@ Create software product to be vibe coding tempalte to use with Workser API in yo
     5. Click new product you just added
 
        ![Screenshot 2568-10-01 at 20.48.52.png](/images/Screenshot2568-10-01at20.48.52.png)
-
-        
-
-        
   </Accordion>
   <Accordion title="[Optional] Setup Backend and Business logic context" icon="server">
      Setup Environment Variables, API Specs, and Knowledge Base in Product page
@@ -79,7 +75,7 @@ Create software product to be vibe coding tempalte to use with Workser API in yo
        ![Screenshot 2568-10-01 at 21.06.47.png](/images/Screenshot2568-10-01at21.06.47.png)
     2. Upload your brand `Logo`
     3. Setup your `Brand Primary Color` with hexadecimal
-    4. Select `Background Mode` 
+    4. Select `Background Mode`
     5. Setup `AI Agent Name`  to appear to your user in prebuilt UI
     6. Click `Save Changes ` on the bottom right to save yourcustom branding
 
@@ -89,11 +85,155 @@ Create software product to be vibe coding tempalte to use with Workser API in yo
   </Accordion>
 </AccordionGroup>
 
-### Step 3: Go live
+### Step 3: Call your first Workser API
 
-<Accordion title="Publish your docs" icon="rocket">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
+<Accordion title="Create Project with Workser API" icon="code">
+  1. Copy Software Product Id in product page
+
+     ![Screenshot 2568-10-01 at 21.35.51.png](/images/Screenshot2568-10-01at21.35.51.png)
+  2. Call Workser API on your code
+
+     NextJS server action example
+
+     ```typescript
+     'use server'
+     
+     interface Task {
+       id: string
+       project_id: string
+       name: string
+       description: string
+       status: 'in_progress' | 'completed' | 'failed' | 'pending'
+       text_requirement: string
+       files_requirement: string | null
+       metadata: Record<string, any> | null
+       created_at: string
+       updated_at: string
+     }
+     
+     interface CreateProjectResponse {
+       id: string
+       software_product_id: string
+       name: string
+       description: string
+       sandbox_id: string | null
+       project_type: 'web' | 'mobile' | 'api'
+       project_template_type: string
+       created_at: string
+       updated_at: string
+       return_url: string
+       ref_id: string
+       task: Task
+       prebuilt_url: string
+     }
+     
+     interface CreateProjectRequest {
+       software_product_id: string
+       name: string
+       description: string
+       text_requirement: string
+       project_type: string
+       return_url: string
+       ref_id: string
+     }
+     
+     export async function createWorkserProject() {
+       const apiKey = process.env.WORKSER_API_KEY
+     
+       if (!apiKey) {
+         throw new Error('WORKSER_API_KEY is not configured')
+       }
+     
+       const body: CreateProjectRequest = {
+         software_product_id: "{your-own-software-product-id}",
+         name: "Phuket 3 stars Airbnb: Urus Chill House",
+         description: "Phuket 3 stars Airbnb is web site to represent my hueshoust in Phuket with futuristic design, informative aout hotel needs, and functionality to booking.",
+         text_requirement: "Create Hotel website for Phuket 3 stars Airbnb (Urus Chill House) is web site to represent my hueshoust in Phuket with futuristic design, informative aout hotel needs, and functionality to booking.",
+         project_type: "web",
+         return_url: "https://{your-domain}/{your-return-path}",
+         ref_id: "{your-user-project-reference-id}"
+       }
+     
+       try {
+         const response = await fetch('https://api.workser.ai/v1/projects', {
+           method: 'POST',
+           headers: {
+             'Authorization': `Bearer ${apiKey}`,
+             'Content-Type': 'application/json',
+           },
+           body: JSON.stringify(body),
+         })
+     
+         if (!response.ok) {
+           const errorData = await response.json().catch(() => ({}))
+           throw new Error(
+             `API request failed: ${response.status} ${response.statusText}. ${JSON.stringify(errorData)}`
+           )
+         }
+     
+         const data: CreateProjectResponse = await response.json()
+         return { success: true, data }
+       } catch (error) {
+         console.error('Error creating Workser project:', error)
+         return { 
+           success: false, 
+           error: error instanceof Error ? error.message : 'Unknown error' 
+         }
+       }
+     }
+     ```
+
+     ```typescript
+     'use client'
+     
+     import { useState } from 'react'
+     import { useRouter } from 'next/navigation'
+     import { createWorkserProject } from '@/app/actions/workser'
+     
+     export default function MyComponent() {
+       const router = useRouter()
+       const [isLoading, setIsLoading] = useState(false)
+     
+       const handleCreateProject = async () => {
+         setIsLoading(true)
+         
+         try {
+           const result = await createWorkserProject()
+           
+           if (result.success) {
+             console.log('Project created:', result.data)
+             // Redirect to the prebuilt URL
+             router.push(result.data.prebuilt_url)
+           } else {
+             console.error('Failed to create project:', result.error)
+             alert('Failed to create project: ' + result.error)
+           }
+         } finally {
+           setIsLoading(false)
+         }
+       }
+     
+       return (
+         <button 
+           onClick={handleCreateProject}
+           disabled={isLoading}
+         >
+           {isLoading ? 'Creating Project...' : 'Create Project'}
+         </button>
+       )
+     }
+     ```
+
+  [Optional] Redirect user to Prebuilt UI
+
+  <img
+    src="/images/Screenshot2568-10-01at12.29.10.png"
+    alt="Screenshot 2568-10-01 at 12.29.10.png"
+    title="Screenshot 2568-10-01 at 12.29.10.png"
+    style={{ width:"100%" }}
+  />
+
+  **Congrats ! You got your first vibe coding project  on Workser using Vibe Coding API**
 </Accordion>
 
 ## Next steps
@@ -101,20 +241,7 @@ Create software product to be vibe coding tempalte to use with Workser API in yo
 Now that you have your docs running, explore these key features:
 
 <CardGroup cols={2}>
-  <Card title="Software Product" icon="box-check" href="(/concept/software-product">
-    Learn more about software product and projects
-  </Card>
-  <Card title="Custom Branding" icon="palette" href="/concept/custom-branding">
-    Custom Workser Prebuilt UI to be your own branding styles
-  </Card>
-  <Card title="Integrate API to your platform" icon="plug-circle-check" href="/how-to/integrate-to-platform">
-    Include syntax-highlighted code blocks.
-  </Card>
   <Card title="API documentation" icon="code" href="/api-reference">
     Workser Full API reference
   </Card>
 </CardGroup>
-
-<Note>
-  **Need help?** See our [full documentation](https://docs.workser.ai) or join our [community](https://discord.gg/YzrYsVdg).
-</Note>
