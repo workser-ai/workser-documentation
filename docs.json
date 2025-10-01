@@ -41,14 +41,14 @@
             "pages": [
               "api-reference/introduction"
             ]
-          },
-          {
-            "group": "API reference",
-            "openapi": "api-reference/openapi.json"
           }
         ]
       }
     ],
+    "groups":[{
+            "group": "API reference",
+            "openapi": "api-reference/openapi.json"
+          }],
     "global": {
       "anchors": [
         {
