@@ -127,5 +127,11 @@
       ],
       "defaults": "required"
     }
-  }
+  },
+  "integrations": {
+    "posthog": {
+        "apiKey": "phc_NqSqOc5ZQgTTfNAHQAwUjVPPywv4GJXWMMvI7NV2iyH",
+        "apiHost": "https://us.i.posthog.com"
+    }
+}
 }
