@@ -1376,7 +1376,7 @@
             "enum": ["new_task"]
           }
         },
-        "required": ["project_id", "name", "flow"]
+        "required": ["project_id", "name", "flow", "text_requirement"]
       },
       "UpdateTaskDto": {
         "type": "object",
