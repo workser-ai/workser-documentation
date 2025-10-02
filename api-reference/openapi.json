@@ -489,66 +489,19 @@
             "ApiKeyAuth": []
           }
         ]
-      },
-      "get": {
-        "operationId": "TaskController_findTasksByProject",
-        "summary": "Get all tasks of a project",
-        "description": "Retrieves all tasks assigned to a specific project, including their current status, progress, and basic metadata. For detailed task information including steps, use the individual task endpoint.",
-        "parameters": [
-          {
-            "name": "project_id",
-            "required": true,
-            "in": "query",
-            "description": "Project ID to filter tasks",
-            "schema": {
-              "example": "550e8400-e29b-41d4-a716-446655440000",
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Tasks retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TaskResponseDto"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - project_id is required"
-          },
-          "401": {
-            "description": "Unauthorized - Invalid or missing API key"
-          },
-          "404": {
-            "description": "Project not found"
-          }
-        },
-        "tags": ["Tasks"],
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
       }
     },
     "/tasks/{id}": {
       "get": {
         "operationId": "TaskController_findTaskById",
         "summary": "Get specific task information",
-        "description": "Retrieves comprehensive information about a specific task, including its configuration, current status, requirements, and associated steps. This provides a complete overview of the task execution.",
+        "description": "Retrieves comprehensive information about a specific task.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique task identifier (UUID)",
+            "description": "Task ID",
             "schema": {
               "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
@@ -585,13 +538,13 @@
       "get": {
         "operationId": "TaskController_getStepsByTaskId",
         "summary": "Get all steps for a specific task",
-        "description": "Retrieves all execution steps for a task in chronological order. Each step represents a discrete unit of work with its own status, results, and metadata.",
+        "description": "Retrieves all execution steps for a task in chronological order. Each step represents a discrete unit of work by Coding AI Agent.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique task identifier (UUID)",
+            "description": "Task ID",
             "schema": {
               "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
@@ -637,7 +590,7 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique task identifier (UUID)",
+            "description": "Task ID",
             "schema": {
               "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
@@ -646,7 +599,28 @@
         ],
         "responses": {
           "200": {
-            "description": "Steps and usages retrieved successfully"
+            "description": "Steps and usages retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "steps": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/TaskStepResponseDto"
+                      }
+                    },
+                    "usages": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/TaskUsageResponseDto"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized - Invalid or missing API key"
@@ -667,13 +641,13 @@
       "get": {
         "operationId": "TaskController_findTaskStepById",
         "summary": "Get specific task step",
-        "description": "Retrieves detailed information about a specific task step, including its execution status, results, duration, and any errors encountered.",
+        "description": "Retrieves detailed information about a specific task step.",
         "parameters": [
           {
             "name": "stepId",
             "required": true,
             "in": "path",
-            "description": "Unique task step identifier (UUID)",
+            "description": "Task Step ID",
             "schema": {
               "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
@@ -1070,6 +1044,189 @@
           }
         }
       },
+      "TaskUsageResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Task usage ID",
+            "example": "41219200-f300-4e7f-9b42-a93e6053609f"
+          },
+          "task_id": {
+            "type": "string",
+            "description": "Task ID",
+            "example": "b6e03e3a-8b29-4e13-be9c-0cdc7a4309c7"
+          },
+          "usage_type": {
+            "type": "string",
+            "description": "Type of usage",
+            "example": "llm_call"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Provider name",
+            "example": "zai"
+          },
+          "model": {
+            "type": "string",
+            "description": "Model name",
+            "example": "glm-4.6"
+          },
+          "remark": {
+            "type": "string",
+            "description": "Remark or additional information",
+            "example": "run--fbc6da64-57b9-4805-b06d-4e587c794e86-0"
+          },
+          "request_data": {
+            "type": "object",
+            "description": "Request data",
+            "example": {}
+          },
+          "response_data": {
+            "type": "object",
+            "description": "Response data from the provider",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "202510012106299ba4756e42f3470e"
+              },
+              "logprobs": {
+                "type": "object",
+                "nullable": true,
+                "example": null
+              },
+              "model_name": {
+                "type": "string",
+                "example": "glm-4.6"
+              },
+              "token_usage": {
+                "type": "object",
+                "properties": {
+                  "total_tokens": {
+                    "type": "number",
+                    "example": 9710
+                  },
+                  "prompt_tokens": {
+                    "type": "number",
+                    "example": 9662
+                  },
+                  "completion_tokens": {
+                    "type": "number",
+                    "example": 48
+                  },
+                  "prompt_tokens_details": {
+                    "type": "object",
+                    "properties": {
+                      "audio_tokens": {
+                        "type": "number",
+                        "nullable": true,
+                        "example": null
+                      },
+                      "cached_tokens": {
+                        "type": "number",
+                        "example": 43
+                      }
+                    }
+                  },
+                  "completion_tokens_details": {
+                    "type": "object",
+                    "nullable": true,
+                    "example": null
+                  }
+                }
+              },
+              "service_tier": {
+                "type": "string",
+                "nullable": true,
+                "example": null
+              },
+              "finish_reason": {
+                "type": "string",
+                "example": "tool_calls"
+              },
+              "system_fingerprint": {
+                "type": "string",
+                "nullable": true,
+                "example": null
+              }
+            }
+          },
+          "usage_metadata": {
+            "type": "object",
+            "description": "Usage metadata",
+            "properties": {
+              "input_tokens": {
+                "type": "number",
+                "example": 9662
+              },
+              "total_tokens": {
+                "type": "number",
+                "example": 9710
+              },
+              "output_tokens": {
+                "type": "number",
+                "example": 48
+              },
+              "cache_read_tokens": {
+                "type": "number",
+                "example": 43
+              },
+              "input_token_details": {
+                "type": "object",
+                "properties": {
+                  "cache_read": {
+                    "type": "number",
+                    "example": 43
+                  }
+                }
+              },
+              "output_token_details": {
+                "type": "object",
+                "example": {}
+              }
+            }
+          },
+          "price": {
+            "type": "object",
+            "description": "Price breakdown",
+            "properties": {
+              "input_price": {
+                "type": "number",
+                "example": 0.006957
+              },
+              "total_price": {
+                "type": "number",
+                "example": 0.00709
+              },
+              "output_price": {
+                "type": "number",
+                "example": 0.000127
+              },
+              "cache_read_price": {
+                "type": "number",
+                "example": 0.000006
+              }
+            }
+          },
+          "final_price": {
+            "type": "number",
+            "description": "Final price in USD",
+            "example": 0.00709
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation timestamp",
+            "example": "2025-10-01T13:06:31.345Z"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update timestamp",
+            "example": "2025-10-01T13:06:31.345Z"
+          }
+        }
+      },
       "ProjectWebInfoDto": {
         "type": "object",
         "properties": {
@@ -1183,19 +1340,6 @@
             "description": "Task description",
             "example": "Create login and registration functionality with JWT tokens"
           },
-          "branch": {
-            "type": "string",
-            "description": "Branch that this task belongs to",
-            "example": "main",
-            "default": "dev"
-          },
-          "status": {
-            "type": "string",
-            "description": "Task status",
-            "enum": ["todo", "in_progress", "completed", "failed", "cancelled"],
-            "example": "todo",
-            "default": "todo"
-          },
           "text_requirement": {
             "type": "string",
             "description": "Text-based requirements for the task",
@@ -1205,28 +1349,31 @@
             "description": "File-based requirements (JSON array)",
             "example": [
               {
-                "filename": "auth.spec.js",
-                "content": "test specifications"
+                "file_type": "image",
+                "url": "https://example.com/image.png"
               }
             ],
             "type": "array",
             "items": {
-              "type": "string"
-            }
-          },
-          "metadata": {
-            "type": "object",
-            "description": "Additional metadata for the task",
-            "example": {
-              "priority": "high",
-              "estimated_hours": 8
+              "type": "object",
+              "properties": {
+                "file_type": {
+                  "type": "string",
+                  "description": "Type of the file",
+                  "enum": ["image"]
+                },
+                "url": {
+                  "type": "string",
+                  "description": "URL of the file"
+                }
+              }
             }
           },
           "flow": {
             "type": "string",
-            "description": "Workflow type that determines how the AI agent will execute this task. Available flows: \"new_project\", \"new_task\"",
-            "example": "web_generation",
-            "enum": ["new_project", "new_task"]
+            "description": "Workflow type that determines how the AI agent will execute this task.",
+            "example": "new_task",
+            "enum": ["new_task"]
           }
         },
         "required": ["project_id", "name", "flow"]
