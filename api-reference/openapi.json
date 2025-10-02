@@ -59,7 +59,7 @@
         "tags": ["Projects"],
         "security": [
           {
-            "ApiKeyAuth": []
+            "x-api-key": []
           }
         ]
       },
@@ -113,7 +113,7 @@
         "tags": ["Projects"],
         "security": [
           {
-            "apiKeyAuth": []
+            "x-api-key": []
           }
         ]
       }
@@ -156,7 +156,7 @@
         "tags": ["Projects"],
         "security": [
           {
-            "ApiKeyAuth": []
+            "x-api-key": []
           }
         ]
       },
@@ -210,7 +210,7 @@
         "tags": ["Projects"],
         "security": [
           {
-            "ApiKeyAuth": []
+            "x-api-key": []
           }
         ]
       },
@@ -247,7 +247,7 @@
         "tags": ["Projects"],
         "security": [
           {
-            "ApiKeyAuth": []
+            "x-api-key": []
           }
         ]
       }
@@ -293,7 +293,7 @@
         "tags": ["Projects"],
         "security": [
           {
-            "ApiKeyAuth": []
+            "x-api-key": []
           }
         ]
       }
@@ -336,7 +336,7 @@
         "tags": ["Projects"],
         "security": [
           {
-            "ApiKeyAuth": []
+            "x-api-key": []
           }
         ]
       }
@@ -395,7 +395,7 @@
         "tags": ["Projects"],
         "security": [
           {
-            "ApiKeyAuth": []
+            "x-api-key": []
           }
         ]
       }
@@ -441,7 +441,7 @@
         "tags": ["Projects"],
         "security": [
           {
-            "ApiKeyAuth": []
+            "x-api-key": []
           }
         ]
       }
@@ -486,7 +486,7 @@
         "tags": ["Tasks"],
         "security": [
           {
-            "ApiKeyAuth": []
+            "x-api-key": []
           }
         ]
       }
@@ -529,7 +529,7 @@
         "tags": ["Tasks"],
         "security": [
           {
-            "ApiKeyAuth": []
+            "x-api-key": []
           }
         ]
       }
@@ -575,7 +575,7 @@
         "tags": ["Tasks"],
         "security": [
           {
-            "ApiKeyAuth": []
+            "x-api-key": []
           }
         ]
       }
@@ -632,7 +632,7 @@
         "tags": ["Tasks"],
         "security": [
           {
-            "ApiKeyAuth": []
+            "x-api-key": []
           }
         ]
       }
@@ -675,7 +675,7 @@
         "tags": ["Tasks"],
         "security": [
           {
-            "ApiKeyAuth": []
+            "x-api-key": []
           }
         ]
       }
@@ -688,6 +688,14 @@
     }
   ],
   "components": {
+    "securitySchemes": {
+      "x-api-key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "description": "API key for authentication"
+      }
+    },
     "schemas": {
       "CreateProjectDto": {
         "type": "object",
