@@ -15,7 +15,7 @@
   ],
   "security": [
     {
-      "bearerAuth": []
+      "x-api-key": []
     }
   ],
   "paths": {
@@ -23,6 +23,7 @@
       "post": {
         "operationId": "ProjectController_create",
         "summary": "Create a new project",
+        "description": "Creates a new project within a software product. This initializes the project with the specified requirements and sets up the development environment. Then call Coding AI Agent to develop project from requirements.",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -44,6 +45,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input data"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
           }
         },
         "tags": ["Projects"],
@@ -55,22 +65,26 @@
       },
       "get": {
         "operationId": "ProjectController_findAll",
-        "summary": "Get all projects or filter by software product",
+        "summary": "Get all projects by software product",
+        "description": "Retrieves all projects associated with a specific software product. Projects are returned in the specified order (newest first by default).",
         "parameters": [
           {
             "name": "software_product_id",
-            "required": false,
+            "required": true,
             "in": "query",
-            "description": "Filter projects by software product ID",
+            "description": "Software product ID to filter projects",
             "schema": {
+              "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
             }
           },
           {
             "name": "order_by",
-            "required": true,
+            "required": false,
             "in": "query",
+            "description": "Sort order for projects by creation date",
             "schema": {
+              "enum": ["ASC", "DESC"],
               "type": "string"
             }
           }
@@ -88,6 +102,12 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request - software_product_id is required"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
           }
         },
         "tags": ["Projects"],
@@ -102,13 +122,15 @@
       "get": {
         "operationId": "ProjectController_findOne",
         "summary": "Get project by ID",
+        "description": "Retrieves detailed information about a specific project including its configuration, status, and metadata.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Project ID",
+            "description": "Unique project identifier (UUID)",
             "schema": {
+              "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
             }
           }
@@ -124,6 +146,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
           "404": {
             "description": "Project not found"
           }
@@ -138,13 +163,15 @@
       "patch": {
         "operationId": "ProjectController_update",
         "summary": "Update project by ID",
+        "description": "Updates an existing project. You can update any field including name, description, requirements, and configuration. Only provided fields will be updated.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Project ID",
+            "description": "Unique project identifier (UUID)",
             "schema": {
+              "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
             }
           }
@@ -170,6 +197,12 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request - Invalid input data"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
           "404": {
             "description": "Project not found"
           }
@@ -184,13 +217,15 @@
       "delete": {
         "operationId": "ProjectController_remove",
         "summary": "Delete project by ID",
+        "description": "Permanently deletes a project and all associated resources. This action cannot be undone. All tasks, deployments, and configurations will be removed.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Project ID",
+            "description": "Unique project identifier (UUID)",
             "schema": {
+              "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
             }
           }
@@ -198,6 +233,12 @@
         "responses": {
           "200": {
             "description": "Project deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
           },
           "404": {
             "description": "Project not found"
@@ -214,21 +255,23 @@
     "/projects/{id}/tasks": {
       "get": {
         "operationId": "ProjectController_getProjectTasks",
-        "summary": "Get project with tasks by ID",
+        "summary": "Get all tasks for a project",
+        "description": "Retrieves all tasks associated with a specific project, including their current status, steps, and metadata.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Project ID",
+            "description": "Unique project identifier (UUID)",
             "schema": {
+              "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Project with task retrieved successfully",
+            "description": "Tasks retrieved successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -239,6 +282,12 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Project not found"
           }
         },
         "tags": ["Projects"],
@@ -252,21 +301,141 @@
     "/projects/{id}/web": {
       "get": {
         "operationId": "ProjectController_getProjectWeb",
-        "summary": "Get project web by ID",
+        "summary": "Get project web deployment information",
+        "description": "Retrieves web deployment details including Vercel project information, deployment URLs, domains, and deployment status for a project.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Project ID",
+            "description": "Unique project identifier (UUID)",
             "schema": {
+              "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Web deployment information retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectWebInfoDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Project not found or no web deployment configured"
+          }
+        },
+        "tags": ["Projects"],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/projects/{id}/publish": {
+      "post": {
+        "operationId": "ProjectController_publishProject",
+        "summary": "Publish project with custom subdomain",
+        "description": "Publishes the latest deployment of your project to a custom subdomain under workser.app (e.g., my-app.workser.app). The project must have an active deployment before publishing.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Unique project identifier (UUID)",
+            "schema": {
+              "example": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublishProjectDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Project published successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublishProjectResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid hostname or no active deployment"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Project not found"
+          },
+          "409": {
+            "description": "Conflict - Hostname already in use"
+          }
+        },
+        "tags": ["Projects"],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/projects/{id}/hostnames": {
+      "get": {
+        "operationId": "ProjectController_getProjectHostnames",
+        "summary": "Get all hostnames assigned to a project",
+        "description": "Retrieves all custom domains and subdomains that are currently assigned to this project, including their creation dates.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Unique project identifier (UUID)",
+            "schema": {
+              "example": "550e8400-e29b-41d4-a716-446655440000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project hostnames retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectHostnamesDto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Project not found"
           }
         },
         "tags": ["Projects"],
@@ -280,7 +449,8 @@
     "/tasks": {
       "post": {
         "operationId": "TaskController_createTask",
-        "summary": "Create a new task",
+        "summary": "Assign a new task to the Coding AI Agent",
+        "description": "Creates and assigns a new coding task to the AI agent for a specific project based on the provided requirements.",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -302,6 +472,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input data or missing required fields"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Project not found"
           }
         },
         "tags": ["Tasks"],
@@ -313,14 +492,16 @@
       },
       "get": {
         "operationId": "TaskController_findTasksByProject",
-        "summary": "Get tasks by project ID",
+        "summary": "Get all tasks of a project",
+        "description": "Retrieves all tasks assigned to a specific project, including their current status, progress, and basic metadata. For detailed task information including steps, use the individual task endpoint.",
         "parameters": [
           {
             "name": "project_id",
             "required": true,
             "in": "query",
-            "description": "Filter tasks by project ID",
+            "description": "Unique project identifier (UUID) to filter tasks",
             "schema": {
+              "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
             }
           }
@@ -338,6 +519,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request - project_id is required"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Project not found"
           }
         },
         "tags": ["Tasks"],
@@ -351,14 +541,16 @@
     "/tasks/{id}": {
       "get": {
         "operationId": "TaskController_findTaskById",
-        "summary": "Get task by ID (includes steps)",
+        "summary": "Get specific task information",
+        "description": "Retrieves comprehensive information about a specific task, including its configuration, current status, requirements, and associated steps. This provides a complete overview of the task execution.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Task ID",
+            "description": "Unique task identifier (UUID)",
             "schema": {
+              "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
             }
           }
@@ -374,80 +566,8 @@
               }
             }
           },
-          "404": {
-            "description": "Task not found"
-          }
-        },
-        "tags": ["Tasks"],
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
-      "patch": {
-        "operationId": "TaskController_updateTask",
-        "summary": "Update task by ID",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "description": "Task ID",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTaskDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Task updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TaskResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Task not found"
-          }
-        },
-        "tags": ["Tasks"],
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
-      "delete": {
-        "operationId": "TaskController_deleteTask",
-        "summary": "Delete task by ID",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "description": "Task ID",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Task deleted successfully"
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
           },
           "404": {
             "description": "Task not found"
@@ -462,62 +582,18 @@
       }
     },
     "/tasks/{id}/steps": {
-      "post": {
-        "operationId": "TaskController_addTaskStep",
-        "summary": "Add a new step to a task",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "description": "Task ID",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateTaskStepDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Task step created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TaskStepResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Task not found"
-          }
-        },
-        "tags": ["Tasks"],
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
       "get": {
         "operationId": "TaskController_getStepsByTaskId",
         "summary": "Get all steps for a specific task",
+        "description": "Retrieves all execution steps for a task in chronological order. Each step represents a discrete unit of work with its own status, results, and metadata.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Task ID",
+            "description": "Unique task identifier (UUID)",
             "schema": {
+              "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
             }
           }
@@ -536,49 +612,11 @@
               }
             }
           },
-          "404": {
-            "description": "Task not found"
-          }
-        },
-        "tags": ["Tasks"],
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      }
-    },
-    "/tasks/{id}/usages": {
-      "post": {
-        "operationId": "TaskController_createTaskStepUsage",
-        "summary": "Create a new usage for a task step",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "description": "Task ID",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateTaskStepUsageDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Usage created successfully"
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
           },
           "404": {
-            "description": "Task step not found"
+            "description": "Task not found"
           }
         },
         "tags": ["Tasks"],
@@ -592,21 +630,26 @@
     "/tasks/{id}/steps-and-usages": {
       "get": {
         "operationId": "TaskController_getTaskStepsAndUsagesByTaskId",
-        "summary": "Get all steps and usages for a task",
+        "summary": "Get all steps and resource usage for a task",
+        "description": "Retrieves comprehensive information including all task steps and their associated resource usage records. This provides complete visibility into task execution costs, token consumption, and detailed billing information.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Task ID",
+            "description": "Unique task identifier (UUID)",
             "schema": {
+              "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Usages retrieved successfully"
+            "description": "Steps and usages retrieved successfully"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
           },
           "404": {
             "description": "Task not found"
@@ -623,14 +666,16 @@
     "/tasks/steps/{stepId}": {
       "get": {
         "operationId": "TaskController_findTaskStepById",
-        "summary": "Get specific task step by ID",
+        "summary": "Get specific task step",
+        "description": "Retrieves detailed information about a specific task step, including its execution status, results, duration, and any errors encountered.",
         "parameters": [
           {
             "name": "stepId",
             "required": true,
             "in": "path",
-            "description": "Task step ID",
+            "description": "Unique task step identifier (UUID)",
             "schema": {
+              "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
             }
           }
@@ -646,41 +691,8 @@
               }
             }
           },
-          "404": {
-            "description": "Task step not found"
-          }
-        },
-        "tags": ["Tasks"],
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ]
-      },
-      "patch": {
-        "operationId": "TaskController_updateTaskStepById",
-        "summary": "Update specific task step by ID",
-        "parameters": [
-          {
-            "name": "stepId",
-            "required": true,
-            "in": "path",
-            "description": "Task step ID",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Task step retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TaskStepResponseDto"
-                }
-              }
-            }
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
           },
           "404": {
             "description": "Task step not found"
@@ -695,2036 +707,14 @@
       }
     }
   },
+  "tags": [
+    {
+      "name": "Workser Core API service",
+      "description": ""
+    }
+  ],
   "components": {
     "schemas": {
-      "CreateOrganizationDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Organization name"
-          },
-          "description": {
-            "type": "string",
-            "description": "Organization description"
-          },
-          "logo_url": {
-            "type": "string",
-            "description": "Organization logo URL"
-          },
-          "industry": {
-            "type": "string",
-            "description": "Organization industry"
-          },
-          "goals": {
-            "type": "object",
-            "description": "Organization goals as JSON object"
-          }
-        },
-        "required": ["name"]
-      },
-      "UpdateOrganizationDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Organization name"
-          },
-          "description": {
-            "type": "string",
-            "description": "Organization description"
-          },
-          "logo_url": {
-            "type": "string",
-            "description": "Organization logo URL"
-          },
-          "industry": {
-            "type": "string",
-            "description": "Organization industry"
-          },
-          "goals": {
-            "type": "object",
-            "description": "Organization goals as JSON object"
-          }
-        }
-      },
-      "AddMemberDto": {
-        "type": "object",
-        "properties": {
-          "user_id": {
-            "type": "string",
-            "description": "User ID to add to organization"
-          },
-          "role": {
-            "type": "string",
-            "description": "Role in organization",
-            "enum": ["owner", "admin", "member"],
-            "default": "member"
-          }
-        },
-        "required": ["user_id"]
-      },
-      "CreateNewInvitationMemberResponseDto": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "description": "Email"
-          },
-          "role": {
-            "type": "string",
-            "description": "Role"
-          }
-        },
-        "required": ["email", "role"]
-      },
-      "UpdateMemberDto": {
-        "type": "object",
-        "properties": {
-          "role": {
-            "type": "string",
-            "description": "Role in organization",
-            "enum": ["owner", "admin", "member"]
-          }
-        }
-      },
-      "TaskUsageStatsDto": {
-        "type": "object",
-        "properties": {
-          "total_count": {
-            "type": "number",
-            "description": "Total number of task usages in the period"
-          },
-          "total_cost": {
-            "type": "number",
-            "description": "Total final cost of all task usages"
-          },
-          "total_price": {
-            "type": "number",
-            "description": "Total final price of all task usages"
-          },
-          "by_usage_type": {
-            "type": "object",
-            "description": "Breakdown by usage type",
-            "example": {
-              "ai_model": 50,
-              "code_execution": 30,
-              "api_call": 20
-            }
-          },
-          "by_provider": {
-            "type": "object",
-            "description": "Breakdown by provider",
-            "example": {
-              "openai": 45,
-              "anthropic": 35
-            }
-          },
-          "by_model": {
-            "type": "object",
-            "description": "Breakdown by model",
-            "example": {
-              "gpt-4": 30,
-              "claude-3": 25
-            }
-          }
-        },
-        "required": [
-          "total_count",
-          "total_cost",
-          "total_price",
-          "by_usage_type",
-          "by_provider",
-          "by_model"
-        ]
-      },
-      "CreditUsageStatsDto": {
-        "type": "object",
-        "properties": {
-          "total_count": {
-            "type": "number",
-            "description": "Total number of credit usage records"
-          },
-          "total_credits": {
-            "type": "number",
-            "description": "Total credits consumed in the period"
-          },
-          "by_project": {
-            "type": "object",
-            "description": "Breakdown by project",
-            "example": {
-              "project-uuid-1": 150,
-              "project-uuid-2": 100
-            }
-          },
-          "by_software_product": {
-            "type": "object",
-            "description": "Breakdown by software product",
-            "example": {
-              "product-uuid-1": 200,
-              "product-uuid-2": 50
-            }
-          }
-        },
-        "required": [
-          "total_count",
-          "total_credits",
-          "by_project",
-          "by_software_product"
-        ]
-      },
-      "RequestLogsStatsDto": {
-        "type": "object",
-        "properties": {
-          "total_count": {
-            "type": "number",
-            "description": "Total number of API requests in the period"
-          },
-          "by_method": {
-            "type": "object",
-            "description": "Breakdown by HTTP method",
-            "example": {
-              "GET": 500,
-              "POST": 300,
-              "PATCH": 50,
-              "DELETE": 20
-            }
-          },
-          "by_endpoint": {
-            "type": "object",
-            "description": "Breakdown by endpoint",
-            "example": {
-              "/api/tasks": 400,
-              "/api/projects": 300
-            }
-          },
-          "by_status_code": {
-            "type": "object",
-            "description": "Breakdown by status code",
-            "example": {
-              "200": 700,
-              "400": 50,
-              "500": 20
-            }
-          },
-          "avg_response_time": {
-            "type": "number",
-            "description": "Average response time in milliseconds"
-          }
-        },
-        "required": [
-          "total_count",
-          "by_method",
-          "by_endpoint",
-          "by_status_code",
-          "avg_response_time"
-        ]
-      },
-      "OrganizationUsageStatsDto": {
-        "type": "object",
-        "properties": {
-          "organization_id": {
-            "type": "string",
-            "description": "Organization ID"
-          },
-          "period_start": {
-            "type": "string",
-            "description": "Period start date (ISO string)"
-          },
-          "period_end": {
-            "type": "string",
-            "description": "Period end date (ISO string)"
-          },
-          "task_usage": {
-            "description": "Task usage statistics",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/TaskUsageStatsDto"
-              }
-            ]
-          },
-          "credit_usage": {
-            "description": "Credit usage statistics",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/CreditUsageStatsDto"
-              }
-            ]
-          },
-          "request_logs": {
-            "description": "Request logs statistics",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RequestLogsStatsDto"
-              }
-            ]
-          }
-        },
-        "required": [
-          "organization_id",
-          "period_start",
-          "period_end",
-          "task_usage",
-          "credit_usage",
-          "request_logs"
-        ]
-      },
-      "TimeSeriesDataPoint": {
-        "type": "object",
-        "properties": {
-          "label": {
-            "type": "string",
-            "description": "Day label (e.g., \"Day 1\", \"Day 2\")"
-          },
-          "date": {
-            "type": "string",
-            "description": "Date in ISO format"
-          },
-          "value": {
-            "type": "number",
-            "description": "Value for this data point"
-          }
-        },
-        "required": ["label", "date", "value"]
-      },
-      "CreditsTrendDto": {
-        "type": "object",
-        "properties": {
-          "total": {
-            "type": "number",
-            "description": "Total credits consumed in the period"
-          },
-          "data": {
-            "description": "Daily breakdown of credit usage",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TimeSeriesDataPoint"
-            }
-          }
-        },
-        "required": ["total", "data"]
-      },
-      "TasksActivityDto": {
-        "type": "object",
-        "properties": {
-          "total": {
-            "type": "number",
-            "description": "Total task count in the period"
-          },
-          "data": {
-            "description": "Daily breakdown of task counts",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TimeSeriesDataPoint"
-            }
-          }
-        },
-        "required": ["total", "data"]
-      },
-      "CostAnalysisDto": {
-        "type": "object",
-        "properties": {
-          "total_cost": {
-            "type": "number",
-            "description": "Total cost in the period"
-          },
-          "total_price": {
-            "type": "number",
-            "description": "Total price in the period"
-          },
-          "data": {
-            "description": "Daily breakdown of costs",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TimeSeriesDataPoint"
-            }
-          }
-        },
-        "required": ["total_cost", "total_price", "data"]
-      },
-      "PerformanceMetricsDto": {
-        "type": "object",
-        "properties": {
-          "average": {
-            "type": "number",
-            "description": "Average response time in milliseconds"
-          },
-          "data": {
-            "description": "Daily breakdown of average response times",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TimeSeriesDataPoint"
-            }
-          }
-        },
-        "required": ["average", "data"]
-      },
-      "RequestMethodsBreakdownDto": {
-        "type": "object",
-        "properties": {
-          "breakdown": {
-            "type": "object",
-            "description": "Breakdown by HTTP method",
-            "example": {
-              "GET": 300,
-              "POST": 500,
-              "PATCH": 50,
-              "DELETE": 20
-            }
-          },
-          "total": {
-            "type": "number",
-            "description": "Total request count"
-          }
-        },
-        "required": ["breakdown", "total"]
-      },
-      "StatusCodesBreakdownDto": {
-        "type": "object",
-        "properties": {
-          "breakdown": {
-            "type": "object",
-            "description": "Breakdown by status code",
-            "example": {
-              "200": 700,
-              "201": 100,
-              "400": 50,
-              "500": 20
-            }
-          },
-          "total": {
-            "type": "number",
-            "description": "Total request count"
-          }
-        },
-        "required": ["breakdown", "total"]
-      },
-      "MostUsedModelDto": {
-        "type": "object",
-        "properties": {
-          "model": {
-            "type": "string",
-            "description": "Model name/identifier"
-          },
-          "provider": {
-            "type": "string",
-            "description": "Provider name"
-          },
-          "tasks_completed": {
-            "type": "number",
-            "description": "Number of tasks completed with this model"
-          },
-          "percentage": {
-            "type": "number",
-            "description": "Percentage of total usage"
-          }
-        },
-        "required": ["model", "provider", "tasks_completed", "percentage"]
-      },
-      "TaskUsageByProviderDto": {
-        "type": "object",
-        "properties": {
-          "breakdown": {
-            "type": "object",
-            "description": "Breakdown by provider",
-            "example": {
-              "openai": 45,
-              "anthropic": 35,
-              "google": 20
-            }
-          },
-          "total": {
-            "type": "number",
-            "description": "Total task count"
-          }
-        },
-        "required": ["breakdown", "total"]
-      },
-      "TaskUsageByTypeDto": {
-        "type": "object",
-        "properties": {
-          "breakdown": {
-            "type": "object",
-            "description": "Breakdown by usage type",
-            "example": {
-              "ai_model": 50,
-              "code_execution": 30,
-              "api_call": 20
-            }
-          },
-          "total": {
-            "type": "number",
-            "description": "Total task count"
-          }
-        },
-        "required": ["breakdown", "total"]
-      },
-      "AddCreditDto": {
-        "type": "object",
-        "properties": {
-          "organization_id": {
-            "type": "string",
-            "description": "Organization ID"
-          },
-          "amount": {
-            "type": "number",
-            "description": "Amount to add in USD",
-            "minimum": 0.01,
-            "maximum": 999999
-          },
-          "stripe_payment_intent_id": {
-            "type": "string",
-            "description": "Stripe payment intent ID"
-          },
-          "status": {
-            "type": "string",
-            "description": "Status of the topup",
-            "default": "pending"
-          }
-        },
-        "required": ["organization_id", "amount", "stripe_payment_intent_id"]
-      },
-      "CreditResponseDto": {
-        "type": "object",
-        "properties": {
-          "organization_id": {
-            "type": "string",
-            "description": "Organization ID"
-          },
-          "available_credit": {
-            "type": "number",
-            "description": "Available credit amount in USD"
-          },
-          "auto_topup_threshold": {
-            "type": "number",
-            "description": "Auto topup threshold"
-          },
-          "updated_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Last updated timestamp"
-          }
-        },
-        "required": [
-          "organization_id",
-          "available_credit",
-          "auto_topup_threshold",
-          "updated_at"
-        ]
-      },
-      "DeductCreditDto": {
-        "type": "object",
-        "properties": {
-          "task_usage_id": {
-            "type": "string",
-            "description": "Task Usage ID"
-          },
-          "remark": {
-            "type": "string",
-            "description": "Remark for the credit usage"
-          }
-        },
-        "required": ["task_usage_id"]
-      },
-      "CreditTopup": {
-        "type": "object",
-        "properties": {}
-      },
-      "CreditUsage": {
-        "type": "object",
-        "properties": {}
-      },
-      "CreditUsageStatsQueryDto": {
-        "type": "object",
-        "properties": {
-          "start_date": {
-            "type": "string",
-            "description": "Start date for statistics (ISO string)",
-            "example": "2024-01-01T00:00:00Z"
-          },
-          "end_date": {
-            "type": "string",
-            "description": "End date for statistics (ISO string)",
-            "example": "2024-12-31T23:59:59Z"
-          },
-          "timeframe": {
-            "type": "string",
-            "description": "Timeframe for aggregation",
-            "enum": ["daily", "weekly", "monthly", "yearly"],
-            "default": "daily"
-          },
-          "group_by": {
-            "type": "string",
-            "description": "Group statistics by field",
-            "enum": ["project", "usage_type", "model", "provider", "date"]
-          },
-          "project_id": {
-            "type": "string",
-            "description": "Filter by project ID"
-          },
-          "usage_type": {
-            "type": "string",
-            "description": "Filter by usage type",
-            "example": "ai_model"
-          },
-          "provider": {
-            "type": "string",
-            "description": "Filter by provider",
-            "example": "openai"
-          },
-          "model": {
-            "type": "string",
-            "description": "Filter by model",
-            "example": "gpt-4"
-          }
-        }
-      },
-      "CreditUsageStatsItemDto": {
-        "type": "object",
-        "properties": {
-          "period": {
-            "type": "string",
-            "description": "Period/Group identifier"
-          },
-          "total_credit_amount": {
-            "type": "number",
-            "description": "Total credit amount consumed"
-          },
-          "usage_count": {
-            "type": "number",
-            "description": "Number of usage records"
-          },
-          "average_credit_amount": {
-            "type": "number",
-            "description": "Average credit amount per usage"
-          },
-          "max_credit_amount": {
-            "type": "number",
-            "description": "Maximum single credit amount"
-          },
-          "min_credit_amount": {
-            "type": "number",
-            "description": "Minimum single credit amount"
-          },
-          "group_data": {
-            "type": "object",
-            "description": "Additional grouping data"
-          }
-        },
-        "required": [
-          "period",
-          "total_credit_amount",
-          "usage_count",
-          "average_credit_amount",
-          "max_credit_amount",
-          "min_credit_amount"
-        ]
-      },
-      "CreditUsageStatsResponseDto": {
-        "type": "object",
-        "properties": {
-          "organization_id": {
-            "type": "string",
-            "description": "Organization ID"
-          },
-          "query_params": {
-            "description": "Query parameters used",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/CreditUsageStatsQueryDto"
-              }
-            ]
-          },
-          "total_credit_amount": {
-            "type": "number",
-            "description": "Total credit amount in the period"
-          },
-          "total_usage_count": {
-            "type": "number",
-            "description": "Total number of usage records"
-          },
-          "average_credit_amount": {
-            "type": "number",
-            "description": "Average credit amount per usage"
-          },
-          "breakdown": {
-            "description": "Statistics breakdown",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CreditUsageStatsItemDto"
-            }
-          },
-          "generated_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Generated at timestamp"
-          }
-        },
-        "required": [
-          "organization_id",
-          "query_params",
-          "total_credit_amount",
-          "total_usage_count",
-          "average_credit_amount",
-          "breakdown",
-          "generated_at"
-        ]
-      },
-      "CreditUsageSummaryDto": {
-        "type": "object",
-        "properties": {
-          "organization_id": {
-            "type": "string",
-            "description": "Organization ID"
-          },
-          "available_credit": {
-            "type": "number",
-            "description": "Current available credit"
-          },
-          "total_consumed": {
-            "type": "number",
-            "description": "Total credit consumed (all time)"
-          },
-          "consumed_this_month": {
-            "type": "number",
-            "description": "Credit consumed this month"
-          },
-          "consumed_this_week": {
-            "type": "number",
-            "description": "Credit consumed this week"
-          },
-          "consumed_today": {
-            "type": "number",
-            "description": "Credit consumed today"
-          },
-          "avg_daily_consumption": {
-            "type": "number",
-            "description": "Average daily consumption (last 30 days)"
-          },
-          "top_provider": {
-            "type": "string",
-            "description": "Most used provider"
-          },
-          "top_model": {
-            "type": "string",
-            "description": "Most used model"
-          },
-          "top_usage_type": {
-            "type": "string",
-            "description": "Most used usage type"
-          },
-          "top_project_id": {
-            "type": "string",
-            "description": "Project with highest consumption"
-          },
-          "last_usage_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Last usage timestamp"
-          },
-          "total_usage_records": {
-            "type": "number",
-            "description": "Total number of usage records"
-          }
-        },
-        "required": [
-          "organization_id",
-          "available_credit",
-          "total_consumed",
-          "consumed_this_month",
-          "consumed_this_week",
-          "consumed_today",
-          "avg_daily_consumption",
-          "top_provider",
-          "top_model",
-          "top_usage_type",
-          "top_project_id",
-          "last_usage_at",
-          "total_usage_records"
-        ]
-      },
-      "PaymentMethod": {
-        "type": "object",
-        "properties": {}
-      },
-      "CreatePaymentMethodDto": {
-        "type": "object",
-        "properties": {
-          "organization_id": {
-            "type": "string",
-            "description": "Organization ID"
-          },
-          "stripe_payment_method_id": {
-            "type": "string",
-            "description": "Stripe payment method ID"
-          },
-          "card_brand": {
-            "type": "string",
-            "description": "Card brand (e.g., mastercard, visa)"
-          },
-          "card_last_four": {
-            "type": "string",
-            "description": "Last 4 digits of card"
-          },
-          "card_expiry_month": {
-            "type": "string",
-            "description": "Card expiry month"
-          },
-          "card_expiry_year": {
-            "type": "string",
-            "description": "Card expiry year"
-          },
-          "is_default": {
-            "type": "boolean",
-            "description": "Set as default payment method"
-          }
-        },
-        "required": [
-          "organization_id",
-          "stripe_payment_method_id",
-          "card_brand",
-          "card_last_four",
-          "card_expiry_month",
-          "card_expiry_year"
-        ]
-      },
-      "UpdatePaymentMethodDto": {
-        "type": "object",
-        "properties": {
-          "is_default": {
-            "type": "boolean",
-            "description": "Set as default payment method"
-          },
-          "status": {
-            "type": "string",
-            "description": "Payment method status"
-          }
-        }
-      },
-      "CreateBillingHistoryDto": {
-        "type": "object",
-        "properties": {
-          "organization_id": {
-            "type": "string",
-            "description": "Organization ID"
-          },
-          "invoice_number": {
-            "type": "string",
-            "description": "Invoice number"
-          },
-          "status": {
-            "type": "string",
-            "description": "Invoice status"
-          },
-          "amount": {
-            "type": "number",
-            "description": "Invoice amount"
-          },
-          "stripe_invoice_id": {
-            "type": "string",
-            "description": "Stripe invoice ID"
-          },
-          "stripe_payment_intent_id": {
-            "type": "string",
-            "description": "Stripe payment intent ID"
-          },
-          "description": {
-            "type": "string",
-            "description": "Invoice description"
-          },
-          "line_items": {
-            "type": "object",
-            "description": "Invoice line items"
-          },
-          "pdf_url": {
-            "type": "string",
-            "description": "PDF URL"
-          },
-          "paid_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Paid timestamp"
-          }
-        },
-        "required": ["organization_id", "invoice_number", "status", "amount"]
-      },
-      "BillingHistory": {
-        "type": "object",
-        "properties": {}
-      },
-      "UpdateBillingHistoryDto": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "description": "Invoice status"
-          },
-          "pdf_url": {
-            "type": "string",
-            "description": "PDF URL"
-          },
-          "paid_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Paid timestamp"
-          }
-        }
-      },
-      "BillingPreference": {
-        "type": "object",
-        "properties": {}
-      },
-      "CreateBillingPreferenceDto": {
-        "type": "object",
-        "properties": {
-          "organization_id": {
-            "type": "string",
-            "description": "Organization ID"
-          },
-          "company_name": {
-            "type": "string",
-            "description": "Company name for invoices"
-          },
-          "purchase_order_number": {
-            "type": "string",
-            "description": "Purchase order number"
-          },
-          "billing_email": {
-            "type": "string",
-            "description": "Billing email address"
-          },
-          "business_address_country": {
-            "type": "string",
-            "description": "Business address country"
-          },
-          "business_address_line1": {
-            "type": "string",
-            "description": "Business address line 1"
-          },
-          "business_address_line2": {
-            "type": "string",
-            "description": "Business address line 2"
-          },
-          "business_address_city": {
-            "type": "string",
-            "description": "Business address city"
-          },
-          "business_address_postal_code": {
-            "type": "string",
-            "description": "Business address postal code"
-          },
-          "business_address_state": {
-            "type": "string",
-            "description": "Business address state"
-          },
-          "business_tax_id": {
-            "type": "string",
-            "description": "Business tax ID"
-          }
-        },
-        "required": ["organization_id"]
-      },
-      "UpdateBillingPreferenceDto": {
-        "type": "object",
-        "properties": {
-          "company_name": {
-            "type": "string",
-            "description": "Company name for invoices"
-          },
-          "purchase_order_number": {
-            "type": "string",
-            "description": "Purchase order number"
-          },
-          "billing_email": {
-            "type": "string",
-            "description": "Billing email address"
-          },
-          "business_address_country": {
-            "type": "string",
-            "description": "Business address country"
-          },
-          "business_address_line1": {
-            "type": "string",
-            "description": "Business address line 1"
-          },
-          "business_address_line2": {
-            "type": "string",
-            "description": "Business address line 2"
-          },
-          "business_address_city": {
-            "type": "string",
-            "description": "Business address city"
-          },
-          "business_address_postal_code": {
-            "type": "string",
-            "description": "Business address postal code"
-          },
-          "business_address_state": {
-            "type": "string",
-            "description": "Business address state"
-          },
-          "business_tax_id": {
-            "type": "string",
-            "description": "Business tax ID"
-          }
-        }
-      },
-      "CreateApiKeyDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name for the API key",
-            "example": "Production API Key",
-            "maxLength": 255
-          },
-          "description": {
-            "type": "string",
-            "description": "Description of the API key usage",
-            "example": "API key for production environment coding agent integration"
-          },
-          "permissions": {
-            "type": "array",
-            "description": "Permissions granted to this API key",
-            "example": ["read", "write"],
-            "items": {
-              "type": "string",
-              "enum": ["read", "write", "admin"]
-            }
-          },
-          "scopes": {
-            "type": "array",
-            "description": "Scopes that this API key can access",
-            "example": ["code_generation", "code_analysis"],
-            "items": {
-              "type": "string",
-              "enum": [
-                "coding_agent",
-                "code_generation",
-                "code_analysis",
-                "code_execution",
-                "user_management",
-                "organization_management",
-                "project_management",
-                "task_management",
-                "all"
-              ]
-            }
-          },
-          "expires_at": {
-            "type": "string",
-            "description": "Expiration date for the API key (ISO string)",
-            "example": "2024-12-31T23:59:59.000Z"
-          },
-          "rate_limit_per_minute": {
-            "type": "number",
-            "description": "Rate limit per minute",
-            "example": 100,
-            "minimum": 1,
-            "maximum": 10000
-          },
-          "rate_limit_per_hour": {
-            "type": "number",
-            "description": "Rate limit per hour",
-            "example": 1000,
-            "minimum": 1,
-            "maximum": 100000
-          },
-          "rate_limit_per_day": {
-            "type": "number",
-            "description": "Rate limit per day",
-            "example": 10000,
-            "minimum": 1,
-            "maximum": 1000000
-          }
-        },
-        "required": ["name", "permissions", "scopes"]
-      },
-      "CreateApiKeyResponseDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "API key ID",
-            "example": "550e8400-e29b-41d4-a716-446655440000"
-          },
-          "name": {
-            "type": "string",
-            "description": "API key name",
-            "example": "Production API Key"
-          },
-          "key_prefix": {
-            "type": "string",
-            "description": "API key prefix (first 8 characters + ...)",
-            "example": "wsk_12345..."
-          },
-          "organization_id": {
-            "type": "string",
-            "description": "Organization ID",
-            "example": "550e8400-e29b-41d4-a716-446655440001"
-          },
-          "created_by_user_id": {
-            "type": "string",
-            "description": "User ID who created this API key",
-            "example": "550e8400-e29b-41d4-a716-446655440002"
-          },
-          "permissions": {
-            "type": "array",
-            "description": "Permissions granted to this API key",
-            "example": ["read", "write"],
-            "items": {
-              "type": "string",
-              "enum": ["read", "write", "admin"]
-            }
-          },
-          "scopes": {
-            "type": "array",
-            "description": "Scopes that this API key can access",
-            "example": ["code_generation", "code_analysis"],
-            "items": {
-              "type": "string",
-              "enum": [
-                "coding_agent",
-                "code_generation",
-                "code_analysis",
-                "code_execution",
-                "user_management",
-                "organization_management",
-                "project_management",
-                "task_management",
-                "all"
-              ]
-            }
-          },
-          "description": {
-            "type": "string",
-            "description": "Description of the API key usage",
-            "example": "API key for production environment coding agent integration"
-          },
-          "is_active": {
-            "type": "boolean",
-            "description": "Whether the API key is active",
-            "example": true
-          },
-          "expires_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Expiration date of the API key",
-            "example": "2024-12-31T23:59:59.000Z"
-          },
-          "last_used_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Last time this API key was used",
-            "example": "2024-01-15T10:30:00.000Z"
-          },
-          "usage_count": {
-            "type": "number",
-            "description": "Total usage count",
-            "example": 1250
-          },
-          "rate_limit_per_minute": {
-            "type": "number",
-            "description": "Rate limit per minute",
-            "example": 100
-          },
-          "rate_limit_per_hour": {
-            "type": "number",
-            "description": "Rate limit per hour",
-            "example": 1000
-          },
-          "rate_limit_per_day": {
-            "type": "number",
-            "description": "Rate limit per day",
-            "example": 10000
-          },
-          "created_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Creation date",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updated_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Last update date",
-            "example": "2024-01-15T12:00:00.000Z"
-          },
-          "api_key": {
-            "type": "string",
-            "description": "The full API key (only returned on creation)",
-            "example": "wsk_1234567890abcdef1234567890abcdef"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "key_prefix",
-          "organization_id",
-          "created_by_user_id",
-          "permissions",
-          "scopes",
-          "is_active",
-          "usage_count",
-          "created_at",
-          "updated_at",
-          "api_key"
-        ]
-      },
-      "ApiKeyResponseDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "API key ID",
-            "example": "550e8400-e29b-41d4-a716-446655440000"
-          },
-          "name": {
-            "type": "string",
-            "description": "API key name",
-            "example": "Production API Key"
-          },
-          "key_prefix": {
-            "type": "string",
-            "description": "API key prefix (first 8 characters + ...)",
-            "example": "wsk_12345..."
-          },
-          "organization_id": {
-            "type": "string",
-            "description": "Organization ID",
-            "example": "550e8400-e29b-41d4-a716-446655440001"
-          },
-          "created_by_user_id": {
-            "type": "string",
-            "description": "User ID who created this API key",
-            "example": "550e8400-e29b-41d4-a716-446655440002"
-          },
-          "permissions": {
-            "type": "array",
-            "description": "Permissions granted to this API key",
-            "example": ["read", "write"],
-            "items": {
-              "type": "string",
-              "enum": ["read", "write", "admin"]
-            }
-          },
-          "scopes": {
-            "type": "array",
-            "description": "Scopes that this API key can access",
-            "example": ["code_generation", "code_analysis"],
-            "items": {
-              "type": "string",
-              "enum": [
-                "coding_agent",
-                "code_generation",
-                "code_analysis",
-                "code_execution",
-                "user_management",
-                "organization_management",
-                "project_management",
-                "task_management",
-                "all"
-              ]
-            }
-          },
-          "description": {
-            "type": "string",
-            "description": "Description of the API key usage",
-            "example": "API key for production environment coding agent integration"
-          },
-          "is_active": {
-            "type": "boolean",
-            "description": "Whether the API key is active",
-            "example": true
-          },
-          "expires_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Expiration date of the API key",
-            "example": "2024-12-31T23:59:59.000Z"
-          },
-          "last_used_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Last time this API key was used",
-            "example": "2024-01-15T10:30:00.000Z"
-          },
-          "usage_count": {
-            "type": "number",
-            "description": "Total usage count",
-            "example": 1250
-          },
-          "rate_limit_per_minute": {
-            "type": "number",
-            "description": "Rate limit per minute",
-            "example": 100
-          },
-          "rate_limit_per_hour": {
-            "type": "number",
-            "description": "Rate limit per hour",
-            "example": 1000
-          },
-          "rate_limit_per_day": {
-            "type": "number",
-            "description": "Rate limit per day",
-            "example": 10000
-          },
-          "created_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Creation date",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updated_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Last update date",
-            "example": "2024-01-15T12:00:00.000Z"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "key_prefix",
-          "organization_id",
-          "created_by_user_id",
-          "permissions",
-          "scopes",
-          "is_active",
-          "usage_count",
-          "created_at",
-          "updated_at"
-        ]
-      },
-      "UpdateApiKeyDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name for the API key",
-            "example": "Updated Production API Key",
-            "maxLength": 255
-          },
-          "description": {
-            "type": "string",
-            "description": "Description of the API key usage",
-            "example": "Updated API key for production environment coding agent integration"
-          },
-          "permissions": {
-            "type": "array",
-            "description": "Permissions granted to this API key",
-            "example": ["read", "write"],
-            "items": {
-              "type": "string",
-              "enum": ["read", "write", "admin"]
-            }
-          },
-          "scopes": {
-            "type": "array",
-            "description": "Scopes that this API key can access",
-            "example": ["code_generation", "code_analysis"],
-            "items": {
-              "type": "string",
-              "enum": [
-                "coding_agent",
-                "code_generation",
-                "code_analysis",
-                "code_execution",
-                "user_management",
-                "organization_management",
-                "project_management",
-                "task_management",
-                "all"
-              ]
-            }
-          },
-          "is_active": {
-            "type": "boolean",
-            "description": "Whether the API key is active",
-            "example": true
-          },
-          "expires_at": {
-            "type": "string",
-            "description": "Expiration date for the API key (ISO string)",
-            "example": "2024-12-31T23:59:59.000Z"
-          },
-          "rate_limit_per_minute": {
-            "type": "number",
-            "description": "Rate limit per minute",
-            "example": 100,
-            "minimum": 1,
-            "maximum": 10000
-          },
-          "rate_limit_per_hour": {
-            "type": "number",
-            "description": "Rate limit per hour",
-            "example": 1000,
-            "minimum": 1,
-            "maximum": 100000
-          },
-          "rate_limit_per_day": {
-            "type": "number",
-            "description": "Rate limit per day",
-            "example": 10000,
-            "minimum": 1,
-            "maximum": 1000000
-          }
-        }
-      },
-      "ApiKeyUsageResponseDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Usage record ID",
-            "example": "550e8400-e29b-41d4-a716-446655440003"
-          },
-          "api_key_id": {
-            "type": "string",
-            "description": "API key ID",
-            "example": "550e8400-e29b-41d4-a716-446655440000"
-          },
-          "endpoint": {
-            "type": "string",
-            "description": "API endpoint called",
-            "example": "/api/coding-agent/generate"
-          },
-          "method": {
-            "type": "string",
-            "description": "HTTP method used",
-            "example": "POST"
-          },
-          "response_status": {
-            "type": "number",
-            "description": "HTTP response status code",
-            "example": 200
-          },
-          "response_time_ms": {
-            "type": "number",
-            "description": "Response time in milliseconds",
-            "example": 1250
-          },
-          "user_agent": {
-            "type": "string",
-            "description": "User agent string",
-            "example": "MyApp/1.0"
-          },
-          "ip_address": {
-            "type": "string",
-            "description": "IP address of the request",
-            "example": "192.168.1.1"
-          },
-          "error_message": {
-            "type": "string",
-            "description": "Error message if request failed",
-            "example": "Rate limit exceeded"
-          },
-          "request_count": {
-            "type": "number",
-            "description": "Request count (for aggregated data)",
-            "example": 1
-          },
-          "metadata": {
-            "type": "object",
-            "description": "Additional metadata about the request",
-            "example": {
-              "model": "gpt-4",
-              "tokens": 150
-            }
-          },
-          "created_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Request timestamp",
-            "example": "2024-01-15T10:30:00.000Z"
-          }
-        },
-        "required": [
-          "id",
-          "api_key_id",
-          "endpoint",
-          "method",
-          "response_status",
-          "request_count",
-          "created_at"
-        ]
-      },
-      "ApiKeyUsageStatsDto": {
-        "type": "object",
-        "properties": {
-          "total_requests": {
-            "type": "number",
-            "description": "Total number of requests",
-            "example": 1250
-          },
-          "successful_requests": {
-            "type": "number",
-            "description": "Number of successful requests (2xx status)",
-            "example": 1200
-          },
-          "failed_requests": {
-            "type": "number",
-            "description": "Number of failed requests (4xx/5xx status)",
-            "example": 50
-          },
-          "average_response_time": {
-            "type": "number",
-            "description": "Average response time in milliseconds",
-            "example": 850.5
-          },
-          "usage_by_endpoint": {
-            "type": "object",
-            "description": "Usage grouped by endpoint",
-            "example": {
-              "/api/coding-agent/generate": 800,
-              "/api/coding-agent/analyze": 300,
-              "/api/coding-agent/execute": 150
-            }
-          },
-          "usage_by_day": {
-            "type": "object",
-            "description": "Usage grouped by day",
-            "example": {
-              "2024-01-15": 450,
-              "2024-01-14": 400,
-              "2024-01-13": 400
-            }
-          }
-        },
-        "required": [
-          "total_requests",
-          "successful_requests",
-          "failed_requests",
-          "average_response_time",
-          "usage_by_endpoint",
-          "usage_by_day"
-        ]
-      },
-      "CreateSoftwareProductDto": {
-        "type": "object",
-        "properties": {
-          "user_id": {
-            "type": "string",
-            "description": "User ID",
-            "example": "550e8400-e29b-41d4-a716-446655440000"
-          },
-          "organization_id": {
-            "type": "string",
-            "description": "Organization ID",
-            "example": "550e8400-e29b-41d4-a716-446655440001"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the software product",
-            "example": "My Coding Assistant App",
-            "maxLength": 255
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the software product",
-            "example": "web_application"
-          },
-          "description": {
-            "type": "string",
-            "description": "Description of the software product",
-            "example": "AI-powered coding assistant for developers"
-          },
-          "status": {
-            "type": "string",
-            "description": "Status of the software product",
-            "enum": [
-              "active",
-              "inactive",
-              "archived",
-              "development",
-              "production"
-            ],
-            "example": "development"
-          },
-          "metadata": {
-            "type": "object",
-            "description": "Additional metadata",
-            "example": {
-              "framework": "Next.js",
-              "language": "TypeScript"
-            }
-          },
-          "settings": {
-            "type": "object",
-            "description": "Product settings",
-            "example": {
-              "auto_deploy": true,
-              "notifications": true
-            }
-          },
-          "default_ai_model": {
-            "type": "string",
-            "description": "Default AI model",
-            "example": "openai/gpt-5"
-          }
-        },
-        "required": ["user_id", "organization_id", "name"]
-      },
-      "SoftwareProductResponseDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Software product ID",
-            "example": "550e8400-e29b-41d4-a716-446655440000"
-          },
-          "organization_id": {
-            "type": "string",
-            "description": "Organization ID",
-            "example": "550e8400-e29b-41d4-a716-446655440001"
-          },
-          "created_by_user_id": {
-            "type": "string",
-            "description": "Created by user ID",
-            "example": "550e8400-e29b-41d4-a716-446655440002"
-          },
-          "name": {
-            "type": "string",
-            "description": "Product name",
-            "example": "My Coding Assistant App"
-          },
-          "description": {
-            "type": "string",
-            "description": "Product description",
-            "example": "AI-powered coding assistant for developers"
-          },
-          "version": {
-            "type": "string",
-            "description": "Product version",
-            "example": "1.0.0"
-          },
-          "status": {
-            "type": "string",
-            "description": "Product status",
-            "enum": [
-              "active",
-              "inactive",
-              "archived",
-              "development",
-              "production"
-            ],
-            "example": "development"
-          },
-          "repository_url": {
-            "type": "string",
-            "description": "Repository URL",
-            "example": "https://github.com/user/repo"
-          },
-          "documentation_url": {
-            "type": "string",
-            "description": "Documentation URL",
-            "example": "https://docs.myapp.com"
-          },
-          "metadata": {
-            "type": "object",
-            "description": "Additional metadata",
-            "example": {
-              "framework": "Next.js",
-              "language": "TypeScript"
-            }
-          },
-          "settings": {
-            "type": "object",
-            "description": "Product settings",
-            "example": {
-              "auto_deploy": true,
-              "notifications": true
-            }
-          },
-          "created_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Creation date",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updated_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Last update date",
-            "example": "2024-01-15T12:00:00.000Z"
-          }
-        },
-        "required": [
-          "id",
-          "organization_id",
-          "created_by_user_id",
-          "name",
-          "status",
-          "created_at",
-          "updated_at"
-        ]
-      },
-      "SoftwareProductStatsDto": {
-        "type": "object",
-        "properties": {
-          "total_api_requests": {
-            "type": "number",
-            "description": "Total API requests",
-            "example": 1250
-          },
-          "total_ai_agents": {
-            "type": "number",
-            "description": "Number of AI agents",
-            "example": 3
-          },
-          "total_projects": {
-            "type": "number",
-            "description": "Number of projects",
-            "example": 5
-          },
-          "active_projects": {
-            "type": "number",
-            "description": "Number of active projects",
-            "example": 3
-          }
-        },
-        "required": [
-          "total_api_requests",
-          "total_ai_agents",
-          "total_projects",
-          "active_projects"
-        ]
-      },
-      "AiAgent": {
-        "type": "object",
-        "properties": {}
-      },
-      "CreateWebhookConfigurationDto": {
-        "type": "object",
-        "properties": {
-          "software_product_id": {
-            "type": "string",
-            "description": "Software product ID",
-            "example": "550e8400-e29b-41d4-a716-446655440000"
-          },
-          "name": {
-            "type": "string",
-            "description": "Human-readable name for the webhook",
-            "example": "Task Completion Notifier"
-          },
-          "url": {
-            "type": "string",
-            "description": "The webhook endpoint URL",
-            "example": "https://api.myapp.com/webhooks/task-completed"
-          },
-          "method": {
-            "type": "string",
-            "description": "HTTP method for the webhook",
-            "example": "POST",
-            "default": "POST"
-          },
-          "event_type": {
-            "type": "string",
-            "description": "Event type that triggers this webhook",
-            "enum": [
-              "task_completed",
-              "task_failed",
-              "project_completed",
-              "project_failed",
-              "step_completed",
-              "step_failed",
-              "ai_agent_response"
-            ],
-            "example": "task_completed"
-          },
-          "status": {
-            "type": "string",
-            "description": "Webhook status",
-            "enum": ["active", "inactive", "failed", "disabled"],
-            "example": "active"
-          },
-          "headers": {
-            "type": "object",
-            "description": "Custom headers to include with webhook requests",
-            "example": {
-              "Authorization": "Bearer token123",
-              "Content-Type": "application/json"
-            }
-          },
-          "secret": {
-            "type": "string",
-            "description": "Secret key for webhook signature verification",
-            "example": "my-webhook-secret-key"
-          },
-          "retry_attempts": {
-            "type": "number",
-            "description": "Number of retry attempts on failure",
-            "example": 3,
-            "minimum": 0,
-            "maximum": 10
-          },
-          "timeout_ms": {
-            "type": "number",
-            "description": "Request timeout in milliseconds",
-            "example": 30000,
-            "minimum": 1000,
-            "maximum": 300000
-          },
-          "verify_ssl": {
-            "type": "boolean",
-            "description": "Whether to verify SSL certificates",
-            "example": true
-          },
-          "filters": {
-            "type": "object",
-            "description": "Conditions for when to trigger webhook",
-            "example": {
-              "task_type": "feature",
-              "priority": "high"
-            }
-          },
-          "payload_template": {
-            "type": "object",
-            "description": "Custom payload template for webhook requests",
-            "example": {
-              "event": "{{event_type}}",
-              "task": "{{task}}",
-              "timestamp": "{{timestamp}}",
-              "custom_field": "custom_value"
-            }
-          },
-          "metadata": {
-            "type": "object",
-            "description": "Additional webhook metadata",
-            "example": {
-              "description": "Notifies external system when tasks complete",
-              "team": "backend"
-            }
-          }
-        },
-        "required": [
-          "software_product_id",
-          "name",
-          "url",
-          "method",
-          "event_type"
-        ]
-      },
-      "WebhookConfigurationResponseDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Webhook configuration ID",
-            "example": "550e8400-e29b-41d4-a716-446655440000"
-          },
-          "software_product_id": {
-            "type": "string",
-            "description": "Software product ID",
-            "example": "550e8400-e29b-41d4-a716-446655440001"
-          },
-          "name": {
-            "type": "string",
-            "description": "Human-readable name for the webhook",
-            "example": "Task Completion Notifier"
-          },
-          "url": {
-            "type": "string",
-            "description": "The webhook endpoint URL",
-            "example": "https://api.myapp.com/webhooks/task-completed"
-          },
-          "method": {
-            "type": "string",
-            "description": "HTTP method for the webhook",
-            "example": "POST"
-          },
-          "event_type": {
-            "type": "string",
-            "description": "Event type that triggers this webhook",
-            "enum": [
-              "task_completed",
-              "task_failed",
-              "project_completed",
-              "project_failed",
-              "step_completed",
-              "step_failed",
-              "ai_agent_response"
-            ],
-            "example": "task_completed"
-          },
-          "status": {
-            "type": "string",
-            "description": "Webhook status",
-            "enum": ["active", "inactive", "failed", "disabled"],
-            "example": "active"
-          },
-          "headers": {
-            "type": "object",
-            "description": "Custom headers to include with webhook requests",
-            "example": {
-              "Authorization": "Bearer [HIDDEN]",
-              "Content-Type": "application/json"
-            }
-          },
-          "retry_attempts": {
-            "type": "number",
-            "description": "Number of retry attempts on failure",
-            "example": 3
-          },
-          "timeout_ms": {
-            "type": "number",
-            "description": "Request timeout in milliseconds",
-            "example": 30000
-          },
-          "verify_ssl": {
-            "type": "boolean",
-            "description": "Whether to verify SSL certificates",
-            "example": true
-          },
-          "filters": {
-            "type": "object",
-            "description": "Conditions for when to trigger webhook",
-            "example": {
-              "task_type": "feature",
-              "priority": "high"
-            }
-          },
-          "payload_template": {
-            "type": "object",
-            "description": "Custom payload template for webhook requests",
-            "example": {
-              "event": "{{event_type}}",
-              "task": "{{task}}",
-              "timestamp": "{{timestamp}}"
-            }
-          },
-          "last_triggered_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "When this webhook was last triggered",
-            "example": "2024-01-15T10:30:00.000Z"
-          },
-          "last_success_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "When this webhook last succeeded",
-            "example": "2024-01-15T10:30:00.000Z"
-          },
-          "last_failure_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "When this webhook last failed",
-            "example": "2024-01-14T15:20:00.000Z"
-          },
-          "last_error_message": {
-            "type": "string",
-            "description": "Last error message",
-            "example": "Connection timeout after 30000ms"
-          },
-          "failure_count": {
-            "type": "number",
-            "description": "Consecutive failure count",
-            "example": 0
-          },
-          "success_count": {
-            "type": "number",
-            "description": "Total success count",
-            "example": 147
-          },
-          "metadata": {
-            "type": "object",
-            "description": "Additional webhook metadata",
-            "example": {
-              "description": "Notifies external system when tasks complete",
-              "team": "backend"
-            }
-          },
-          "created_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Creation timestamp",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updated_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Last update timestamp",
-            "example": "2024-01-15T12:00:00.000Z"
-          }
-        },
-        "required": [
-          "id",
-          "software_product_id",
-          "name",
-          "url",
-          "method",
-          "event_type",
-          "status",
-          "retry_attempts",
-          "timeout_ms",
-          "verify_ssl",
-          "failure_count",
-          "success_count",
-          "created_at",
-          "updated_at"
-        ]
-      },
-      "WebhookStatsDto": {
-        "type": "object",
-        "properties": {
-          "total_webhooks": {
-            "type": "number",
-            "description": "Total webhooks configured",
-            "example": 5
-          },
-          "active_webhooks": {
-            "type": "number",
-            "description": "Active webhooks",
-            "example": 4
-          },
-          "failed_webhooks": {
-            "type": "number",
-            "description": "Failed webhooks",
-            "example": 1
-          },
-          "recent_triggers": {
-            "type": "number",
-            "description": "Total webhook triggers in last 24 hours",
-            "example": 23
-          },
-          "success_rate": {
-            "type": "number",
-            "description": "Success rate percentage",
-            "example": 98.5
-          }
-        },
-        "required": [
-          "total_webhooks",
-          "active_webhooks",
-          "failed_webhooks",
-          "recent_triggers",
-          "success_rate"
-        ]
-      },
-      "CreateSoftwareProductEnvVarDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "SoftwareProductEnvVarResponseDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "UpdateSoftwareProductEnvVarDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "CreateSoftwareProductApiSpecsDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "SoftwareProductApiSpecsResponseDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "UpdateSoftwareProductApiSpecsDto": {
-        "type": "object",
-        "properties": {}
-      },
       "CreateProjectDto": {
         "type": "object",
         "properties": {
@@ -3078,14 +1068,6 @@
               "type": "string"
             }
           },
-          "metadata": {
-            "type": "object",
-            "description": "Additional metadata for the task",
-            "example": {
-              "priority": "high",
-              "estimated_hours": 8
-            }
-          },
           "created_at": {
             "format": "date-time",
             "type": "string",
@@ -3114,6 +1096,11 @@
             "type": "string",
             "description": "Branch",
             "example": "main"
+          },
+          "total_price": {
+            "type": "number",
+            "description": "Total price",
+            "example": 100
           }
         },
         "required": [
@@ -3125,55 +1112,115 @@
           "updated_at"
         ]
       },
-      "MergeGithubBrachByProjectIdDto": {
+      "ProjectWebInfoDto": {
         "type": "object",
         "properties": {
           "project_id": {
             "type": "string",
-            "description": "The project id."
+            "description": "Project ID",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
           },
-          "base": {
+          "vercel_project_id": {
             "type": "string",
-            "description": "The base branch."
+            "description": "Vercel project ID",
+            "example": "prj_abc123def456"
           },
-          "head": {
+          "deployment_url": {
             "type": "string",
-            "description": "The head branch."
+            "description": "Latest deployment URL",
+            "example": "https://my-project-abc123.vercel.app"
           },
-          "commit_message": {
+          "production_domain": {
             "type": "string",
-            "description": "The commit message."
+            "description": "Production domain",
+            "example": "my-app.workser.app"
+          },
+          "deployment_status": {
+            "type": "string",
+            "description": "Deployment status",
+            "example": "READY",
+            "enum": ["BUILDING", "READY", "ERROR", "QUEUED", "CANCELED"]
+          },
+          "framework": {
+            "type": "string",
+            "description": "Framework detected",
+            "example": "nextjs"
+          },
+          "build_command": {
+            "type": "string",
+            "description": "Build command",
+            "example": "npm run build"
+          },
+          "output_directory": {
+            "type": "string",
+            "description": "Output directory",
+            "example": ".next"
+          },
+          "domains": {
+            "description": "All custom domains assigned to this project",
+            "example": ["my-app.workser.app", "custom.example.com"],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Project created timestamp",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "last_deployed_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last deployment timestamp",
+            "example": "2024-01-15T12:00:00.000Z"
           }
         },
-        "required": ["project_id", "base", "head", "commit_message"]
+        "required": ["project_id"]
       },
-      "CreateNewVercelProjectDto": {
+      "PublishProjectDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "hostname": {
+            "type": "string",
+            "description": "Hostname of the sub domain in format `{sub_domain}.workser.app` to publish the project. Custom domain of your own domain or user domain coming soon.",
+            "example": "my-app.workser.app"
+          }
+        },
+        "required": ["hostname"]
       },
-      "AddEnvironmentVariablesToVercelProjectDto": {
+      "PublishProjectResponseDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Status of the publish project",
+            "example": "success"
+          },
+          "message": {
+            "type": "string",
+            "description": "Message",
+            "example": "Project published successfully, Error publishing project"
+          }
+        },
+        "required": ["status", "message"]
       },
-      "AddOneEnvironmentVariableToVercelProjectDto": {
+      "ProjectHostnamesDto": {
         "type": "object",
-        "properties": {}
-      },
-      "CreateNewVercelProjectRecordDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "AssignDomainToGitBranchDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "ApplyFullAliasToVercelProjectDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "CreateNewVercelDeploymentDto": {
-        "type": "object",
-        "properties": {}
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the custom domain",
+            "example": "my-app.workser.app"
+          },
+          "created": {
+            "type": "string",
+            "description": "Created at",
+            "example": "2025-09-30T12:04:43.163Z"
+          }
+        },
+        "required": ["name", "created"]
       },
       "CreateTaskDto": {
         "type": "object",
@@ -3239,7 +1286,9 @@
           },
           "flow": {
             "type": "string",
-            "description": "Flow of the task"
+            "description": "Workflow type that determines how the AI agent will execute this task. Available flows: \"new_project\", \"new_task\"",
+            "example": "web_generation",
+            "enum": ["new_project", "new_task"]
           }
         },
         "required": ["project_id", "name", "flow"]
@@ -3308,7 +1357,9 @@
           },
           "flow": {
             "type": "string",
-            "description": "Flow of the task"
+            "description": "Workflow type that determines how the AI agent will execute this task. Available flows: \"new_project\", \"new_task\"",
+            "example": "web_generation",
+            "enum": ["new_project", "new_task"]
           }
         }
       },
@@ -3491,18 +1542,6 @@
           "usage_metadata",
           "remark"
         ]
-      },
-      "SendEmailDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "SendContactEmailDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "SendSupportEmailDto": {
-        "type": "object",
-        "properties": {}
       }
     }
   }

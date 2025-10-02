@@ -44,7 +44,9 @@
               "api-reference/endpoint/update-project",
               "api-reference/endpoint/delete-project",
               "api-reference/endpoint/get-project-tasks",
-              "api-reference/endpoint/get-project-web"
+              "api-reference/endpoint/get-project-web",
+              "api-reference/endpoint/publish-project",
+              "api-reference/endpoint/get-project-hostnames"
             ]
           },
           {
@@ -53,14 +55,9 @@
               "api-reference/endpoint/create-task",
               "api-reference/endpoint/get-tasks",
               "api-reference/endpoint/get-task",
-              "api-reference/endpoint/update-task",
-              "api-reference/endpoint/delete-task",
-              "api-reference/endpoint/add-task-step",
               "api-reference/endpoint/get-task-steps",
-              "api-reference/endpoint/create-task-step-usage",
               "api-reference/endpoint/get-task-steps-and-usages",
-              "api-reference/endpoint/get-task-step",
-              "api-reference/endpoint/update-task-step"
+              "api-reference/endpoint/get-task-step"
             ]
           }
         ]
@@ -130,8 +127,8 @@
   },
   "integrations": {
     "posthog": {
-        "apiKey": "phc_NqSqOc5ZQgTTfNAHQAwUjVPPywv4GJXWMMvI7NV2iyH",
-        "apiHost": "https://us.i.posthog.com"
+      "apiKey": "phc_NqSqOc5ZQgTTfNAHQAwUjVPPywv4GJXWMMvI7NV2iyH",
+      "apiHost": "https://us.i.posthog.com"
     }
-}
+  }
 }
