@@ -113,7 +113,7 @@
         "tags": ["Projects"],
         "security": [
           {
-            "ApiKeyAuth": []
+            "apiKeyAuth": []
           }
         ]
       }
@@ -128,7 +128,7 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique project identifier (UUID)",
+            "description": "Project ID",
             "schema": {
               "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
@@ -163,13 +163,13 @@
       "patch": {
         "operationId": "ProjectController_update",
         "summary": "Update project by ID",
-        "description": "Updates an existing project. You can update any field including name, description, requirements, and configuration. Only provided fields will be updated.",
+        "description": "Updates an existing project. You can update provided fields.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique project identifier (UUID)",
+            "description": "Project ID",
             "schema": {
               "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
@@ -223,7 +223,7 @@
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique project identifier (UUID)",
+            "description": "Project ID",
             "schema": {
               "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
@@ -255,14 +255,14 @@
     "/projects/{id}/tasks": {
       "get": {
         "operationId": "ProjectController_getProjectTasks",
-        "summary": "Get all tasks for a project",
-        "description": "Retrieves all tasks associated with a specific project, including their current status, steps, and metadata.",
+        "summary": "Get all tasks by ai agent for a project",
+        "description": "Retrieves all tasks by ai agent associated with a specific project.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique project identifier (UUID)",
+            "description": "Project ID",
             "schema": {
               "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
@@ -301,14 +301,14 @@
     "/projects/{id}/web": {
       "get": {
         "operationId": "ProjectController_getProjectWeb",
-        "summary": "Get project web deployment information",
-        "description": "Retrieves web deployment details including Vercel project information, deployment URLs, domains, and deployment status for a project.",
+        "summary": "Get web deployment information of project",
+        "description": "Retrieves web deployment details of the project.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique project identifier (UUID)",
+            "description": "Project ID",
             "schema": {
               "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
@@ -345,13 +345,13 @@
       "post": {
         "operationId": "ProjectController_publishProject",
         "summary": "Publish project with custom subdomain",
-        "description": "Publishes the latest deployment of your project to a custom subdomain under workser.app (e.g., my-app.workser.app). The project must have an active deployment before publishing.",
+        "description": "Publishes the latest deployment of your project to a custom subdomain under workser.app (e.g., my-app.workser.app). The project must have an active deployment before publishing. You own custom domain coming soon.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique project identifier (UUID)",
+            "description": "Project ID",
             "schema": {
               "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
@@ -404,13 +404,13 @@
       "get": {
         "operationId": "ProjectController_getProjectHostnames",
         "summary": "Get all hostnames assigned to a project",
-        "description": "Retrieves all custom domains and subdomains that are currently assigned to this project, including their creation dates.",
+        "description": "Retrieves all hostnames that are currently assigned to this project.",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
-            "description": "Unique project identifier (UUID)",
+            "description": "Project ID",
             "schema": {
               "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
@@ -499,7 +499,7 @@
             "name": "project_id",
             "required": true,
             "in": "query",
-            "description": "Unique project identifier (UUID) to filter tasks",
+            "description": "Project ID to filter tasks",
             "schema": {
               "example": "550e8400-e29b-41d4-a716-446655440000",
               "type": "string"
@@ -736,54 +736,58 @@
           "project_type": {
             "type": "string",
             "description": "Type of project",
+            "enum": ["web"],
             "example": "web"
           },
           "text_requirement": {
             "type": "string",
             "description": "Text-based requirements for the project",
-            "example": "Use bcrypt for password hashing and implement rate limiting"
+            "example": "Change coloe theme of landing page to be blue with white text and add a new button to the header"
           },
           "files_requirement": {
             "description": "Files to be added to the project",
             "example": [
               {
-                "url": "https://example.com/file1.txt",
-                "file_type": "text/plain"
+                "url": "https://example.com/file1.png",
+                "file_type": "image"
               },
               {
-                "url": "https://example.com/file2.txt",
-                "file_type": "text/plain"
+                "url": "https://example.com/file2.jpg",
+                "file_type": "image"
               }
             ],
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "URL of the file"
+                },
+                "file_type": {
+                  "type": "string",
+                  "description": "Type of the file",
+                  "enum": ["image"]
+                }
+              }
             }
           },
           "user_email": {
             "type": "string",
-            "description": "User email",
+            "description": "User email from your application",
             "example": "john.doe@example.com"
           },
           "return_url": {
             "type": "string",
-            "description": "Return URL",
+            "description": "Return URL for prebuilt UI to get back to your application",
             "example": "https://example.com/back"
           },
           "ref_id": {
             "type": "string",
-            "description": "Ref ID",
+            "description": "Reference ID with your application",
             "example": "1234567890"
           }
-        },
-        "required": [
-          "software_product_id",
-          "name",
-          "text_requirement",
-          "user_email",
-          "return_url",
-          "ref_id"
-        ]
+        }
       },
       "ProjectResponseDto": {
         "type": "object",
@@ -808,20 +812,16 @@
             "description": "Project description",
             "example": "A modern e-commerce web application built with React and Node.js"
           },
-          "sandbox_id": {
-            "type": "string",
-            "description": "Sandbox ID for development environment",
-            "example": "sb_abc123def456"
-          },
           "project_type": {
             "type": "string",
             "description": "Type of project",
-            "example": "web_application"
+            "enum": ["web"],
+            "example": "web"
           },
           "project_template_type": {
             "type": "string",
             "description": "Project template type",
-            "example": "react_nextjs_typescript"
+            "example": "nextjs_typescript"
           },
           "created_at": {
             "format": "date-time",
@@ -837,45 +837,29 @@
           },
           "user_email": {
             "type": "string",
-            "description": "User email",
+            "description": "User email from your application",
             "example": "john.doe@example.com"
           },
           "prebuilt_url": {
             "type": "string",
-            "description": "Prebuilt URL",
+            "description": "Prebuilt UI URL for to use by user to interact with Workser Coding AI Agent directly",
             "example": "https://example.com/prebuilt"
           },
           "return_url": {
             "type": "string",
-            "description": "Return URL",
+            "description": "Return URL for prebuilt UI to get back to your application",
             "example": "https://example.com/back"
           },
           "ref_id": {
             "type": "string",
-            "description": "Ref ID",
+            "description": "Reference ID with your application",
             "example": "1234567890"
           }
-        },
-        "required": [
-          "id",
-          "software_product_id",
-          "name",
-          "created_at",
-          "updated_at",
-          "user_email",
-          "prebuilt_url",
-          "return_url",
-          "ref_id"
-        ]
+        }
       },
       "UpdateProjectDto": {
         "type": "object",
         "properties": {
-          "software_product_id": {
-            "type": "string",
-            "description": "Software product ID that this project belongs to",
-            "example": "550e8400-e29b-41d4-a716-446655440000"
-          },
           "name": {
             "type": "string",
             "description": "Project name",
@@ -886,46 +870,19 @@
             "description": "Project description",
             "example": "A modern e-commerce web application built with React and Node.js"
           },
-          "project_type": {
-            "type": "string",
-            "description": "Type of project",
-            "example": "web"
-          },
-          "text_requirement": {
-            "type": "string",
-            "description": "Text-based requirements for the project",
-            "example": "Use bcrypt for password hashing and implement rate limiting"
-          },
-          "files_requirement": {
-            "description": "Files to be added to the project",
-            "example": [
-              {
-                "url": "https://example.com/file1.txt",
-                "file_type": "text/plain"
-              },
-              {
-                "url": "https://example.com/file2.txt",
-                "file_type": "text/plain"
-              }
-            ],
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
           "user_email": {
             "type": "string",
-            "description": "User email",
+            "description": "User email from your application",
             "example": "john.doe@example.com"
           },
           "return_url": {
             "type": "string",
-            "description": "Return URL",
+            "description": "Return URL for prebuilt UI to get back to your application",
             "example": "https://example.com/back"
           },
           "ref_id": {
             "type": "string",
-            "description": "Ref ID",
+            "description": "Reference ID with your application",
             "example": "1234567890"
           }
         }
@@ -963,41 +920,52 @@
               "failed",
               "cancelled"
             ],
-            "example": "pending"
+            "example": "in_progress"
           },
           "type": {
             "type": "string",
-            "description": "Type of task step",
-            "example": "api_endpoint"
-          },
-          "results": {
-            "type": "object",
-            "description": "Step execution results",
-            "example": {
-              "endpoint_created": true,
-              "tests_passed": false
-            }
-          },
-          "duration_ms": {
-            "type": "number",
-            "description": "Execution duration in milliseconds",
-            "example": 5000
-          },
-          "errors": {
-            "type": "object",
-            "description": "Error information if step failed",
-            "example": {
-              "error_type": "validation",
-              "message": "Email format invalid"
-            }
+            "description": "Type of task step: this can be null if step type not in special type in enum",
+            "example": "ai_agent_message",
+            "enum": [
+              "ai_agent_message",
+              "image_understanding",
+              "research",
+              "image_generation"
+            ]
           },
           "metadata": {
             "type": "object",
-            "description": "Additional metadata for the task step",
-            "example": {
-              "complexity": "medium",
-              "dependencies": ["database", "validation"]
-            }
+            "description": "Additional metadata for the task step: path, tool, command, pattern, and etc. depends on tool used in step",
+            "examples": [
+              {
+                "path": "src/pages/index.tsx",
+                "tool": "read_file_from_sandbox"
+              },
+              {
+                "command": "npm install react",
+                "tool": "run_command_in_sandbox"
+              },
+              {
+                "tool": "replace_text_in_files_sandbox",
+                "files": ["src/app/page.tsx"],
+                "pattern": "import { Header } from \"@/components/layout/Header\"",
+                "new_value": "import Header from \"@/components/layout/Header\""
+              },
+              {
+                "path": "src/app/page.tsx",
+                "tool": "write_file_to_sandbox"
+              },
+              {
+                "path": "",
+                "tool": "get_list_of_files_in_sandbox"
+              },
+              {
+                "tool": "replace_text_in_files_sandbox",
+                "files": ["src/app/page.tsx"],
+                "pattern": "import { Header } from \"@/components/layout/Header\"",
+                "new_value": "import Header from \"@/components/layout/Header\""
+              }
+            ]
           },
           "created_at": {
             "format": "date-time",
@@ -1011,15 +979,7 @@
             "description": "Last update timestamp",
             "example": "2024-01-15T12:00:00.000Z"
           }
-        },
-        "required": [
-          "id",
-          "task_id",
-          "name",
-          "status",
-          "created_at",
-          "updated_at"
-        ]
+        }
       },
       "TaskResponseDto": {
         "type": "object",
@@ -1053,19 +1013,30 @@
           "text_requirement": {
             "type": "string",
             "description": "Text-based requirements for the task",
-            "example": "Use bcrypt for password hashing and implement rate limiting"
+            "example": "Change coloe theme of landing page to be blue with white text and add a new button to the header"
           },
           "files_requirement": {
-            "description": "File-based requirements",
+            "description": "File-based requirements (JSON array), For now receive only image url.",
             "example": [
               {
-                "filename": "auth.spec.js",
-                "content": "test specifications"
+                "file_type": "image",
+                "url": "https://example.com/image.png"
               }
             ],
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "file_type": {
+                  "type": "string",
+                  "description": "Type of the file",
+                  "enum": ["image"]
+                },
+                "url": {
+                  "type": "string",
+                  "description": "URL of the file"
+                }
+              }
             }
           },
           "created_at": {
@@ -1087,30 +1058,17 @@
               "$ref": "#/components/schemas/TaskStepResponseDto"
             }
           },
-          "sandbox_id": {
-            "type": "string",
-            "description": "Sandbox ID",
-            "example": "550e8400-e29b-41d4-a716-446655440002"
-          },
           "branch": {
             "type": "string",
             "description": "Branch",
-            "example": "main"
+            "example": "dev"
           },
           "total_price": {
             "type": "number",
-            "description": "Total price",
-            "example": 100
+            "description": "Total price used by this task in USD",
+            "example": 0.5
           }
-        },
-        "required": [
-          "id",
-          "project_id",
-          "name",
-          "status",
-          "created_at",
-          "updated_at"
-        ]
+        }
       },
       "ProjectWebInfoDto": {
         "type": "object",
@@ -1120,61 +1078,43 @@
             "description": "Project ID",
             "example": "550e8400-e29b-41d4-a716-446655440000"
           },
-          "vercel_project_id": {
+          "preview_url": {
             "type": "string",
-            "description": "Vercel project ID",
-            "example": "prj_abc123def456"
+            "description": "Preview URL",
+            "example": "https://my-project.workser.app"
           },
-          "deployment_url": {
+          "production_url": {
             "type": "string",
-            "description": "Latest deployment URL",
-            "example": "https://my-project-abc123.vercel.app"
-          },
-          "production_domain": {
-            "type": "string",
-            "description": "Production domain",
+            "description": "Production URL: coming soon when we imlpement 2 environments.",
             "example": "my-app.workser.app"
           },
           "deployment_status": {
             "type": "string",
             "description": "Deployment status",
             "example": "READY",
+            "enum": ["success", "failed"]
+          },
+          "deployment_ready_status": {
+            "type": "string",
+            "description": "Deployment ready status",
+            "example": "READY",
             "enum": ["BUILDING", "READY", "ERROR", "QUEUED", "CANCELED"]
           },
-          "framework": {
+          "deployment_error_logs": {
             "type": "string",
-            "description": "Framework detected",
-            "example": "nextjs"
+            "description": "Deployment error logs",
+            "example": "Error: Failed to build the project"
           },
-          "build_command": {
-            "type": "string",
-            "description": "Build command",
-            "example": "npm run build"
-          },
-          "output_directory": {
-            "type": "string",
-            "description": "Output directory",
-            "example": ".next"
-          },
-          "domains": {
-            "description": "All custom domains assigned to this project",
-            "example": ["my-app.workser.app", "custom.example.com"],
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "created_at": {
+          "deployment_done_at": {
             "format": "date-time",
             "type": "string",
-            "description": "Project created timestamp",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "last_deployed_at": {
-            "format": "date-time",
-            "type": "string",
-            "description": "Last deployment timestamp",
+            "description": "Deployment completion timestamp",
             "example": "2024-01-15T12:00:00.000Z"
+          },
+          "latest_task_status": {
+            "type": "string",
+            "description": "Latest task status",
+            "example": "completed"
           }
         },
         "required": ["project_id"]
@@ -1196,31 +1136,34 @@
           "status": {
             "type": "string",
             "description": "Status of the publish project",
-            "example": "success"
+            "example": "success",
+            "enum": ["success", "failed"]
           },
           "message": {
             "type": "string",
             "description": "Message",
-            "example": "Project published successfully, Error publishing project"
+            "example": ["Project published successfully", "Error message ..."]
           }
         },
         "required": ["status", "message"]
       },
       "ProjectHostnamesDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name of the custom domain",
-            "example": "my-app.workser.app"
-          },
-          "created": {
-            "type": "string",
-            "description": "Created at",
-            "example": "2025-09-30T12:04:43.163Z"
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Name of the custom domain",
+              "example": "my-app.workser.app"
+            },
+            "created": {
+              "type": "string",
+              "description": "Created at",
+              "example": "2025-09-30T12:04:43.163Z"
+            }
           }
-        },
-        "required": ["name", "created"]
+        }
       },
       "CreateTaskDto": {
         "type": "object",
@@ -1239,11 +1182,6 @@
             "type": "string",
             "description": "Task description",
             "example": "Create login and registration functionality with JWT tokens"
-          },
-          "sandbox_id": {
-            "type": "string",
-            "description": "Sandbox ID that this task belongs to",
-            "example": "550e8400-e29b-41d4-a716-446655440002"
           },
           "branch": {
             "type": "string",
@@ -1310,11 +1248,6 @@
             "type": "string",
             "description": "Task description",
             "example": "Create login and registration functionality with JWT tokens"
-          },
-          "sandbox_id": {
-            "type": "string",
-            "description": "Sandbox ID that this task belongs to",
-            "example": "550e8400-e29b-41d4-a716-446655440002"
           },
           "branch": {
             "type": "string",
