@@ -1,0 +1,34 @@
+---
+title: "Enterprise vs. Consumer"
+description: "Same two products, different depth of governance, support, and data controls."
+---
+
+Workser Business and Workser Desktop are the same products for every customer — there's no separate enterprise codebase. What changes across tiers is tenant isolation, access governance, and the compliance artifacts available to you.
+
+## At a glance
+
+| | Consumer / self-serve | Enterprise |
+|---|---|---|
+| Onboarding | Self-serve signup, credit card | Sales-assisted, contract + DPA, security review |
+| Data isolation | Free tier: shared database | Paid tier (Spark+): dedicated database and storage per project |
+| Access control | Single org, informal roles | Multi-seat org with `owner / admin / member / viewer` roles enforced |
+| Compliance artifacts | Not typically needed | DPA, Security Whitepaper, Subprocessor List — see [Security & Trust](/security/whitepaper) |
+| Billing | Self-serve credit top-up | Per-user credit limits, invoiced billing history |
+| Support | Docs + community | Direct support channel, incident notification per your DPA |
+
+## If you're evaluating Workser for your organization
+
+Start with the [Security & Trust center](/security/whitepaper) — it covers encryption, access control, AI agent safety controls, data residency status, and our current compliance program status, stated honestly (including what's still in progress). Then read the [Workser Business](/workser-business/overview) and [Workser Desktop](/workser-desktop/overview) overviews for what your team would actually use day to day.
+
+<CardGroup cols={2}>
+  <Card title="Enterprise Network Requirements" icon="network-wired" href="/security/enterprise-network-requirements">
+    Domains to allowlist, and honest status on SSO, egress IPs, and audit logs.
+  </Card>
+  <Card title="Consulting & Corporate Training" icon="calendar-check" href="https://workser.ai/consulting">
+    Get hands-on help rolling Workser out, or book time directly with sales.
+  </Card>
+</CardGroup>
+
+## If you're building on your own
+
+You don't need any of the governance detail above to get value from Workser. Jump straight to the [quickstart](/workser-business/quickstart), or the [payments & billing guide](/consumer/payments-billing) if you just want to understand how credits work before you start.

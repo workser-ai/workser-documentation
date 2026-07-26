@@ -1,0 +1,60 @@
+---
+title: "Enterprise Network & IT Requirements"
+description: "What your IT/security team needs to approve Workser on your network — stated honestly, including current gaps."
+---
+
+<Note>
+This is separate from our [Security Whitepaper](/security/whitepaper) (how we protect data) and [Compliance Status](/security/compliance-status) (certifications). This page answers the network/IT-approval questions specifically.
+</Note>
+
+## Domains to allowlist
+
+| Domain | Purpose |
+|---|---|
+| `workser.ai` | Marketing site, dashboard |
+| `api.workser.ai` | Core API |
+| Your organization's Workser subdomain(s) | Deployed web apps, if using Workser-managed hosting |
+
+<Warning>
+We don't yet have static outbound IP ranges to hand you for firewall allowlisting of inbound webhook calls from Workser — our backend runs on managed/serverless infrastructure without a fixed egress IP today. If your firewall requires source-IP allowlisting for webhooks, tell us and we'll scope a dedicated egress IP for your account rather than promise one that doesn't exist yet.
+</Warning>
+
+## Single Sign-On (SSO) and provisioning
+
+**Not available today.** Authentication is currently email/password and Google OAuth. We don't yet support SAML/OIDC enterprise SSO or SCIM-based user provisioning/deprovisioning. If SSO is a hard requirement for your rollout, tell your Workser contact — we track this as a roadmap item and prioritize based on real deal requirements rather than a fixed date we can't commit to yet.
+
+## Audit log export
+
+**Not available as a self-serve feature today.** We don't yet expose a dedicated security audit log (logins, role changes, deletions) in a SIEM-exportable format. If this is a requirement for your organization, tell us — noted as a roadmap item alongside SSO.
+
+## Bring-your-own-cloud (BYOC)
+
+**Not available.** Workser is a fully-hosted, multi-tenant product. Running Workser inside your own cloud account isn't offered today.
+
+## Status page / uptime
+
+<Card title="System status" icon="signal" href="https://workser.ai/status">
+  Current status and incident history, self-reported by our team — no uptime percentage published yet, since it isn't backed by automated monitoring.
+</Card>
+
+## Talk to sales or book training
+
+<Card title="Consulting & Corporate Training" icon="calendar-check" href="https://workser.ai/consulting">
+  Implementation consulting, team training, and a direct link to book time with sales.
+</Card>
+
+## Where we stand today, at a glance
+
+| Requirement | Status |
+|---|---|
+| Domains to allowlist | Available |
+| Static egress IPs | Not available — can be scoped per account |
+| SSO (SAML/OIDC) | Not available — roadmap |
+| SCIM provisioning | Not available — roadmap |
+| Audit log export | Not available — roadmap |
+| BYOC | Not available |
+| Public status page | Not yet set up |
+
+<Card title="Talk to us about your requirements" icon="headset" href="mailto:support@workser.ai">
+  If any of the above blocks your rollout, tell us — support@workser.ai.
+</Card>

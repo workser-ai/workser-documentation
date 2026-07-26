@@ -1,0 +1,60 @@
+---
+title: "Web Development"
+description: "Build, iterate, and deploy web apps from a prompt, with a dedicated database and storage per project."
+---
+
+## How it works
+
+<Steps>
+  <Step title="Design-first flow">
+    Describe what you want; Workser generates a working app — frontend, backend, and schema — inside a new project.
+
+    <Columns cols={2}>
+      <Frame>
+        <img src="/images/workser-business/web-development/example-bookstore.png" alt="An online bookstore app built with Workser" />
+      </Frame>
+      <Frame>
+        <img src="/images/workser-business/web-development/example-cafe.png" alt="A cafe ordering app built with Workser" />
+      </Frame>
+    </Columns>
+  </Step>
+  <Step title="Per-project cloud resources">
+    On a paid plan, each project gets its own dedicated database and file storage — not a shared schema with other customers' projects.
+
+    <Columns cols={2}>
+      <Frame>
+        <img src="/images/workser-business/web-development/cloud-database.png" alt="Workser project database panel" />
+      </Frame>
+      <Frame>
+        <img src="/images/workser-business/web-development/cloud-storage.png" alt="Workser project file storage panel" />
+      </Frame>
+    </Columns>
+  </Step>
+  <Step title="Iterate">
+    Keep prompting to add features, fix bugs, or restyle. Changes apply to the same project's codebase and database.
+  </Step>
+  <Step title="Deploy">
+    Publish to a Workser-managed domain, or connect your own.
+  </Step>
+  <Step title="Manage data">
+    Use the in-app SQL editor, table editor, and connection URI for your project's database, and the storage panel for files.
+
+    <Frame>
+      <img src="/images/workser-business/web-development/cloud-auth.png" alt="Workser project authentication panel" />
+    </Frame>
+  </Step>
+</Steps>
+
+## For enterprise teams
+
+- **Data isolation**: confirm your organization is on a paid tier if per-project database isolation is a requirement for your security review — see [Security & Trust](/security/whitepaper#multi-tenancy-and-data-isolation).
+- **Access control**: deleting a project requires a dashboard session or a management-scoped API key — an automation key alone can't delete a project.
+- **Deletion**: deleting a project tears down its dedicated database and file storage; the project record is archived (not row-deleted) for billing/audit history.
+
+## For self-serve builders
+
+You don't need to think about infrastructure — the database, hosting, and domain setup happen automatically per project. Credits are consumed by AI build/iteration actions; see [Payments & Billing](/consumer/payments-billing).
+
+<Card title="Automate what you build" icon="diagram-project" href="/workser-business/workflow-automation">
+  Wire your app up to triggers and actions with the workflow builder.
+</Card>

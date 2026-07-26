@@ -1,0 +1,38 @@
+---
+title: "Workser Desktop overview"
+description: "A desktop AI agent with computer-use control and Orbit, a bring-your-own-key bridge to Workser's deploy infrastructure."
+---
+
+Workser Desktop gives an AI agent hands-on control of your computer, and bundles **Orbit**, a separate tool that connects a coding-agent CLI you already run to Workser's deploy/hosting infrastructure. These are two distinct subsystems — don't confuse them.
+
+<Frame>
+  <img src="/images/workser-desktop/overview/desktop-agent.png" alt="Workser Desktop agent running on device" />
+</Frame>
+
+<Columns cols={2}>
+  <Card title="Computer Use" icon="display" href="/workser-desktop/computer-use">
+    A cloud AI agent that views your screen and controls mouse/keyboard/files, with per-action approval — nothing executes without you approving it.
+  </Card>
+  <Card title="Orbit" icon="rocket" href="/workser-desktop/orbit">
+    Connect your own coding-agent CLI (Claude Code, Codex, Gemini CLI, Cursor, opencode) to deploy through Workser — bring your own key, your code stays with your own provider.
+  </Card>
+</Columns>
+
+## What stays local vs. what goes to the cloud
+
+| Stays local | Goes to Workser's cloud |
+|---|---|
+| Encrypted credential store (your OS keychain) | Screenshots and action results during a computer-use session |
+| Activity/bridge logs | Deploy, git, environment variable, domain, and billing calls (Orbit) |
+| Orbit session handshake | — |
+
+## Install
+
+<Columns cols={2}>
+  <Card title="Install & setup" icon="download" href="/workser-desktop/install-setup">
+    Get Workser Desktop running on your machine.
+  </Card>
+  <Card title="FAQ" icon="circle-question" href="/workser-desktop/faq">
+    Common questions and troubleshooting.
+  </Card>
+</Columns>

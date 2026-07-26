@@ -1,0 +1,42 @@
+---
+title: "Orbit"
+description: "Connect a coding-agent CLI you already run to Workser's deploy and hosting infrastructure — bring your own key."
+---
+
+Orbit is **not** the computer-use agent — it's a separate local daemon that connects a coding-agent CLI already installed and authenticated on your machine (Claude Code, Codex, Gemini CLI, Cursor's agent, or opencode) to Workser's deploy/hosting infrastructure: git sync, environment variables, domains, billing, and database/auth/storage provisioning.
+
+<Warning>
+Don't describe Orbit as "the BYOK version of computer-use." They're different products: computer-use is Workser's own hosted agent controlling your machine; Orbit is *your own* coding agent's output being deployed through Workser's infrastructure.
+</Warning>
+
+<Columns cols={5}>
+  <img src="/images/workser-desktop/orbit/claude.svg" alt="Claude Code" />
+  <img src="/images/workser-desktop/orbit/codex.png" alt="Codex" />
+  <img src="/images/workser-desktop/orbit/cursor.svg" alt="Cursor" />
+  <img src="/images/workser-desktop/orbit/gemini-cli.svg" alt="Gemini CLI" />
+  <img src="/images/workser-desktop/orbit/opencode.png" alt="opencode" />
+</Columns>
+
+## How it works
+
+Orbit runs a local server on your machine that your connected coding-agent CLI talks to. When you ask your coding agent to build or change something, code generation happens through **your own** connected agent and its own subscription or API key — not Workser's. Orbit's local daemon forwards only what's needed to deploy and host the result (git operations, environment configuration, domain and billing calls) to Workser's cloud.
+
+## Why bring your own key
+
+- **Cost**: you're not paying Workser for LLM inference on this path — your existing coding-agent subscription covers it.
+- **Trust**: your code-generation prompts never route through Workser's model providers — only the deploy-time artifacts do.
+
+## Connect a coding agent
+
+1. Make sure your coding-agent CLI (Claude Code, Codex, Gemini CLI, Cursor, or opencode) is already installed and authenticated on your machine.
+2. Open **Orbit** in Workser Desktop.
+3. Follow the connection flow — Orbit detects installed CLIs automatically.
+4. Once connected, use your coding agent as normal; ask it to deploy when you're ready, and Orbit handles the hosting side.
+
+## What Orbit can deploy/manage
+
+Git sync, environment variables, custom domains, billing for the hosting side, and database/auth/storage provisioning for the app your coding agent built.
+
+<Card title="Computer Use" icon="display" href="/workser-desktop/computer-use">
+  Looking for the hands-on-your-computer agent instead? That's Computer Use.
+</Card>

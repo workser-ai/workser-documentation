@@ -1,0 +1,47 @@
+---
+title: "Payments & Billing"
+description: "How plans, credits, top-ups, and invoices work on Workser."
+---
+
+## Plans
+
+Workser Business is subscription-based, with tiers from Free up through Starter, Launch/Pro, and Expert — each with its own monthly AI credit allowance, project count, database/storage limits, and workflow execution limits. Check your dashboard's pricing page for current figures, since limits can change independently of this guide.
+
+<Columns cols={7}>
+  <img src="/images/consumer/payments/visa.svg" alt="Visa" />
+  <img src="/images/consumer/payments/mastercard.svg" alt="Mastercard" />
+  <img src="/images/consumer/payments/amex.svg" alt="American Express" />
+  <img src="/images/consumer/payments/apple-pay.svg" alt="Apple Pay" />
+  <img src="/images/consumer/payments/google-pay.svg" alt="Google Pay" />
+  <img src="/images/consumer/payments/paypal.svg" alt="PayPal" />
+  <img src="/images/consumer/payments/stripe.png" alt="Stripe" />
+</Columns>
+
+## How credits work
+
+Workser uses a credit/wallet model at the organization level:
+
+<CardGroup cols={2}>
+  <Card title="Credit balance" icon="wallet">Available AI credits your organization can spend.</Card>
+  <Card title="Auto-topup" icon="rotate">Set a threshold below which Workser automatically purchases more credits.</Card>
+  <Card title="One-time top-ups" icon="plus">Manual purchases whenever you need more.</Card>
+  <Card title="Credit ledger" icon="list">Every refill, top-up, deduction, and adjustment is recorded with a running balance — fully auditable.</Card>
+</CardGroup>
+
+If you're on an enterprise organization, admins can also set **per-user credit limits** to cap how much an individual member can spend.
+
+## What consumes credits
+
+AI-driven actions consume credits: building or iterating on a web app, running an AI Employee task, and AI-evaluated workflow triggers. Plain workflow triggers (webhook, schedule, manual) and simple deterministic nodes (HTTP request, transform, logic) don't consume credits.
+
+## Invoices and billing history
+
+Paid invoices and receipts are tracked separately from your live credit ledger, viewable per organization — useful for reconciling spend against your accounting.
+
+## What we store
+
+We don't store your raw card number — our payment processor handles that. We hold a customer ID, subscription status, and the transaction records needed to manage your plan and credits. See our [Privacy Policy](/security/privacy-policy) for the full picture.
+
+<Card title="Need invoiced billing for your organization?" icon="building" href="/enterprise-vs-consumer">
+  See Enterprise vs. Consumer for what's available beyond self-serve card billing.
+</Card>

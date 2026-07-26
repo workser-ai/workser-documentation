@@ -1,0 +1,40 @@
+---
+title: "Connections & Integrations"
+description: "Authorize third-party apps once; every workflow and AI Employee in your organization can use them, scoped to what you approved."
+---
+
+## What connections are
+
+A connection is an authorized link between your Workser organization and a third-party app — Gmail, Slack, GitHub, and 100+ others. You authorize it once (OAuth or API key), and it becomes available to any workflow or AI Employee in your organization, within the scope you granted.
+
+<Columns cols={5}>
+  <img src="/images/workser-business/connections/gmail.png" alt="Gmail" />
+  <img src="/images/workser-business/connections/slack.png" alt="Slack" />
+  <img src="/images/workser-business/connections/notion.png" alt="Notion" />
+  <img src="/images/workser-business/connections/hubspot.png" alt="HubSpot" />
+  <img src="/images/workser-business/connections/google-drive.svg" alt="Google Drive" />
+  <img src="/images/workser-business/connections/stripe.png" alt="Stripe" />
+  <img src="/images/workser-business/connections/shopify.png" alt="Shopify" />
+  <img src="/images/workser-business/connections/discord.svg" alt="Discord" />
+  <img src="/images/workser-business/connections/telegram.svg" alt="Telegram" />
+  <img src="/images/workser-business/connections/outlook.png" alt="Outlook" />
+</Columns>
+
+## How to connect an app
+
+1. Go to **Connections** in your project or organization settings.
+2. Choose the app you want to connect.
+3. Complete the OAuth flow, or paste an API key if the app uses key-based auth.
+4. The connection is now available to reference in workflows and AI Employee configurations.
+
+## How credentials are protected
+
+Connection credentials (OAuth tokens, API keys) are encrypted at rest and scoped to your organization — never stored as plaintext, and never returned in list views once saved. See the [Security Whitepaper](/security/whitepaper#encryption) for the exact encryption approach.
+
+## Removing a connection
+
+Revoking a connection immediately prevents any workflow or agent from using it going forward. Existing workflow runs that already completed using that connection aren't retroactively affected.
+
+<Card title="Use a connection in a workflow" icon="diagram-project" href="/workser-business/workflow-automation">
+  See how connected apps show up as workflow actions.
+</Card>

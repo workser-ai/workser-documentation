@@ -1,0 +1,53 @@
+---
+title: "Workflow Automation"
+description: "A visual, graph-based workflow builder for chaining triggers and actions across Workser's AI capabilities and 100+ connected apps."
+---
+
+<Frame>
+  <img src="/images/workser-business/workflow-automation/builder.png" alt="Workser visual workflow builder" />
+</Frame>
+
+## Triggers
+
+<CardGroup cols={2}>
+  <Card title="Manual" icon="hand-pointer">Run on demand.</Card>
+  <Card title="Webhook" icon="webhook">External systems call into your workflow.</Card>
+  <Card title="Schedule" icon="clock">Cron-style recurring runs.</Card>
+  <Card title="App event / poll" icon="bell">React to events in a connected app.</Card>
+  <Card title="AI condition / smart email" icon="sparkles">Cloud-AI-evaluated trigger conditions (consumes credits).</Card>
+  <Card title="Desktop-only triggers" icon="desktop">File watch, screen watch, clipboard watch, idle detection — requires Workser Desktop running.</Card>
+</CardGroup>
+
+## Node categories
+
+Workflows are built from nodes across these categories: `core`, `trigger`, `action`, `transform`, `logic`, `productivity`, `communication`, `database`, `file`, `utility`, `ai`, and `computer_use` — spanning HTTP requests, sandboxed code execution (Node.js/Python), conditionals, database actions, third-party app actions, AI agent/employee/chat steps, browser automation, and desktop computer-use steps.
+
+## Execution model
+
+Workflows run as a directed graph — each node consumes the outputs of the nodes upstream of it. Every run's inputs, outputs, and per-node results are logged so you can debug after the fact.
+
+<Columns cols={2}>
+  <Frame>
+    <img src="/images/workser-business/workflow-automation/example-1.png" alt="Example workflow graph" />
+  </Frame>
+  <Frame>
+    <img src="/images/workser-business/workflow-automation/example-2.png" alt="Example payment processing workflow" />
+  </Frame>
+</Columns>
+
+## Connected apps
+
+Third-party actions go through an integration layer, so you authorize a connection once (OAuth or API key) and any workflow in your organization can use it, scoped to what you approved. See [Connections & Integrations](/workser-business/connections-integrations).
+
+## For enterprise teams
+
+- Connected-app credentials are encrypted at rest and scoped per organization.
+- Workflow execution history — including any customer data that passed through it — currently has no fixed retention limit by default. If your organization needs a specific retention window, raise it with your Workser contact; it isn't enforced automatically today.
+
+## For self-serve builders
+
+Start from a template, or build node-by-node on the canvas. Plain triggers (webhook, schedule, manual) don't consume credits — AI-evaluated triggers do.
+
+<Card title="Add an AI Employee to a workflow" icon="user-robot" href="/workser-business/ai-employees">
+  AI Employees can be invoked as a workflow step.
+</Card>

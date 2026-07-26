@@ -1,0 +1,51 @@
+---
+title: "Computer Use"
+description: "A cloud AI agent that can see and control your computer, with per-action approval."
+---
+
+Computer Use lets a Workser AI agent view your screen and control your mouse, keyboard, clipboard, filesystem, and shell — at your direction, with **per-action approval prompts**. Nothing executes without you approving it.
+
+<Columns cols={2}>
+  <Frame>
+    <img src="/images/workser-desktop/computer-use/see-and-control.png" alt="An AI agent that can see and control your computer" />
+  </Frame>
+  <Frame>
+    <img src="/images/workser-desktop/computer-use/talk-to-computer.png" alt="Talking to your computer through Workser" />
+  </Frame>
+  <Frame>
+    <img src="/images/workser-desktop/computer-use/browser-automation.png" alt="Workser automating actions in your browser" />
+  </Frame>
+  <Frame>
+    <img src="/images/workser-desktop/computer-use/mention-things.png" alt="Mentioning things on your screen to the agent" />
+  </Frame>
+</Columns>
+
+## What it can do
+
+<CardGroup cols={2}>
+  <Card title="See your screen" icon="camera">Full-screen, per-display, region, or window screenshots.</Card>
+  <Card title="Control input" icon="keyboard">Mouse click/drag/scroll, keyboard typing and hotkeys.</Card>
+  <Card title="Read/write clipboard" icon="clipboard">Text and image clipboard access, when a capability you invoke uses it.</Card>
+  <Card title="Manage files & processes" icon="folder">Filesystem read/write, process and window management.</Card>
+  <Card title="Automate the browser" icon="globe">Native browser control, plus the Chrome extension for in-page actions.</Card>
+  <Card title="Run shell commands" icon="terminal">Execute commands the agent needs to complete a task.</Card>
+</CardGroup>
+
+## How data flows
+
+Screen content and action results are sent to Workser's cloud over an authenticated connection so the AI can reason over what it sees. This data is used to complete your request — it is not accumulated into a standing local screenshot archive. See our [Privacy Policy](/security/privacy-policy) for details.
+
+## Model
+
+Computer Use runs on Workser's own hosted models — you don't need to bring or manage your own API key for this feature. (Note: this is different from Orbit, which is bring-your-own-key — see [Orbit](/workser-desktop/orbit) for that distinction.)
+
+## Permissions and safety
+
+- macOS Screen Recording and Accessibility permissions (or the Windows equivalent) are required and requested explicitly — see [Install & Setup](/workser-desktop/install-setup).
+- No webcam or microphone access beyond explicit voice features.
+- Sensitive folders are blocked from agent access by default.
+- Every action that could change something on your machine requires your explicit approval before it runs.
+
+<Card title="Read the full security model" icon="shield-check" href="/security/whitepaper">
+  See the Security Whitepaper for the complete control list.
+</Card>

@@ -3,61 +3,98 @@
   "theme": "mint",
   "name": "Workser Docs",
   "colors": {
-    "primary": "#68fbc1",
-    "light": "#94ffd1",
-    "dark": "#0ef4b0"
+    "primary": "#0071e3",
+    "light": "#409cff",
+    "dark": "#0058b0"
   },
-  "favicon": "/favicon.ico",
+  "favicon": "/favicon-workser.png",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Get Started",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": ["index", "enterprise-vs-consumer", "changelog"]
+          }
+        ]
+      },
+      {
+        "tab": "Workser Business",
         "groups": [
           {
             "group": "Getting started",
-            "pages": ["index", "quickstart"]
-          }
-        ]
-      },
-      {
-        "tab": "How to",
-        "groups": [
-          {
-            "group": "Internal Use",
-            "pages": ["/how-to/internal-tools"]
-          }
-        ]
-      },
-      {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": ["api-reference/introduction"]
-          },
-          {
-            "group": "Projects",
             "pages": [
-              "api-reference/endpoint/create-project",
-              "api-reference/endpoint/get-projects",
-              "api-reference/endpoint/get-project",
-              "api-reference/endpoint/update-project",
-              "api-reference/endpoint/delete-project",
-              "api-reference/endpoint/get-project-tasks",
-              "api-reference/endpoint/get-project-web",
-              "api-reference/endpoint/publish-project",
-              "api-reference/endpoint/get-project-hostnames"
+              "workser-business/overview",
+              "workser-business/quickstart"
             ]
           },
           {
-            "group": "Tasks",
+            "group": "Deep dives",
             "pages": [
-              "api-reference/endpoint/create-task",
-              "api-reference/endpoint/get-tasks",
-              "api-reference/endpoint/get-task",
-              "api-reference/endpoint/get-task-steps",
-              "api-reference/endpoint/get-task-steps-and-usages",
-              "api-reference/endpoint/get-task-step"
+              "workser-business/web-development",
+              "workser-business/workflow-automation",
+              "workser-business/ai-employees",
+              "workser-business/connections-integrations"
+            ]
+          },
+          {
+            "group": "Help",
+            "pages": ["workser-business/faq"]
+          }
+        ]
+      },
+      {
+        "tab": "Workser Desktop",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "workser-desktop/overview",
+              "workser-desktop/install-setup"
+            ]
+          },
+          {
+            "group": "Deep dives",
+            "pages": ["workser-desktop/computer-use", "workser-desktop/orbit"]
+          },
+          {
+            "group": "Help",
+            "pages": ["workser-desktop/faq"]
+          }
+        ]
+      },
+      {
+        "tab": "Consumer Guides",
+        "groups": [
+          {
+            "group": "Everyday use",
+            "pages": [
+              "consumer/payments-billing",
+              "consumer/business-data-platform"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Security & Trust",
+        "groups": [
+          {
+            "group": "Trust center",
+            "pages": [
+              "security/whitepaper",
+              "security/compliance-status",
+              "security/subprocessors",
+              "security/enterprise-network-requirements"
+            ]
+          },
+          {
+            "group": "Policies",
+            "pages": [
+              "security/privacy-policy",
+              "security/cookie-policy",
+              "security/acceptable-use",
+              "security/accessibility"
             ]
           }
         ]
@@ -69,13 +106,28 @@
           "anchor": "Workser",
           "href": "https://workser.ai",
           "icon": "book-open-cover"
+        },
+        {
+          "anchor": "Security & Trust",
+          "href": "https://workser.ai/security",
+          "icon": "shield-check"
+        },
+        {
+          "anchor": "System Status",
+          "href": "https://status.workser.ai",
+          "icon": "signal"
+        },
+        {
+          "anchor": "Talk to Sales",
+          "href": "https://workser.ai/consulting",
+          "icon": "calendar-check"
         }
       ]
     }
   },
   "logo": {
-    "light": "/logo/workser-trademark.png",
-    "dark": "/logo/workser-trademark.png"
+    "light": "/logo/workser-light.png",
+    "dark": "/logo/workser-dark.png"
   },
   "navbar": {
     "links": [
@@ -106,23 +158,6 @@
     "socials": {
       "x": "https://x.com/workserai",
       "linkedin": "https://www.linkedin.com/company/workser/?viewAsMember=true"
-    }
-  },
-  "api": {
-    "playground": {
-      "display": "interactive"
-    },
-    "examples": {
-      "languages": [
-        "curl",
-        "python",
-        "javascript",
-        "typescript",
-        "go",
-        "java",
-        "ruby"
-      ],
-      "defaults": "required"
     }
   },
   "integrations": {

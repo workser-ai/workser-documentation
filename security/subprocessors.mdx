@@ -1,0 +1,61 @@
+---
+title: "Subprocessor List"
+description: "Every third party that processes your data on Workser's behalf, and why."
+---
+
+A subprocessor is any third party that processes your data on our behalf. We keep this list current — if you're an enterprise customer with a notice requirement for new subprocessors in your DPA, we'll notify you per that agreement before a new one goes live.
+
+## AI model providers
+
+| Subprocessor | Purpose |
+|---|---|
+| Anthropic | LLM inference for AI agents/employees |
+| OpenAI | LLM inference |
+| Google (Generative AI / Gemini) | LLM inference, image generation |
+| Others (OpenRouter, xAI, DeepSeek, and additional model routes) | LLM inference, depending on model selection |
+
+Which providers are active for your account depends on the model selected in your workflow/agent configuration — not every provider processes every customer's data.
+
+## Infrastructure & data storage
+
+| Subprocessor | Purpose |
+|---|---|
+| Neon | Primary database (dedicated per project on paid tiers) |
+| Cloudflare (R2) | File and object storage |
+| Vercel | Hosting for deployed web apps |
+| Supabase | Authentication (session/JWT issuance) |
+| AWS | Background compute for scheduled tasks |
+
+## AI execution & automation infrastructure
+
+| Subprocessor | Purpose |
+|---|---|
+| E2B | Sandboxed, ephemeral code execution for AI agents |
+| Trigger.dev | Background job orchestration (agent runtime and workflow automation) |
+| Composio | Third-party app integration/OAuth proxy |
+| Supermemory | Long-term conversation/context memory for AI agents |
+| Pinecone | Vector storage for semantic search/retrieval |
+
+## Payments
+
+| Subprocessor | Purpose |
+|---|---|
+| Stripe | Billing, subscriptions, credit top-ups |
+
+## Communications
+
+| Subprocessor | Purpose |
+|---|---|
+| Resend | Transactional email delivery |
+| ElevenLabs | Voice synthesis for Workser Desktop's voice interaction feature |
+
+## Monitoring & observability
+
+| Subprocessor | Purpose |
+|---|---|
+| Sentry | Application error tracking |
+| Langfuse / LangSmith | AI agent execution tracing, used for debugging and quality review |
+
+## Need a formal DPA or full sub-processor agreement list?
+
+Email [support@workser.ai](mailto:support@workser.ai) — we're glad to provide additional detail under a confidentiality arrangement for your vendor risk review.

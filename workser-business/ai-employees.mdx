@@ -1,0 +1,88 @@
+---
+title: "AI Employees"
+description: "Role-based autonomous agents that operate real business software and data on your behalf."
+---
+
+"AI Employees" are configured, role-based agents — not a single-purpose chatbot. Workser offers 20+ roles, including Technical PM, software engineer, cloud engineer, workflow engineer, payment manager, and dedicated agents for marketing, customer support, finance/accounting, legal, HR, research, design, and a general-purpose computer-use agent.
+
+<Columns cols={4}>
+  <div>
+    <Frame><img src="/images/workser-business/ai-employees/general-assistant-agent.png" alt="General Assistant AI Employee" /></Frame>
+    General Assistant
+  </div>
+  <div>
+    <Frame><img src="/images/workser-business/ai-employees/technical-project-manager.png" alt="Technical Project Manager AI Employee" /></Frame>
+    Technical PM
+  </div>
+  <div>
+    <Frame><img src="/images/workser-business/ai-employees/backend-developer-ai.png" alt="Backend Developer AI Employee" /></Frame>
+    Backend Developer
+  </div>
+  <div>
+    <Frame><img src="/images/workser-business/ai-employees/frontend-developer-ai.png" alt="Frontend Developer AI Employee" /></Frame>
+    Frontend Developer
+  </div>
+  <div>
+    <Frame><img src="/images/workser-business/ai-employees/software-architect-ai.png" alt="Software Architect AI Employee" /></Frame>
+    Software Architect
+  </div>
+  <div>
+    <Frame><img src="/images/workser-business/ai-employees/data-analyst-agent.png" alt="Data Analyst AI Employee" /></Frame>
+    Data Analyst
+  </div>
+  <div>
+    <Frame><img src="/images/workser-business/ai-employees/graphic-design-agent.png" alt="Graphic Design AI Employee" /></Frame>
+    Graphic Design
+  </div>
+  <div>
+    <Frame><img src="/images/workser-business/ai-employees/video-editor-agent.png" alt="Video Editor AI Employee" /></Frame>
+    Video Editor
+  </div>
+  <div>
+    <Frame><img src="/images/workser-business/ai-employees/sound-engineer-agent.png" alt="Sound Engineer AI Employee" /></Frame>
+    Sound Engineer
+  </div>
+  <div>
+    <Frame><img src="/images/workser-business/ai-employees/presentation-agent.png" alt="Presentation AI Employee" /></Frame>
+    Presentation
+  </div>
+  <div>
+    <Frame><img src="/images/workser-business/ai-employees/operations-agent.png" alt="Operations AI Employee" /></Frame>
+    Operations
+  </div>
+  <div>
+    <Frame><img src="/images/workser-business/ai-employees/project-manager-ai.png" alt="Project Manager AI Employee" /></Frame>
+    Project Manager
+  </div>
+</Columns>
+
+## How execution works
+
+An AI Employee's task runs inside an isolated environment. When it needs to write or run code, that happens in an ephemeral sandbox created just for that task and destroyed when the task ends — never reused across customers or tasks. The agent draws on your organization's data (projects, connected apps, [Business Data Platform](/consumer/business-data-platform) records) rather than holding its own separate copy.
+
+## Why this is safe to delegate real work to
+
+<AccordionGroup>
+  <Accordion title="Sandbox isolation">
+    Code execution happens in a disposable, per-task sandbox — not shared infrastructure.
+  </Accordion>
+  <Accordion title="Secret redaction">
+    Any secret-shaped value in sandbox output is automatically masked before the model sees it — even if you explicitly ask for it.
+  </Accordion>
+  <Accordion title="Prompt-injection guardrails">
+    Agents are instructed to treat uploaded files and tool output as untrusted data, not instructions, and to refuse embedded attempts to change their scope.
+  </Accordion>
+  <Accordion title="Human-in-the-loop">
+    An agent can pause and request your approval before proceeding on a sensitive step (default wait window: 24 hours).
+  </Accordion>
+</AccordionGroup>
+
+See the full [Security Whitepaper](/security/whitepaper#ai-agent-safety-controls) for the complete control list — including the honest gap: human approval today is agent-invoked (voluntary), not a platform-enforced mandatory gate on a specific list of high-risk actions. If your organization requires mandatory approval on categories like outbound payments, confirm this with your Workser contact rather than assuming it's the default.
+
+## Training use
+
+Your prompts, files, and the outputs your AI Employees generate are **not** used to train Workser's models or shared with any other customer, without your written consent. See our [Privacy Policy](/security/privacy-policy).
+
+## Getting the most from an AI Employee
+
+Give it real context — connect the apps it needs, and fill out your organization's [Business Data Platform](/consumer/business-data-platform) so it reasons about your actual company and customers instead of generic assumptions.

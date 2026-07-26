@@ -1,0 +1,29 @@
+---
+title: "Workser Business FAQ"
+description: "Troubleshooting and common questions for the web platform."
+---
+
+<AccordionGroup>
+  <Accordion title="My AI build failed or produced something wrong — what do I do?">
+    Try rephrasing your prompt with more specific detail (what the page should look like, what data it needs, what should happen on submit). If a build partially completes, you can keep iterating from where it left off rather than starting over — Workser applies changes to the same project rather than regenerating from scratch each time.
+  </Accordion>
+  <Accordion title="Why did my workflow run fail partway through?">
+    Check the run's execution log — each node's input/output and any error is recorded per run. A common cause is a connected app's authorization expiring; reconnect it under Connections and re-run.
+  </Accordion>
+  <Accordion title="I ran out of credits mid-task — what happens?">
+    The in-progress action stops and any partial work already done is preserved (e.g. a web app build keeps whatever was generated before credits ran out). Top up manually or enable auto-topup to avoid interruption — see [Payments & Billing](/consumer/payments-billing).
+  </Accordion>
+  <Accordion title="Can I move a project between organizations?">
+    Not as a self-serve action today. Contact [support@workser.ai](mailto:support@workser.ai) if you need this.
+  </Accordion>
+  <Accordion title="An AI Employee is stuck waiting — why?">
+    It likely triggered a human-in-the-loop approval request and is paused waiting for your response (default wait window: 24 hours). Check your task/agent activity for a pending approval.
+  </Accordion>
+  <Accordion title="How do I remove a member from my organization?">
+    Only an `owner` or `admin` can remove members, from organization settings. The organization owner role itself can't be removed or transferred away without contacting support.
+  </Accordion>
+</AccordionGroup>
+
+<Card title="Still stuck?" icon="life-ring" href="mailto:support@workser.ai">
+  Email support@workser.ai — we're glad to help.
+</Card>

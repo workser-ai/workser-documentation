@@ -1,0 +1,93 @@
+---
+title: "Security Whitepaper"
+description: "How Workser protects your data — encryption, access control, tenant isolation, and AI agent safety controls, stated plainly."
+---
+
+<Note>
+This page reflects our current implementation, stated honestly — including what's still in progress. For a signed copy, a full subprocessor list, or a DPA for your organization's security review, email [support@workser.ai](mailto:support@workser.ai).
+</Note>
+
+## Data ownership
+
+You own your data at all times — content, files, configuration you provide, and everything your AI agents generate ("AI Output") — subject to a limited license for us to use it to provide, support, and improve the service for you.
+
+## AI model training
+
+We do not use your content — prompts, inputs, outputs, or uploaded files — to train or improve AI models for our general product or for any other customer, without your prior written consent. Where a request must route to a third-party AI model provider, we send only what's necessary for that specific request, under that provider's own data-handling terms.
+
+## Encryption
+
+- **In transit**: all traffic runs over TLS. Workser Desktop's computer-use channel is authenticated with a scoped token, not an open connection.
+- **At rest — secrets and credentials**: protected with envelope encryption (AES-256-GCM), a random initialization vector per encryption call, and a versioned key scheme that supports rotation without re-encrypting historical data. Connected-app credentials in our workflow engine use AES-256-CBC with a random IV per record — we're working to align this to the same standard used elsewhere in the platform.
+- **API keys**: stored as one-way hashes, never in reversible form.
+- **Workser Desktop**: locally cached credentials are encrypted using your operating system's native secret store (macOS Keychain / Windows DPAPI), not plaintext on disk.
+
+## Access control
+
+- Multiple authentication mechanisms depending on context (scoped API keys, desktop-bridge tokens, user session tokens).
+- Scoped API keys separate management actions from routine agent operations — destructive actions like deleting a project require a real user session or a management-scoped key, never a routine automation key alone.
+- Organization roles (`owner / admin / member / viewer`) govern who can manage members, billing, and destructive actions.
+- Rate limiting is enforced per API key.
+
+## AI agent safety controls
+
+<AccordionGroup>
+  <Accordion title="Sandbox isolation">
+    AI agents that write or run code do so inside ephemeral, per-task sandboxes, explicitly destroyed at the end of a run — never reused across customers or tasks.
+  </Accordion>
+  <Accordion title="Secret redaction">
+    Any sandbox output or file content returned to the model is scanned and masked for secret-shaped values (API keys, tokens, database URLs) before the model can see it — including if you explicitly ask for it.
+  </Accordion>
+  <Accordion title="Prompt-injection guardrails">
+    Agent system prompts explicitly instruct the model to treat uploaded files and tool output as untrusted data, not instructions, and to refuse embedded attempts to exfiltrate secrets or change scope.
+  </Accordion>
+  <Accordion title="Human-in-the-loop">
+    Agents can pause and request your approval before proceeding on a sensitive action, with a configurable wait window. Today this is agent-invoked — we're working toward a platform-enforced mandatory gate for a defined list of high-risk actions; if that's a requirement for your organization, tell us and we'll confirm what's configured for you.
+  </Accordion>
+  <Accordion title="Computer-use approval">
+    Computer-use actions (screen control, keyboard/mouse, file/shell access) are gated by per-action approval prompts to the device owner — nothing executes without your explicit approval.
+  </Accordion>
+</AccordionGroup>
+
+## Multi-tenancy and data isolation
+
+Every project on a paid Workser plan gets its own dedicated database and file storage — not a shared schema with other customers. Free-tier projects currently share infrastructure as a cost trade-off and are not database-isolated from one another. If dedicated isolation is a requirement for your organization, our paid tiers already provide it.
+
+## Data deletion
+
+When you delete a project, we tear down the underlying database and file storage for that project. The project record itself is archived (not row-deleted) for a limited period to preserve billing, support, and audit history. We can provide a written deletion confirmation once a request is fully processed — today this is a manual process on request; we're working toward a self-serve version.
+
+## Monitoring and incident response
+
+We monitor for application errors and anomalous activity across our services, and maintain an internal process to investigate, contain, and notify affected customers of any confirmed security incident affecting your data.
+
+## Compliance program status
+
+<Card title="See our current compliance status" icon="clipboard-check" href="/security/compliance-status">
+  SOC 2, ISO 27001/27701/42001, DPA — stated honestly, updated as it changes.
+</Card>
+
+## Subprocessors
+
+<Card title="See our subprocessor list" icon="list" href="/security/subprocessors">
+  Every third party that processes your data on our behalf, and why.
+</Card>
+
+## Getting Workser approved on your network
+
+<Card title="Enterprise Network & IT Requirements" icon="network-wired" href="/security/enterprise-network-requirements">
+  Domains to allowlist, and honest status on SSO, egress IPs, and audit log export.
+</Card>
+
+## Policies
+
+<CardGroup cols={2}>
+  <Card title="Privacy Policy" icon="user-shield" href="/security/privacy-policy" />
+  <Card title="Cookie Policy" icon="cookie" href="/security/cookie-policy" />
+  <Card title="Acceptable Use Policy" icon="gavel" href="/security/acceptable-use" />
+  <Card title="Accessibility Statement" icon="universal-access" href="/security/accessibility" />
+</CardGroup>
+
+## Contact
+
+Security questions, responsible disclosure, or a vendor security questionnaire: [support@workser.ai](mailto:support@workser.ai)

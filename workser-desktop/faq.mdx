@@ -1,0 +1,29 @@
+---
+title: "Workser Desktop FAQ"
+description: "Troubleshooting and common questions for computer use and Orbit."
+---
+
+<AccordionGroup>
+  <Accordion title="The agent can't take screenshots or control my mouse/keyboard">
+    Check that Workser Desktop has Screen Recording and Accessibility permissions in your OS privacy settings (macOS) or the equivalent on Windows — see [Install & Setup](/workser-desktop/install-setup). These are requested on first use of a capability that needs them; if you denied the prompt, you'll need to grant it manually in system settings.
+  </Accordion>
+  <Accordion title="Windows shows a security warning when I install">
+    This happens because the current build isn't code-signed yet. Click "More info" → "Run anyway" to proceed, or wait for the signed version — you can register for that waitlist from the download page.
+  </Accordion>
+  <Accordion title="Orbit doesn't detect my coding-agent CLI">
+    Confirm the CLI (Claude Code, Codex, Gemini CLI, Cursor, or opencode) is installed and already authenticated in your terminal — Orbit connects to an existing, working CLI session rather than installing or authenticating one for you.
+  </Accordion>
+  <Accordion title="Is Orbit sending my code to Workser?">
+    No — under Orbit's bring-your-own-key model, code generation happens through your own connected coding agent and its own provider account. Workser's cloud only receives what's needed to deploy and host the result (git operations, environment variables, domain/billing calls). See [Orbit](/workser-desktop/orbit).
+  </Accordion>
+  <Accordion title="Can I use computer-use and Orbit at the same time?">
+    Yes — they're independent subsystems. Computer-use controls your screen/input at your direction; Orbit deploys what your own coding agent builds. Using one doesn't require the other.
+  </Accordion>
+  <Accordion title="How do I revoke computer-use access?">
+    Revoke the OS-level Screen Recording/Accessibility permissions at any time in your system privacy settings, or uninstall Workser Desktop — both immediately stop any further computer-use actions.
+  </Accordion>
+</AccordionGroup>
+
+<Card title="Still stuck?" icon="life-ring" href="mailto:support@workser.ai">
+  Email support@workser.ai — we're glad to help.
+</Card>
