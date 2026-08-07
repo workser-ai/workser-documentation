@@ -3,7 +3,7 @@ title: "Orbit"
 description: "Connect a coding-agent CLI you already run to Workser's deploy and hosting infrastructure — bring your own key."
 ---
 
-Orbit is the part of Workser Desktop that turns whatever your own coding agent just built into a live, hosted web app — a real domain, a real database, real user accounts — without you leaving your terminal or wiring up hosting by hand.
+Describe your app to your own coding agent. Orbit turns what it builds into a live web app — its own database, sign-in, and address — without you leaving your terminal or wiring up hosting by hand.
 
 <Warning>
 Orbit is **not** the computer-use agent. They're different products: [Computer Use](/workser-desktop/computer-use) is Workser's own hosted agent controlling your machine; Orbit is *your own* coding agent's output being deployed through Workser's infrastructure. Don't describe Orbit as "the BYOK version of computer-use."
@@ -33,7 +33,7 @@ Orbit is **bring-your-own-agent**. It doesn't run its own coding model — it de
 
 ## How it works
 
-Orbit runs a small local server on your machine that your connected coding-agent CLI talks to. When you ask your coding agent to build or change something, **the code generation itself happens entirely through your own connected agent** — your own subscription, your own API key, your own provider. Orbit's local daemon only steps in for the deploy side: it forwards git operations, environment variables, and domain/billing calls to Workser's cloud so the result of your agent's work becomes a running app.
+Orbit runs a small local server on your machine that talks to your coding-agent CLI. You keep prompting your agent exactly like you always do — **all the actual coding happens through your own agent**, on your own subscription. Orbit only steps in once there's something to ship: it pushes the code, sets up the database and domain, and puts the result online.
 
 <Accordion title="Technical detail: what actually crosses the network" icon="server">
   Your prompts, your agent's reasoning, and the code it writes never route through Workser's servers on this path — that traffic stays between your machine and your coding agent's own provider (Anthropic, OpenAI, etc.), exactly as it would if you were using that CLI with no Workser Desktop installed at all.
@@ -56,7 +56,7 @@ Orbit runs a small local server on your machine that your connected coding-agent
 
 ## What Orbit gives your app
 
-Connecting Orbit isn't just a deploy button — it provisions the same production-grade cloud stack a Workser Business project gets, targeted at code your own agent wrote:
+Connecting Orbit isn't just a deploy button. Your app comes out the other end with everything a real app needs, already switched on:
 
 <CardGroup cols={2}>
   <Card title="Dedicated Postgres database" icon="database">Every project gets its own Postgres database (Neon-backed) on paid plans — not a shared schema with other customers.</Card>
