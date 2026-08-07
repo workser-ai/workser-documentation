@@ -3,39 +3,171 @@ title: "Orbit"
 description: "Connect a coding-agent CLI you already run to Workser's deploy and hosting infrastructure — bring your own key."
 ---
 
-Orbit is **not** the computer-use agent — it's a separate local daemon that connects a coding-agent CLI already installed and authenticated on your machine (Claude Code, Codex, Gemini CLI, Cursor's agent, or opencode) to Workser's deploy/hosting infrastructure: git sync, environment variables, domains, billing, and database/auth/storage provisioning.
+Orbit is the part of Workser Desktop that turns whatever your own coding agent just built into a live, hosted web app — a real domain, a real database, real user accounts — without you leaving your terminal or wiring up hosting by hand.
 
 <Warning>
-Don't describe Orbit as "the BYOK version of computer-use." They're different products: computer-use is Workser's own hosted agent controlling your machine; Orbit is *your own* coding agent's output being deployed through Workser's infrastructure.
+Orbit is **not** the computer-use agent. They're different products: [Computer Use](/workser-desktop/computer-use) is Workser's own hosted agent controlling your machine; Orbit is *your own* coding agent's output being deployed through Workser's infrastructure. Don't describe Orbit as "the BYOK version of computer-use."
 </Warning>
+
+## Agents Orbit connects to
+
+Orbit is **bring-your-own-agent**. It doesn't run its own coding model — it detects and drives a coding-agent CLI you've already installed and signed in to:
 
 <Columns cols={5}>
   <img src="/images/workser-desktop/orbit/claude.svg" alt="Claude Code" />
   <img src="/images/workser-desktop/orbit/codex.png" alt="Codex" />
-  <img src="/images/workser-desktop/orbit/cursor.svg" alt="Cursor" />
-  <img src="/images/workser-desktop/orbit/gemini-cli.svg" alt="Gemini CLI" />
   <img src="/images/workser-desktop/orbit/opencode.png" alt="opencode" />
+  <img src="/images/workser-desktop/orbit/cursor.svg" alt="Cursor" />
+  <img src="/images/workser-desktop/orbit/muse-code.png" alt="Muse Code" />
 </Columns>
+
+**Claude Code, Codex, opencode, Cursor, and Muse Code** are the currently supported CLIs. If you run more than one, you can assign a specific agent (with an automatic backup agent as failover) to different roles instead of picking a single agent for everything.
+
+<Accordion title="Which CLIs are coming, and why aren't Gemini CLI / Kimi / Grok listed?" icon="wrench">
+  Gemini CLI, Kimi Code, and Grok's coding CLI have all been wired into Orbit's detection code, but are currently switched off: Gemini CLI is disabled because Google's individual-tier API access for it is currently rejecting requests on accounts that otherwise show as signed in, and Kimi/Grok are disabled because they haven't been through Workser's own testing pass yet — not because anything is known to be broken. They'll come back online as those are resolved; nothing about your project or workflow will need to change when they do.
+</Accordion>
+
+<Accordion title="Can I use more than one CLI at once, and what happens if one fails?" icon="shuffle">
+  Yes. Instead of picking one CLI for your whole project, Orbit lets you assign an agent to a specific **role** — for example, one agent for everyday coding and a different one for a specialized task — each with its own optional system-prompt instructions and, if you want it, a **backup agent** configured for that same role. If the primary agent for a role is unavailable or fails a run, Orbit fails over to that role's configured backup automatically rather than the task simply failing. You're never required to set this up — a single connected CLI handling everything is the default, and roles/failover are there for when you want more control.
+</Accordion>
 
 ## How it works
 
-Orbit runs a local server on your machine that your connected coding-agent CLI talks to. When you ask your coding agent to build or change something, code generation happens through **your own** connected agent and its own subscription or API key — not Workser's. Orbit's local daemon forwards only what's needed to deploy and host the result (git operations, environment configuration, domain and billing calls) to Workser's cloud.
+Orbit runs a small local server on your machine that your connected coding-agent CLI talks to. When you ask your coding agent to build or change something, **the code generation itself happens entirely through your own connected agent** — your own subscription, your own API key, your own provider. Orbit's local daemon only steps in for the deploy side: it forwards git operations, environment variables, and domain/billing calls to Workser's cloud so the result of your agent's work becomes a running app.
 
-## Why bring your own key
+<Accordion title="Technical detail: what actually crosses the network" icon="server">
+  Your prompts, your agent's reasoning, and the code it writes never route through Workser's servers on this path — that traffic stays between your machine and your coding agent's own provider (Anthropic, OpenAI, etc.), exactly as it would if you were using that CLI with no Workser Desktop installed at all.
 
-- **Cost**: you're not paying Workser for LLM inference on this path — your existing coding-agent subscription covers it.
-- **Trust**: your code-generation prompts never route through Workser's model providers — only the deploy-time artifacts do.
+  What Orbit's local daemon does send to Workser's cloud, once your agent hands off a change to deploy:
+  - Git push/sync operations for the code itself
+  - Environment variable values you've configured for the project
+  - Domain and DNS configuration calls
+  - Database/auth/storage provisioning requests
+  - Billing/usage events for the hosting side
+
+  This is the same "stays local vs. goes to the cloud" split documented on the [Workser Desktop overview](/workser-desktop/overview).
+</Accordion>
+
+<Accordion title="Technical detail: how the local daemon is secured" icon="lock">
+  Orbit's local server binds to `127.0.0.1` only (or a Unix domain socket where available) — it is never exposed to your network, so nothing on your LAN or the wider internet can reach it. Every connection is additionally authenticated with a per-session token generated when Orbit starts, handed only to your CLI and to Workser Desktop's own renderer process. Reaching the daemon at all requires being a process running as you, on your machine.
+
+  Some actions your coding agent's tools call through Orbit — the ones with real-world side effects — can pause and wait for your explicit approval inside Workser Desktop before they proceed, the same interactive-approval model [Computer Use](/workser-desktop/computer-use) uses. Orbit isn't a silent auto-deploy pipeline; you stay in the loop on anything that isn't routine.
+</Accordion>
+
+## What Orbit gives your app
+
+Connecting Orbit isn't just a deploy button — it provisions the same production-grade cloud stack a Workser Business project gets, targeted at code your own agent wrote:
+
+<CardGroup cols={2}>
+  <Card title="Dedicated Postgres database" icon="database">Every project gets its own Postgres database (Neon-backed) on paid plans — not a shared schema with other customers.</Card>
+  <Card title="Git sync & deploys" icon="code-branch">Push from your CLI session; Orbit builds and deploys the result.</Card>
+  <Card title="Custom domains" icon="globe">Point your own domain at the app your agent built.</Card>
+  <Card title="Auth, storage & env vars" icon="key">Managed user authentication, file storage, and environment variable management — the plumbing you'd otherwise wire up by hand.</Card>
+</CardGroup>
 
 ## Connect a coding agent
 
-1. Make sure your coding-agent CLI (Claude Code, Codex, Gemini CLI, Cursor, or opencode) is already installed and authenticated on your machine.
-2. Open **Orbit** in Workser Desktop.
-3. Follow the connection flow — Orbit detects installed CLIs automatically.
-4. Once connected, use your coding agent as normal; ask it to deploy when you're ready, and Orbit handles the hosting side.
+<Steps>
+  <Step title="Have your CLI ready">
+    Make sure your coding-agent CLI (Claude Code, Codex, opencode, Cursor, or Muse Code) is already installed and authenticated on your machine — Orbit connects to an existing, working CLI session rather than installing or signing one in for you.
+  </Step>
+  <Step title="Open Orbit in Workser Desktop">
+    Orbit detects installed CLIs automatically and shows which ones are ready to connect.
+  </Step>
+  <Step title="Build as normal">
+    Use your coding agent exactly as you always do — Orbit doesn't change how you prompt it or how it writes code.
+  </Step>
+  <Step title="Deploy when ready">
+    Ask your agent (or use Orbit's UI) to deploy, and Orbit handles git sync, hosting, and provisioning for you.
+  </Step>
+</Steps>
 
-## What Orbit can deploy/manage
+## Pricing and the free trial
 
-Git sync, environment variables, custom domains, billing for the hosting side, and database/auth/storage provisioning for the app your coding agent built.
+Orbit itself doesn't charge you for AI — you're already paying your coding agent's provider for that (see [Why bring your own key](#why-bring-your-own-key) below). What Orbit *does* need a paid Workser plan for is the hosting side: a dedicated database, storage, domains, and deploy infrastructure aren't free to run.
+
+- **Every new organization starts with 7 days of Spark, Workser's entry paid plan, free — no card required.**
+- After those 7 days, if you haven't subscribed, Orbit (and other paid-tier features) pause until you upgrade. **Nothing is deleted** — your project and its data stay put; you just need an active subscription to keep deploying and running it.
+- Spark is priced at **$10/month** and is deliberately built around *your* agent subscription: it includes **no Workser AI credits**, because code generation isn't happening on Workser's side at all.
+
+See [Payments & Billing](/consumer/payments-billing) for the full plan ladder, or the accordion below for what Spark specifically includes.
+
+<Accordion title="What's included in Spark, specifically" icon="bolt">
+  - Run your own local AI agent (any of the CLIs above)
+  - 2 projects, 3 web apps per project
+  - 2 GB database storage, dedicated Postgres per project
+  - Unlimited user authentication
+  - No monthly Workser AI credits — Spark is priced around BYOK usage, not Workser-run inference
+
+  Higher tiers (Starter, Launch, Scale) add Workser AI credits on top, for when you also want to use Workser's own hosted agents (AI Employees, workflow automation) alongside your local CLI. See [Payments & Billing](/consumer/payments-billing).
+</Accordion>
+
+## Why bring your own key
+
+- **Cost**: you're not paying Workser for LLM inference on this path — your existing coding-agent subscription (Claude Pro/Max, ChatGPT Plus/Pro, your own API key, etc.) covers it.
+- **Trust**: your code-generation prompts never route through Workser's model providers — only the deploy-time artifacts do.
+- **No lock-in on the agent itself**: switch which CLI you use, or run more than one, without Workser being in the middle of that choice.
+
+## What you need on your side (eligibility)
+
+Orbit doesn't manage, pay for, or grant you access to any coding agent's subscription — it only detects and drives a CLI that's already working on your machine. Concretely, that means:
+
+<AccordionGroup>
+  <Accordion title="Claude Code">
+    Requires Claude Code installed and signed in — either via a Claude Pro/Max subscription or an Anthropic API key, whichever you've already configured for the CLI itself.
+  </Accordion>
+  <Accordion title="Codex">
+    Requires OpenAI's Codex CLI installed and signed in — via a qualifying ChatGPT plan or an OpenAI API key, per Codex's own auth flow.
+  </Accordion>
+  <Accordion title="opencode">
+    Requires opencode installed and configured with whichever model provider you've pointed it at — including free-tier-compatible models, if that's what you've set up.
+  </Accordion>
+  <Accordion title="Cursor">
+    Requires Cursor's CLI agent installed and authenticated with your Cursor account.
+  </Accordion>
+  <Accordion title="Muse Code">
+    Requires Muse Code installed and authenticated per Meta's own setup flow.
+  </Accordion>
+</AccordionGroup>
+
+If a CLI isn't installed or isn't signed in, Orbit simply won't detect it as connectable — there's no separate "Workser approval" step for your agent subscription itself.
+
+## Orbit vs. everything else
+
+<AccordionGroup>
+  <Accordion title="How is Orbit better than a vibe-coding platform like Lovable or Replit?" icon="wand-magic-sparkles">
+    Those platforms run their own model and bill you for the inference behind every change, on top of your subscription to them. Orbit doesn't run a model at all on the code-generation path — it's a deploy bridge for an agent you already pay for and already know how to prompt. If you've already built muscle memory and a subscription around Claude Code, Codex, or another CLI, Orbit lets you keep using it and still land on a real hosted app with a database, instead of paying twice: once for your coding agent, once for a separate vibe-coding tool's own model.
+  </Accordion>
+  <Accordion title="How is Orbit different from a local agent workspace like Conductor.build or Superset.sh?" icon="layer-group">
+    Tools like Conductor and Superset are primarily about *orchestrating* coding-agent sessions on your machine — running several in parallel across git worktrees, managing that workflow. Orbit doesn't try to replace or manage your agent session at all; it assumes you're already running your CLI however you like (including inside a tool like that) and adds exactly one thing those tools don't: a path from "my agent just changed some code" to "that change is live, on a domain, with a database" — without you separately standing up hosting.
+  </Accordion>
+  <Accordion title="How is Orbit better than just using Claude Code or Codex directly, with no Workser?" icon="terminal">
+    It isn't a replacement for your CLI — your CLI still does 100% of the actual coding. What Orbit adds is everything *after* the code is written: git-synced deploys, a dedicated Postgres database, managed auth, file storage, custom domains, and environment variable management, all provisioned automatically instead of you assembling them from separate services. Using Claude Code or Codex directly with no Orbit still works great for writing code — you'd just be on your own for turning that code into a running, publicly reachable app.
+  </Accordion>
+</AccordionGroup>
+
+## Frequently asked
+
+<AccordionGroup>
+  <Accordion title="Can I use my local AI agent inside Computer Use instead of Orbit?">
+    No. [Computer Use](/workser-desktop/computer-use) always runs on Workser's own hosted model — there's no way to swap in your local CLI there, because it's a different capability (screen/mouse/keyboard control) rather than code generation. If you want to use your own coding-agent subscription, that's Orbit's job, not Computer Use's. You can use both at once; they're independent subsystems that happen to ship in the same app.
+  </Accordion>
+  <Accordion title="Is Orbit sending my code to Workser?">
+    No — under Orbit's bring-your-own-key model, code generation happens through your own connected coding agent and its own provider account. Workser's cloud only receives what's needed to deploy and host the result. See [How it works](#how-it-works) above for the exact list.
+  </Accordion>
+  <Accordion title="Do I need to pay Workser for AI on top of my coding agent's subscription?">
+    No, not for the code-generation itself — that's the entire point of bring-your-own-key. You do need an active paid Workser plan (Spark or above) to keep the deploy/hosting side running once your 7-day trial ends, since that's real infrastructure Workser operates on your behalf.
+  </Accordion>
+  <Accordion title="Does Orbit work if I'm offline or my coding agent is using a local model?">
+    Orbit's own daemon runs locally, and if your CLI is pointed at a fully local model (e.g. opencode with a local provider), code generation can happen offline. Deploying still requires a network connection, since that's Orbit talking to Workser's cloud infrastructure.
+  </Accordion>
+  <Accordion title="Can I disconnect Orbit or switch which agent it uses?">
+    Yes — reconnect a different CLI from Orbit's screen in Workser Desktop at any time, or disconnect entirely. Disconnecting stops Orbit's local daemon from forwarding anything further; it doesn't affect your coding agent's CLI itself, which keeps working exactly as it did before you ever connected Orbit.
+  </Accordion>
+  <Accordion title="How is Workser Desktop different from Workser Web (Workser Business)?">
+    Workser Business is the browser-based platform — no install, works from any device, and is where Workflow Automation and AI Employees primarily live. Workser Desktop is the installed app that adds two things the browser can't: Computer Use (an AI agent that can actually see and control your screen) and Orbit (a bridge to a coding agent CLI running on *your* machine). Both share the same account, organization, and [Business Data Platform](/consumer/business-data-platform) — connect to Workser Desktop with the same login you use for Workser Business.
+  </Accordion>
+</AccordionGroup>
 
 <Card title="Computer Use" icon="display" href="/workser-desktop/computer-use">
   Looking for the hands-on-your-computer agent instead? That's Computer Use.
