@@ -1,0 +1,135 @@
+---
+title: "Preview & publish"
+description: "How a change gets from your agent to your customers — and how to take it back."
+---
+
+Nothing your agent builds goes public on its own. Preview and Publish are always two separate steps.
+
+<Frame>
+  <video controls preload="metadata">
+    <source src="https://pub-12d6ab783e044f15b5bfe88d65562bee.r2.dev/orbit/marketing/content/orbit-converastion/publish/claude-code-publish-web-app-drag-and-drop.mp4" type="video/mp4" />
+  </video>
+</Frame>
+
+## Preview
+
+Every change your agent hands off opens in a **private Preview**: a real, running version of the app, with its own working database connection, that only you can reach.
+
+Use it the way a customer would. Then either ask for a revision, or publish.
+
+```bash
+workser deploy            # a preview deploy
+workser deploy --watch    # …and wait until there's a URL to open
+workser deploy status     # where the latest deploy got to
+```
+
+## Publish
+
+Publishing is the moment the app becomes public.
+
+```bash
+workser deploy --prod --watch
+```
+
+Your app lives at a **stable address that doesn't change between deploys** — safe to hand to customers, put on a card, or point a domain at. Publishing again updates what's behind that same address.
+
+<Note>
+There is no hidden auto-deploy switch. If you never press Publish, nothing is ever public.
+</Note>
+
+## Before "done": verify
+
+`workser verify` runs the project's own typecheck, lint and build. Orbit's agent instructions treat a green result — not the agent's own judgement — as the bar for calling work finished.
+
+```bash
+workser verify --json
+```
+
+If it comes back `"ok": false`, the errors it lists are what has to be fixed before the change is worth previewing.
+
+## When something goes wrong
+
+<Tabs>
+  <Tab title="Read the logs">
+    ```bash
+    workser logs -n 100     # recent output
+    workser logs -f         # follow live
+    ```
+  </Tab>
+  <Tab title="Look at deploy history">
+    ```bash
+    workser versions           # what's been deployed, and when
+    workser deploy status <id> # a specific deploy
+    ```
+  </Tab>
+  <Tab title="Go back">
+    ```bash
+    workser restore --list   # the points you can return to
+    workser restore          # back to the most recent one
+    workser restore <ref>    # back to a specific one
+    ```
+  </Tab>
+</Tabs>
+
+## Checkpoints: the undo button
+
+Orbit keeps its own history of your project folder, separate from the deploy history.
+
+```bash
+workser checkpoint "before the pricing refactor"   # save the folder as it stands
+workser restore                                     # go back to the newest checkpoint
+workser restore --list                              # see everything you can go back to
+workser sync                                        # reconcile this folder with Workser
+```
+
+<Info>
+**Restoring never discards anything.** The current state is saved first, *then* the older state is restored on top. If you restore the wrong thing, restore again. That's what makes it safe to say yes to.
+</Info>
+
+These are the same checkpoints as Orbit's Undo button — one history, not two. A checkpoint your agent takes appears in the app, and vice versa.
+
+<Accordion title="Why not just use git?" icon="code-branch">
+  Your project folder *is* a git repository, but the history lives with Workser and there is no remote. Code moves to and from Workser over its API as git bundles, using the same session everything else uses — no credential is read, and your own git keys and identity are never touched.
+
+  That's what makes this work on a machine that has no access to the Workser-managed repository, which is every machine.
+
+  So the usual git verbs are replaced:
+
+  | Instead of | Run |
+  | --- | --- |
+  | `git stash` / `git commit` | `workser checkpoint` |
+  | `git reset --hard` / `git checkout .` | `workser restore` |
+  | `git pull` / `git push` | `workser sync` |
+
+  Reading is always fine — `git log`, `git diff`, `git show`, `git status`.
+
+  **`git stash` is the one that actually loses work.** Workser publishes what's on disk, so a deploy while changes are stashed ships the version *without* them; and if a run stops between `stash` and `stash pop`, you open your folder and your work is gone. `workser checkpoint` has neither failure mode.
+</Accordion>
+
+<Accordion title="Sync vs. deploy" icon="arrows-rotate">
+  They're different jobs. `workser sync` reconciles the folder with Workser; `workser deploy` puts it in front of users. Syncing doesn't deploy, and deploying doesn't require syncing first — a deploy publishes what's on disk.
+
+  `sync` pulls before it pushes. If it reports `diverged`, both sides changed and it stops rather than picking a winner — resolve it in Orbit rather than forcing it.
+</Accordion>
+
+## Deliverables
+
+When your agent finishes something you should actually receive — a published app, a report, a folder of exports — it registers it as a **deliverable** on the task, so it appears in Orbit rather than being buried in a transcript.
+
+```bash
+workser artifact add --url https://acme.workser.app --kind app -t "Storefront"
+workser artifact add ./report.pdf -d "Q3 sales summary"
+```
+
+Without this, Orbit has to guess from file edits — and scratch files end up sitting next to the real output.
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="The project workspace" icon="table-columns" href="/orbit/project-workspace">
+    Board, docs, decisions and memory — how the project survives past this conversation.
+  </Card>
+  <Card title="Security & approvals" icon="shield-check" href="/orbit/security-and-approvals">
+    What pauses for your approval, and what your agent can never do at all.
+  </Card>
+</CardGroup>

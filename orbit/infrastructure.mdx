@@ -1,0 +1,178 @@
+---
+title: "What every project gets"
+description: "Database, sign-in, files, web address, connected apps and secrets — provisioned for you, ready for your agent to use."
+---
+
+The hard part of turning an idea into working software usually isn't the code. It's everything the code needs in order to run: somewhere to keep data, a way for people to sign in, somewhere to put uploaded files, an address on the internet.
+
+Every Orbit project arrives with all of it already switched on.
+
+<Frame>
+  <video controls preload="metadata">
+    <source src="https://pub-12d6ab783e044f15b5bfe88d65562bee.r2.dev/orbit/marketing/content/orbit-converastion/infrastructure/all-infra-walkthrough.mp4" type="video/mp4" />
+  </video>
+</Frame>
+
+<CardGroup cols={2}>
+  <Card title="Data" icon="database">
+    A dedicated Postgres database (Neon-backed) for each project — not a shared table with other customers.
+  </Card>
+  <Card title="Sign-in" icon="key">
+    Managed authentication for your app's own users, with no user cap.
+  </Card>
+  <Card title="Files" icon="folder">
+    A storage bucket per project for uploads, exports and generated assets.
+  </Card>
+  <Card title="Web address" icon="globe">
+    A stable `*.workser.app` address from the first publish, plus custom domains.
+  </Card>
+  <Card title="Connected apps" icon="plug">
+    Gmail, Slack, Google Sheets, Stripe and more — connected once, usable by every app in the project.
+  </Card>
+  <Card title="Keys & secrets" icon="lock">
+    Environment variables managed for you, so nothing sensitive ends up in the code.
+  </Card>
+</CardGroup>
+
+---
+
+## Data
+
+Each project gets its own Postgres database. Your agent can create it, inspect it, and query it while building:
+
+```bash
+workser db create              # provision it (safe to run twice)
+workser db tables              # what's in there
+workser db schema orders       # a table's columns
+workser db data orders -n 20   # read rows
+workser db query "select …"    # run SQL
+```
+
+<Note>
+The database belongs to the **project**, not to a single app. If a project has several apps, they share it — which is exactly what you want when your storefront and your admin tool are looking at the same orders.
+</Note>
+
+**Safety rails.** Writes through `db query` pause for your approval. `DROP` and `TRUNCATE` are refused outright by Workser's safety policy — schema changes go through migrations in the app's own code, not one-off destructive commands.
+
+**Connection strings are credentials.** `workser db url` returns a least-privilege connection string, and the running app gets it from its environment automatically. It should never be pasted into a chat or committed to a file.
+
+## Sign-in
+
+```bash
+workser auth enable    # provision authentication (safe to run twice)
+workser auth status    # is it on?
+```
+
+Your app's users sign in through Workser-managed authentication. There's no user limit on any plan — you're not billed per person who signs up for your app.
+
+At runtime, your app looks users up through the [SDK](/orbit/sdk): `workser.auth`.
+
+## Files
+
+Every project has a storage bucket (Cloudflare R2 behind Workser).
+
+```bash
+workser storage create        # provision it (safe to run twice)
+workser storage ls invoices/  # what's in there
+workser storage put ./logo.png brand/logo.png
+workser storage get brand/logo.png            # prints a URL if you give no destination
+```
+
+Like the database, the bucket is **per project and shared by its apps**, so keys should be namespaced (`invoices/2026/…`) rather than dumped at the root.
+
+For app uploads at runtime, the app uses `workser.storage` from the SDK — and for large files it should request a presigned upload URL so the bytes never travel through Workser.
+
+<Accordion title="`storage` vs. `neon storage`" icon="layer-group">
+  These are two different stores, and a file in one is not visible in the other.
+
+  - **`workser storage`** — the default bucket every project has. This is the normal answer.
+  - **`workser neon storage`** — S3-compatible object storage on the project's own Neon branch, so it branches along with the database. It also offers Node.js HTTP functions (`workser neon functions`).
+
+  The Neon backend is **additive** and only available on dedicated tenancy in a supported region. Region is fixed when the project is created, so `regionSupportsNeonBackend: false` is final rather than something to retry. Run `workser neon status` before assuming it's there; most apps never need it.
+</Accordion>
+
+## Web address & domains
+
+Publishing gives you a stable `*.workser.app` address that **does not change between deploys** — safe to send to customers, print on a card, or point a domain at.
+
+```bash
+workser deploy --prod --watch   # ship, and wait for the live URL
+workser open                    # open the live app
+workser domain list             # custom domains on this project
+```
+
+Attaching a **custom domain is an owner action** — you do it in Orbit, not your agent. That's deliberate: pointing a domain somewhere is the sort of change that should require a human. See [Security & approvals](/orbit/security-and-approvals#what-your-agent-can-never-do).
+
+## Connected apps
+
+An owner connects Gmail (or Slack, Sheets, Stripe…) **once, for the project**. From then on every app in that project can use it — no OAuth flow to implement, no tokens to store, no refresh logic to maintain.
+
+```bash
+workser app list                    # what's connectable and what's connected
+workser app connect gmail           # returns a link the USER opens
+workser app tools gmail             # a connected app's callable actions and their inputs
+workser app run GMAIL_SEND_EMAIL --body '{"to":"…","subject":"…","body":"…"}'
+```
+
+<Warning>
+`app run` is a **real side effect in a real account**. It sends someone's actual email, posts to their actual Slack, charges an actual card. Orbit's agent instructions require the agent to say what it's about to do first, and consequential runs are approval-gated.
+
+OAuth can never be completed on your behalf — connecting an account always requires you to open the link yourself.
+</Warning>
+
+## Keys & secrets
+
+```bash
+workser env set STRIPE_KEY=sk_live_…   # write a value the agent never sees
+workser env list                       # keys, values masked
+workser env get STRIPE_KEY             # the value (sensitive)
+```
+
+Setting an environment variable writes a value **without your agent ever reading it** — which is the point. When you have a secret to add, set it yourself in Orbit or run `env set` rather than pasting the key into a conversation.
+
+Deleting an environment variable is an owner action.
+
+<Note>
+`env` configures the **cloud** environment (production and preview). The `.env` files inside the app folder configure **your computer** — you edit those in Orbit under Settings → "On this computer", and saving there restarts the local dev server. They're different environments; changing one doesn't change the other.
+</Note>
+
+## Automations that outlive a request
+
+Some work shouldn't happen while a customer is waiting — a nightly summary, a slow export, a multi-step follow-up.
+
+```bash
+workser workflow nodes            # the catalog of node types (browse before building)
+workser workflow create "Nightly summary" --body '{…}'
+workser workflow activate <id>    # new workflows start inactive
+workser workflow runs <id>        # past executions
+```
+
+The app triggers a workflow at runtime through `workser.workflows` in the [SDK](/orbit/sdk).
+
+<Warning>
+**A workflow feature is two-way, and the return half is the one people forget.** Triggering the workflow is outbound. When the workflow produces something the app needs, its final node has to POST back to a webhook route in your app. Build only the trigger and the workflow runs perfectly while nothing ever appears in the product.
+</Warning>
+
+## Business records
+
+Projects also carry Workser's business hub — products, orders, customers, sales pipelines, pages, campaigns, support conversations and more. These are the **same rows** the Workser dashboard and your AI employees read and write.
+
+```bash
+workser business resources                # what's available
+workser business list orders
+workser business get orders <id>
+workser business action orders <id> cancel
+```
+
+An app built on Workser isn't integrating with a separate system — it's reading its own business. Don't build a parallel table for something the business hub already models.
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Preview & publish" icon="rocket" href="/orbit/preview-and-publish">
+    How changes get from your agent to your customers, and how to undo one.
+  </Card>
+  <Card title="The SDK" icon="code" href="/orbit/sdk">
+    How the deployed app reads all of this at runtime.
+  </Card>
+</CardGroup>

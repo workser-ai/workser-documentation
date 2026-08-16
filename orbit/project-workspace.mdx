@@ -1,0 +1,147 @@
+---
+title: "The project workspace"
+description: "Board, docs, decisions, requirements, memory and brand — the things that make an Orbit project survive past one conversation."
+---
+
+Most AI building tools are good at the first prompt and bad at the fiftieth. The conversation scrolls, the plan is gone, and next week your agent quietly reverses a decision you made on purpose.
+
+Orbit gives every project a workspace that outlives the conversation — and gives your agent the commands to keep it honest.
+
+<Frame>
+  <video controls preload="metadata">
+    <source src="https://pub-12d6ab783e044f15b5bfe88d65562bee.r2.dev/orbit/marketing/content/orbit-converastion/sdlc/memory-board-docs.mp4" type="video/mp4" />
+  </video>
+</Frame>
+
+<CardGroup cols={2}>
+  <Card title="Board" icon="table-columns">
+    What's planned, in progress, in review and done — kept current as the work happens, not filled in afterwards.
+  </Card>
+  <Card title="Docs" icon="book">
+    Documentation attached to the project instead of drifting out of date in a separate wiki.
+  </Card>
+  <Card title="Decisions" icon="list-check">
+    A record of *why* a choice was made, with its context and consequences.
+  </Card>
+  <Card title="Memory" icon="brain">
+    Durable, searchable knowledge shared with your project's cloud agents.
+  </Card>
+</CardGroup>
+
+## The board
+
+```bash
+workser board list [--status <s>] [--label <l>]
+workser board create "Phase 2 — checkout API" --description "…" --priority high
+workser board move <id> in-progress | in-review | done
+workser board close <id>
+```
+
+Statuses are `backlog · in-progress · in-review · done`; priorities are `low · normal · high · urgent`.
+
+Orbit's agent instructions require that **a plan with more than one phase gets filed as cards before the work starts** — one card per phase, with only the current one in progress. The test is simple: if you closed the conversation right now, the board should still show what's left.
+
+There's deliberately no `board delete`. `done` is the terminal state for finished work, and removing a card *you* filed is yours to do in Orbit.
+
+## Documents
+
+```bash
+workser doc list
+workser doc create "Checkout — implementation plan" --markdown "$(cat plan.md)"
+workser doc update <id> --markdown "$(cat updated.md)"
+workser doc show <id> --markdown
+```
+
+A doc is stored both as the rich text the Docs panel renders and as a git-tracked markdown mirror at `.workser/docs/<id>.md`, so your agent can read it with ordinary file tools.
+
+<Note>
+A doc linked to a board card (`--work-item <id>`) renders on that card and is **hidden** from the Docs panel. So a plan spanning three phases should *not* be linked — it belongs to the project, not to phase 1.
+</Note>
+
+## Decisions
+
+```bash
+workser decision list
+workser decision create "Carts live server-side" \
+  --context "why it came up" \
+  --decision "what was decided" \
+  --consequences "what follows from it"
+```
+
+Decisions are **append-only** — there's no `decision update`. A decision record states what was decided at a point in time; when it stops being right, a *new* decision supersedes it and says so in its context. Editing the history is how a decision log stops being worth reading.
+
+This is the single most useful thing in the workspace for long-lived projects: it's what stands between your agent and quietly undoing a choice someone made deliberately.
+
+## Requirements
+
+Requirements do move along, so unlike decisions they can be updated:
+
+```bash
+workser requirement create "Support SSO" --body "Enterprise customers need SAML." --status proposed
+workser requirement update <id> --status done
+```
+
+## Memory
+
+```bash
+workser memory add "The owner wants all customer email to come from orders@…"
+workser memory search "email sender"
+workser memory forget <memoryId>
+```
+
+Memory is durable and searchable across conversations, scoped to the project — and it's the **same memory space** Workser's cloud agents use for that project. Something your local agent records, a cloud agent can find, and vice versa.
+
+`forget` is a soft delete: the content stays retrievable by id but drops out of future searches, which is the right way to retire something outdated rather than layering a contradiction on top.
+
+<Warning>
+Never store a secret in memory. It's retrievable and displayable by design.
+</Warning>
+
+## Brand
+
+Set your brand once — logo, colours, fonts — and everything your agent builds follows it.
+
+```bash
+workser design show          # the brand, from the server
+workser design show --raw    # the generated token files, verbatim
+```
+
+The same values are generated into the project as `design/tokens.json` (DTCG format) and `design/tokens.css` (plain CSS custom properties). Both are generated wholesale and overwritten on every sync, so they're never hand-edited — your agent maps them into the app's theme instead.
+
+Having no brand set is an ordinary state, not a blocker: your agent picks sensible styling and moves on. Changing the brand is yours to do in Orbit, under **Design → Brand**, so that every surface it feeds stays consistent.
+
+## Asking you a question
+
+When your agent is genuinely blocked — a missing value, an ambiguous requirement, permission for something consequential — it can ask you directly rather than guessing or burying the question in a message nobody answers:
+
+```bash
+workser ask "Which email should order confirmations come from?"
+workser ask "Which plan should I wire up?" --option Free --option Pro --option Team
+workser ask "Delete the 1,240 archived rows?" --type approval
+```
+
+This shows a real card in the conversation and **blocks until you answer**, then hands the answer back — so the agent asks, reads your reply, and keeps working in the same turn. It times out (10 minutes by default) rather than hanging forever.
+
+<Warning>
+Never answer one of these with a secret value. The answer is stored and displayed. If a key is needed, say *where* it should go and set it yourself with `workser env set`, which writes it without your agent ever seeing it.
+</Warning>
+
+## Extras your agent can reach for
+
+<CardGroup cols={3}>
+  <Card title="Web search" icon="magnifying-glass">
+    `workser search "…"` runs a grounded Google search server-side — the API key never reaches the agent — and returns an answer plus its sources.
+  </Card>
+  <Card title="Image generation" icon="image">
+    `workser image generate "…"` returns a public image URL, optionally conditioned on up to four reference images.
+  </Card>
+  <Card title="Computer-use tools" icon="display">
+    `workser tool list` / `workser tool run` give the agent files, shell, screen, input, clipboard and basic browser control on your machine — approval-gated, same safety policy as Computer Use.
+  </Card>
+</CardGroup>
+
+## Next
+
+<Card title="The workser CLI" icon="terminal" href="/orbit/cli">
+  Every command on this page, with flags, exit codes and the JSON contract.
+</Card>

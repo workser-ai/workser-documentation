@@ -1,0 +1,113 @@
+---
+title: "Connect your agent"
+description: "Which AI agent CLIs Orbit works with, what each one needs, the free path, and how to run more than one."
+---
+
+Orbit is **bring-your-own-agent**. It runs no coding model of its own — it detects a coding-agent CLI that's already installed and signed in on your machine, and drives that.
+
+## Supported agents
+
+<Columns cols={3}>
+  <img src="/images/workser-desktop/orbit/claude.svg" alt="Claude Code" />
+  <img src="/images/workser-desktop/orbit/codex.png" alt="Codex" />
+  <img src="/images/workser-desktop/orbit/opencode.png" alt="OpenCode" />
+</Columns>
+
+| Agent | What it needs on your side |
+| --- | --- |
+| **Claude Code** | Claude Code installed and signed in — via a Claude Pro/Max plan or an Anthropic API key, whichever you already configured. |
+| **Codex** | OpenAI's Codex CLI installed and signed in — via a qualifying ChatGPT plan or an OpenAI API key. |
+| **OpenCode** | OpenCode installed and pointed at any model provider you like — **including free ones**. |
+
+Workser doesn't manage, pay for, or grant access to any of these subscriptions. If a CLI isn't installed or isn't signed in, Orbit simply won't offer it as connectable — there's no separate Workser approval step for your AI plan.
+
+<Accordion title="What about Cursor, Gemini CLI, Kimi, Grok and Muse Code?" icon="wrench">
+  All five are wired into Orbit's detection code but are **currently switched off**, for different reasons:
+
+  - **Cursor Agent** — switched off by a product decision, not a fault.
+  - **Gemini CLI** — Google's individual-tier access was rejecting requests on accounts that otherwise showed as signed in.
+  - **Kimi Code** and **Grok** — they haven't been through Workser's own testing pass yet; nothing is known to be broken.
+  - **Muse Code** — no headless adapter yet, and its authentication path is unverified.
+
+  Each will come back as its blocker clears. Nothing about your project or workflow needs to change when one does.
+</Accordion>
+
+## The free path
+
+If you pay for no AI at all, you can still run Orbit end to end.
+
+**OpenCode** is the one supported CLI that can talk to providers offering free models. Orbit's onboarding knows this: pick OpenCode and it will steer you onto a free model automatically, falling back to another free model from your provider if the preferred one isn't available on your machine.
+
+<Note>
+The free path depends on your OpenCode configuration, not on Workser. If your OpenCode install has no free provider set up, Orbit will say so rather than quietly connecting a paid model.
+</Note>
+
+Everything downstream — the database, Preview, Publish, domains — works identically no matter which agent produced the code.
+
+## How connecting works
+
+<Steps>
+  <Step title="Orbit probes your machine">
+    It looks for each supported CLI on your `PATH` and in the standard install locations, then checks whether it's actually authenticated — by inspecting credential files, the OS keychain, and environment variables, not by scraping terminal output.
+  </Step>
+  <Step title="You sign in through the agent's own command">
+    If an agent is installed but not signed in, Orbit runs *that agent's own* login command in an embedded terminal (`claude /login`, `codex login`, and so on). You complete the login exactly as you would in your own terminal. **Workser never sees or stores those credentials.**
+  </Step>
+  <Step title="Orbit starts its local daemon">
+    A small local service starts on `127.0.0.1`, authenticated with a per-session token. Your agent talks to it through the `workser` CLI; everything the agent does becomes visible in Orbit's UI, and sensitive actions pause for your approval.
+  </Step>
+</Steps>
+
+## Choosing a model
+
+Each connected CLI exposes its own models, and Orbit asks the CLI for that list rather than shipping a hard-coded one — so a model released after your version of Orbit still appears.
+
+- **Default** — pass no model flag at all and let the CLI decide. A good starting point.
+- **A named model** — pick from what your CLI reports.
+- **Custom** — type any value your CLI accepts, so nothing new is ever blocked.
+
+Where a model supports reasoning effort, Orbit only offers the levels that *that* model actually accepts, because a level the model rejects fails mid-run and costs you the whole turn.
+
+## Running more than one agent: roles
+
+You don't have to pick one CLI for everything. Orbit lets you configure **roles** — named specialists, each backed by a connected agent CLI, each with its own optional instructions.
+
+For example: your main agent builds, a `qa` role reviews the change, a `designer` role handles screens.
+
+```bash
+workser agent list                       # main agent, configured roles, which CLIs are connected
+workser agent run qa "Review the checkout diff"
+workser agent spawn codex "Research the Stripe payout API" --instructions "…"
+workser agent main                       # which agent is the main one
+```
+
+<AccordionGroup>
+  <Accordion title="Roles vs. spawning" icon="shuffle">
+    `agent run <role>` uses a role **you configured** in Orbit. `agent spawn <agent>` starts a temporary teammate on any connected CLI with no pre-configuration — useful for one-off parallel work, like researching something while the main agent keeps building.
+  </Accordion>
+  <Accordion title="Backup agents and failover" icon="life-ring">
+    A role can have a **backup agent**. If the primary is unavailable or a run fails, Orbit falls over to the backup instead of the task simply failing.
+  </Accordion>
+  <Accordion title="What a delegated agent can and can't see" icon="eye-slash">
+    A subagent does **not** share the main agent's context. Everything it needs has to be in the task it was given. It also must never be told to delegate further — there's no supervision loop to stop a runaway chain, so Orbit's instructions forbid it.
+  </Accordion>
+</AccordionGroup>
+
+None of this is required. One connected CLI doing everything is the default and works fine.
+
+## Switching or disconnecting
+
+Reconnect a different CLI from Orbit's agent screen at any time, or disconnect entirely.
+
+Disconnecting stops Orbit's local daemon from forwarding anything further. It does **not** touch your coding agent's CLI, which keeps working exactly as it did before you ever connected Orbit.
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Teach your agent" icon="graduation-cap" href="/orbit/teach-your-agent">
+    Install the Skill or `AGENTS.md` so your agent knows the `workser` commands exist.
+  </Card>
+  <Card title="Security & approvals" icon="shield-check" href="/orbit/security-and-approvals">
+    What the daemon exposes, what gets approved, and what your agent is never allowed to do.
+  </Card>
+</CardGroup>

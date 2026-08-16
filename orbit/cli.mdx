@@ -1,0 +1,268 @@
+---
+title: "The workser CLI"
+description: "The command-line surface your AI agent uses to provision, ship and operate your app — and that you can run yourself."
+---
+
+`workser` is the command line at the centre of Orbit. It's what your AI agent runs — through its own shell — to act as your DevOps engineer: provision a database, set an environment variable, deploy, read logs.
+
+You can run every one of these commands yourself too.
+
+## Install
+
+Workser Desktop installs and updates the CLI for you. Install it manually only if you want `workser` on its own, alongside an agent running outside the app:
+
+```bash
+npm install -g @workser/cli
+workser --version
+```
+
+Node 20+.
+
+<Note>
+The published build is a **single self-contained file**. Every runtime dependency is bundled in, so it runs under the system `node` from any directory with no `node_modules` beside it. That's how Orbit installs it onto your agent's `PATH` during onboarding without running an `npm install`.
+</Note>
+
+## Two ways it connects
+
+<Tabs>
+  <Tab title="Inside Orbit (normal)">
+    Workser Desktop writes `~/.workser/session.json` pointing at its **local daemon** on `http://127.0.0.1:<port>`.
+
+    Every call flows through Orbit, which handles authentication, **approval gates**, and live progress in the UI. This is how you *see* what your agent is doing.
+  </Tab>
+  <Tab title="Standalone / CI">
+    ```bash
+    workser login          # paste an API token, or pass --token
+    workser status         # confirm the connection and linked project
+    workser doctor         # resolved endpoint, mode, token presence (masked)
+    ```
+
+    Logging in saves a session against the **cloud API** instead. Same commands, no desktop app — but also no approval UI and no file-based commands.
+  </Tab>
+</Tabs>
+
+Both speak the same `/v1/…` contract.
+
+### How endpoint, token and project are resolved
+
+| Resolves | Precedence |
+| --- | --- |
+| **endpoint** | `--endpoint` → `$WORKSER_DAEMON_URL` → `~/.workser/session.json` → cloud default |
+| **cloud default** | `$WORKSER_API_URL` → `$WORKSER_ENV` → `prod` |
+| **token** | `--token` → `$WORKSER_TOKEN` → session file |
+| **project** | `--project` → `<cwd>/.workser/project.json` → session default |
+
+`$WORKSER_ENV` names a backend rather than a URL:
+
+| `WORKSER_ENV` | Base URL |
+| --- | --- |
+| unset / `prod` | `https://api.workser.ai` |
+| `dev` | `https://dev-api.workser.ai` |
+| `local` | `http://localhost:8000` |
+
+An unrecognised value is a hard error, not a silent fall-back to production. Run `workser doctor` to see what resolved and where it came from.
+
+<Warning>
+The session file records the endpoint it logged in against. Changing `$WORKSER_ENV` afterwards needs a fresh `workser login` (or an explicit `--endpoint`).
+</Warning>
+
+## Global flags
+
+| Flag | What it does |
+| --- | --- |
+| `--json` | Machine-readable output. **Agents should always pass this.** |
+| `-q, --quiet` | Suppress non-essential output |
+| `-p, --project <id>` | Target a project other than the linked one |
+| `-C, --cwd <dir>` | Run as if started in `<dir>` |
+| `--endpoint <url>` | Override the endpoint (daemon or cloud) |
+| `--token <token>` | Override the auth token |
+
+## The output contract
+
+Every command supports `--json` and returns a **single stable line**:
+
+```json
+{"ok":true,"data":{"url":"https://acme.workser.app"}}
+```
+
+```json
+{"ok":false,"error":{"code":"awaiting_approval","message":"…"}}
+```
+
+### Exit codes
+
+| Code | Meaning |
+| --- | --- |
+| `0` | OK |
+| `1` | Generic failure |
+| `3` | Unauthorized |
+| `4` | Not connected |
+| `5` | Awaiting approval — you approve in Orbit, then the agent retries |
+| `6` | Owner-only — reserved for you, in Orbit |
+
+### Error codes worth knowing
+
+| `error.code` | What to do |
+| --- | --- |
+| `not_connected` | Open Workser Desktop (or `workser login` for CI) |
+| `unauthorized` | Authenticate |
+| `no_project` | No project is linked to this folder — link it in Orbit |
+| `owner_only` | An owner action; do it in Orbit |
+| `awaiting_approval` | Approve in Orbit, then retry |
+| `needs_local_app` | This machine has only the CLI and a token, so folder commands can't run |
+
+## Command surface
+
+<AccordionGroup>
+  <Accordion title="Orientation" icon="compass">
+    ```bash
+    workser status                 # connection + pinned project + latest deploy
+    workser whoami                 # who am I / which workspace
+    workser project show | list    # the pinned project, and the workspace's projects (read)
+    workser doctor                 # resolved endpoint, mode, token presence, project
+    workser verify                 # run the project's typecheck / lint / build
+    workser login | logout         # standalone / CI authentication
+    workser help [topic]           # built-in guides, one screen each
+    ```
+  </Accordion>
+
+  <Accordion title="Database & sign-in" icon="database">
+    ```bash
+    workser db create              # provision Neon Postgres (idempotent)
+    workser db url                 # least-privilege connection string (sensitive)
+    workser db list                # database status
+    workser db tables
+    workser db schema <table>
+    workser db data <table> [-n N] [--offset N]
+    workser db query "<sql>"       # writes are approval-gated
+
+    workser auth enable            # provision end-user auth (idempotent)
+    workser auth status
+    ```
+  </Accordion>
+
+  <Accordion title="Deploy, config & logs" icon="rocket">
+    ```bash
+    workser deploy [--prod] [--watch]
+    workser deploy status [id]
+    workser logs [-n 100] [-f]
+    workser versions
+    workser domain list
+    workser open
+
+    workser env set KEY=VALUE [K2=V2…]
+    workser env list               # keys, values masked
+    workser env get KEY            # the value (sensitive)
+    ```
+  </Accordion>
+
+  <Accordion title="Files & the Neon backend" icon="folder">
+    ```bash
+    workser storage create [name]
+    workser storage list | ls [prefix]
+    workser storage put <local> <key>
+    workser storage get <key> [dest]
+
+    workser neon status                        # tenancy + toggles + region verdict
+    workser neon storage list | create <name> | rm <bucket>
+    workser neon storage ls|put|get|url …
+    workser neon functions list | deploy <slug> <zip> | rm <slug>
+    ```
+  </Accordion>
+
+  <Accordion title="Saving & syncing" icon="clock-rotate-left">
+    ```bash
+    workser checkpoint ["what you're about to try"]
+    workser restore [ref] | restore --list
+    workser sync [--branch dev] [--app <id>]
+    ```
+  </Accordion>
+
+  <Accordion title="Project workspace" icon="table-columns">
+    ```bash
+    workser board list | show | create | update | move | close
+    workser decision list | show | create
+    workser requirement list | show | create | update
+    workser doc list | show | create | update
+    workser design show [--raw]
+    workser memory add | search | forget
+    ```
+  </Accordion>
+
+  <Accordion title="Business data & automation" icon="briefcase">
+    ```bash
+    workser business resources
+    workser business list|get|create|update|delete|action <resource> …
+
+    workser workflow list | create | get | activate | deactivate | run | runs | nodes
+    workser app list | connect <toolkit> | disconnect <id> | tools <toolkit> | run <toolSlug>
+    ```
+  </Accordion>
+
+  <Accordion title="Agents, deliverables & extras" icon="sparkles">
+    ```bash
+    workser agent list | run <role> "<task>" | spawn <agent> "<task>" | main
+    workser artifact add <path|--url> [--kind k] [-d text] | artifact run
+    workser ask "<question>" [--type t] [--option o]
+    workser search "<query>" [-n N]
+    workser image generate "<prompt>" [-r <url>…] [-o <path>]
+    workser tool list | run <name> [--body <json>]
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Built-in help
+
+The CLI carries its own guides, so what your agent reads always matches the version it's running:
+
+```bash
+workser help              # every topic
+workser help deploy       # one focused guide, about a screen long
+workser <command> --help  # exact flags
+```
+
+Topics: `automation` · `brand` · `business` · `computer-use` · `database` · `deliverables` · `deploy` · `images` · `memory` · `neon` · `roles` · `sdlc-entities` · `search` · `storage` · `version-control`.
+
+## The scope boundary
+
+The CLI is deliberately small, because it's driven by a model that can be influenced by whatever it reads. Two rules define the surface:
+
+1. **One project.** Every command targets the single project linked to the working directory. Your agent can list and read projects, but not create one or switch which is pinned.
+2. **Operate within that project; don't administer the project set.** Your agent can provision and use the project's *own* infrastructure — create the database, read its connection string, browse rows, provision storage and auth, deploy, set env vars, manage files. Sensitive actions pause for your approval.
+
+What it can never do, in any circumstance:
+
+```bash
+workser project create   # ─┐
+workser project use      #  ├─ refuse locally with `owner_only` (exit 6),
+workser env rm           #  │  and make no network call at all
+workser domain set       # ─┘
+```
+
+This is the **first of two gates** — the daemon and Workser's API enforce the same boundary server-side against the agent's project-scoped key. The local refusal exists so your agent gets a precise, machine-readable answer and a clear next step instead of a bare `403`.
+
+Read the whole model in [Security & approvals](/orbit/security-and-approvals).
+
+## A typical run
+
+```bash
+workser status --json                        # orient — the project is already pinned
+workser board list --json                    # what's already tracked
+workser decision list --json                 # …and already decided
+workser board create "Phase 2 — checkout" --json
+workser board move <id> in-progress --json
+workser db create --json                     # provision what the app needs
+workser env set STRIPE_KEY=sk_live_… --json
+#   … the agent writes the app code with its own tools …
+workser verify --json                        # green build is the bar for "done"
+workser deploy --prod --watch --json         # ship; returns the stable URL
+workser board close <id> --json              # the board now matches reality
+```
+
+## The line between CLI and SDK
+
+`workser db query` is for **inspecting** the database while building. It is *not* how a running app reads its own data — that's [`@workser/app`](/orbit/sdk). An app that shells out to the CLI on every request is the most common mistake here.
+
+- Needs to happen **when a user hits the app** → the SDK.
+- Needs to happen **to the app** — provision, configure, deploy, read logs → this CLI.
+- Needs to keep running **after the request finishes** → a workflow.

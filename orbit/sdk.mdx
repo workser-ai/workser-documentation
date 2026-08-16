@@ -1,0 +1,311 @@
+---
+title: "The @workser/app SDK"
+description: "How the app your agent built reads its own database, business records, files, users, connected accounts and automations — with no keys to configure."
+---
+
+The [`workser` CLI](/orbit/cli) operates your app from the outside. `@workser/app` runs **inside** it, on every request.
+
+```bash
+npm install @workser/app
+```
+
+## Zero configuration
+
+Workser provisions the project's credentials into the app's environment, so there is nothing to wire up and no key for anyone to paste:
+
+```ts
+import { workser } from '@workser/app';
+
+const orders = await workser.business.orders.list({ limit: 20 });
+
+await workser.connect.run('GMAIL_SEND_EMAIL', {
+  to: 'owner@shop.com',
+  subject: 'Daily summary',
+  body: `${orders.length} orders today.`,
+}, { idempotencyKey: today });
+```
+
+Outside a Workser-provisioned environment — a script, a test — configure it explicitly:
+
+```ts
+import { createClient } from '@workser/app';
+
+const workser = createClient({
+  projectId: 'proj_…',
+  apiKey: process.env.WORKSER_API_KEY,
+});
+```
+
+<Note>
+The default `workser` export is **lazy** — it's constructed on first property access, so importing the module can never throw. A missing `WORKSER_PROJECT_ID` surfaces at the call that needed it, naming the variable, instead of as an opaque module-load crash in a serverless cold start.
+</Note>
+
+Node 18+ (or Bun, Deno, or any runtime with `fetch`). **Zero runtime dependencies.**
+
+## What you get
+
+| Namespace | What it reaches |
+| --- | --- |
+| `workser.business` | Orders, sales, fulfillments, pages, carts — the project's own records |
+| `workser.db` | The project's Postgres database |
+| `workser.storage` | Project file storage |
+| `workser.auth` | The project's end users |
+| `workser.connect` | Gmail, Slack, Sheets, Stripe… connected once, usable by every app |
+| `workser.workflows` | Automations that outlive the request |
+| `workser.neon` | The project's own Neon buckets and functions (dedicated tenancy only) |
+
+These are **the same records** the Workser dashboard and your AI employees read and write. An app built on Workser isn't integrating with a separate system — it's reading its own business.
+
+---
+
+## `workser.business`
+
+Every resource has the same five methods:
+
+```ts
+await workser.business.orders.list<Order>({ limit: 20, offset: 0 });
+await workser.business.orders.get<Order>(id);
+await workser.business.orders.create(body, { idempotencyKey: requestId });
+await workser.business.orders.update(id, patch);
+await workser.business.orders.remove(id);
+```
+
+Named resources: `orders`, `sales`, `fulfillments`, `pages`, `carts`. For anything this version doesn't name yet, use the escape hatch rather than hand-rolling a `fetch`:
+
+```ts
+await workser.business.resource<Customer>('customers').list();
+```
+
+- **`remove` is a real delete** with no undo. For anything user-facing, prefer a status change via `update`.
+- **`list` filters are pass-through** beyond `limit`/`offset` — check what the resource actually supports rather than assuming a filter applied.
+
+## `workser.db`
+
+Two ways in, and the choice matters:
+
+```ts
+// Scope-gated, audited, reachable from anywhere with a key.
+// Right for agents and occasional access.
+const rows = await workser.db.query<Order>(
+  'select * from orders where status = $1 limit $2',
+  ['paid', 20],
+);
+
+// The raw Postgres URI for your own driver or ORM.
+// Right for an app's hot path.
+const { uri } = await workser.db.connectionUri();
+
+await workser.db.tables();
+await workser.db.schema('orders');
+await workser.db.rows('orders', { limit: 50 });
+```
+
+<Warning>
+**Parameterised SQL only.** Parameters are sent separately and bound server-side, and there is deliberately no string-concatenation API — this is the single most likely place for a generated app to acquire an injection vulnerability.
+
+```ts
+// WRONG — an injection, however harmless the value looks today
+await workser.db.query(`select * from orders where id = '${id}'`);
+
+// RIGHT
+await workser.db.query('select * from orders where id = $1', [id]);
+```
+</Warning>
+
+The connection URI is a credential: never return it to a browser, log it, or put it in an agent's context. A minted Data API token can only ever assume the project's least-privilege `workser_app_<projectId>` role — never the owner — so it structurally cannot drop the database.
+
+## `workser.storage`
+
+```ts
+await workser.storage.list({ prefix: 'invoices/', limit: 100 });
+await workser.storage.stats();
+await workser.storage.remove(key);   // permanent — no versioning, no undo
+```
+
+**Uploading — pick the right one.**
+
+<Tabs>
+  <Tab title="Anything sizeable (presigned)">
+    The client PUTs straight to storage, so a big file never occupies a request slot or a timeout budget.
+
+    ```ts
+    // server: mint the URL
+    const { url, key } = await workser.storage.presignedUploadUrl({
+      filename: file.name,
+      folder: 'invoices',
+      contentType: file.type,
+    });
+    // browser: PUT the bytes directly to `url`, then tell your server about `key`
+    ```
+  </Tab>
+  <Tab title="Small files only (direct)">
+    ```ts
+    await workser.storage.upload({
+      filename: 'receipt.pdf',
+      folder: 'receipts',
+      dataBase64: buf.toString('base64'),
+    });
+    ```
+
+    Base64 inflates the payload by a third and the whole file sits in memory on both ends. Streaming a user's upload through your server this way is the wrong default.
+  </Tab>
+</Tabs>
+
+## `workser.auth`
+
+Read-oriented on purpose:
+
+```ts
+await workser.auth.status();                        // provisioned? how configured?
+await workser.auth.users({ limit: 50, offset: 0 });
+```
+
+Sign-in, sessions, password handling and OAuth belong to the **app's own auth setup**, running against the project's database. What this namespace answers is "who are my users" and "is auth switched on".
+
+A user list is personal data — don't log it, paste it into a conversation, or hand it to a third-party tool unasked.
+
+## `workser.connect`
+
+The connection is owned by the **project, not the app**. An owner connects Gmail once and every app in the project can send mail — no OAuth flow to implement, no tokens to store, no refresh logic.
+
+```ts
+await workser.connect.connections({ toolkit: 'gmail' });  // what's actually connected
+await workser.connect.toolkits();                          // everything connectable
+await workser.connect.tools('gmail');                      // callable actions + schemas
+
+await workser.connect.run('GMAIL_SEND_EMAIL', { to, subject, body }, {
+  idempotencyKey: orderId,
+});
+```
+
+Order of operations: `connections()` → if not connected, `connect(toolkit)` returns a `redirect_url` **the user** must open → `tools(slug)` to read the argument schema → `run(...)`.
+
+<Warning>
+`run()` sends someone's real email, posts to their real Slack, charges a real card. Always pass an `idempotencyKey` keyed on the thing that must happen once — an order id, a message id — not a fresh UUID.
+
+`disconnect(connectionId)` removes the connection for the **whole project**, not just your app. Don't call it to clean up after yourself.
+</Warning>
+
+## `workser.workflows`
+
+```ts
+// waits for the workflow's response node (the default)
+const result = await workser.workflows.trigger('wf_123', { orderId }, { idempotencyKey: orderId });
+
+// starts it and returns immediately
+await workser.workflows.triggerAndForget('wf_123', { orderId }, { idempotencyKey: orderId });
+```
+
+An app can **run** a workflow and nothing else — listing or inspecting workflows requires a user session, so it `401`s from an app by design. Browse them in Orbit or with `workser workflow list`.
+
+<Warning>
+**A workflow feature is two-way.** Triggering is the outbound half; when the workflow produces something the app needs, its final node has to POST back to a webhook route in your app:
+
+```ts
+// app/api/webhooks/orders/route.ts
+export async function POST(req: Request) {
+  if (req.headers.get('x-webhook-secret') !== process.env.ORDERS_WEBHOOK_SECRET) {
+    return new Response('Unauthorized', { status: 401 });
+  }
+  const payload = await req.json();
+  // persist / update state / surface it in the UI
+  return Response.json({ ok: true });
+}
+```
+
+Build only the trigger and the workflow runs perfectly while nothing ever appears in the product.
+</Warning>
+
+---
+
+## Security posture
+
+This SDK is used by AI agents, so anything it returns can end up in a model's context window, a transcript, or a log. It's built accordingly — and every one of these is covered by a test in the package.
+
+<AccordionGroup>
+  <Accordion title="Refuses to hold a secret key in a browser" icon="ban">
+    A Workser key grants access to a whole project, and bundlers inline `process.env`. Constructing a client with a secret key in a browser **or React Native** throws `BrowserSecretError`.
+
+    The fix is never an `allowBrowser` flag — it's to call Workser from your own server and let the client talk to that.
+  </Accordion>
+  <Accordion title="Refuses to send a key over plaintext" icon="lock">
+    The base URL must be `https`, or loopback for local development. Anything else is refused with `code: 'config'` rather than putting a key on the wire.
+  </Accordion>
+  <Accordion title="Never logs or embeds a credential" icon="eye-slash">
+    Keys live only in the `Authorization` header. Errors are redacted, and fields named like secrets are dropped entirely rather than masked.
+  </Accordion>
+  <Accordion title="Parameterised SQL only" icon="database">
+    `db.query(sql, params)` binds server-side; there is no string-concatenation API to reach for, and building one on top defeats the point.
+  </Accordion>
+  <Accordion title="Idempotency keys on writes" icon="rotate">
+    The SDK retries automatically, so a create without a key can become two orders. Pass `{ idempotencyKey }`.
+  </Accordion>
+</AccordionGroup>
+
+## Errors
+
+Every failure is a `WorkserError` with a stable `code`. **Branch on the code, never on message text** — messages change, codes don't.
+
+```ts
+import { WorkserError } from '@workser/app';
+
+try {
+  await workser.business.orders.create(order, { idempotencyKey: id });
+} catch (err) {
+  if (err instanceof WorkserError) {
+    if (err.code === 'forbidden') { /* the key lacks that scope */ }
+    if (err.retryable) { /* transient — already retried, safe to try later */ }
+    console.error(err.summary());   // safe to log; credentials are redacted
+  }
+  throw err;
+}
+```
+
+| Code | Means |
+| --- | --- |
+| `config` | Constructed wrong — missing project id or key |
+| `unauthorized` | 401 — key missing, malformed, or revoked |
+| `forbidden` | 403 — key is valid but lacks the scope for this call |
+| `not_found` | 404 |
+| `conflict` | 409 |
+| `rate_limited` | 429 — retryable |
+| `invalid_request` | An unclassified 4xx |
+| `server_error` | 5xx — retryable |
+| `timeout` | Exceeded `timeoutMs` — retryable |
+| `network` | DNS/TLS/socket; the request never got a response |
+| `unsupported` | The runtime can't do this safely |
+
+Also on the error: `status`, `request` (`method`, `path`, `status`, `requestId`), `details`, `retryable`.
+
+<Warning>
+**`err.summary()` is the one to log.** Logging the raw error object, or a config containing a key, is how a credential reaches a log aggregator, a Sentry event, or an agent's context — and then has to be rotated.
+
+`retryable` failures have **already** been retried (2 by default) before you see them. Don't wrap the call in your own retry loop on top.
+</Warning>
+
+## Escape hatches
+
+Workser's API moves faster than this package is republished, and being blocked on an npm release to reach an endpoint you already own would be a bad trade:
+
+```ts
+// a business resource this version doesn't name yet
+await workser.business.resource('customers').list();
+
+// any Core API route, with the same auth, retries and redaction
+await workser.request('/v1/projects/…/something-new');
+```
+
+## Environment variables
+
+All injected automatically in a Workser app:
+
+| Variable | Used for |
+| --- | --- |
+| `WORKSER_PROJECT_ID` | Which project the calls act on |
+| `WORKSER_BUSINESS_API_KEY`, then `WORKSER_API_KEY` | Bearer key |
+| `WORKSER_CORE_API_SERVICE_API_KEY` | Cloud key for db/storage/auth routes |
+| `WORKSER_CORE_API_SERVICE_BASE_URL` | Core API base |
+| `WORKSER_ORGANIZATION_ID` | Sent as `x-organization-id` when known |
+| `WORKFLOW_BASE_URL`, `WORKFLOW_API_KEY` | Workflow service |
+
+Other client options: `timeoutMs` (default 30s), `maxRetries` (default 2), `headers` (never put a credential here).

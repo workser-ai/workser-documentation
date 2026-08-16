@@ -1,0 +1,112 @@
+---
+title: "Security & approvals"
+description: "What stays on your machine, what pauses for your approval, and what your agent can never do at all."
+---
+
+An AI agent follows model output, and model output can be influenced by whatever the agent reads — a README, a web page, a file in a dependency. Orbit is built on that assumption rather than against it: the blast radius is small by construction, and the interesting actions stop and ask you first.
+
+## What stays local, what goes to the cloud
+
+| Stays on your machine | Reaches Workser's cloud |
+| --- | --- |
+| Your prompts | Git push/sync of the code itself |
+| Your agent's reasoning | Environment variable values you configure |
+| The code it writes | Domain and DNS configuration |
+| Your agent's credentials (its own login, in your OS keychain) | Database / auth / storage provisioning requests |
+| Orbit's session handshake and activity logs | Billing and usage events for the hosting side |
+
+Your code-generation traffic goes **directly between your machine and your agent's own provider** — Anthropic, OpenAI, or whoever OpenCode is pointed at — exactly as it would if Workser Desktop weren't installed at all.
+
+<Note>
+This is the "bring your own key" part of Orbit, and it's what makes the pricing work: you're not paying Workser for inference, because Workser isn't doing any on this path.
+</Note>
+
+## The local daemon
+
+Orbit runs a small local server that your agent's `workser` commands talk to.
+
+- It binds to **`127.0.0.1` only** (or a Unix domain socket where available). Nothing on your network, and nothing on the internet, can reach it.
+- Every connection is authenticated with a **per-session token** generated when Orbit starts and handed only to your CLI and Orbit's own UI.
+- Reaching it at all requires already being a process running as you, on your machine.
+
+Because every call flows through the daemon, Orbit's UI shows you what your agent is doing as it happens — that's the point of routing through it rather than letting the agent call the cloud directly.
+
+## Three levels of permission
+
+<Steps>
+  <Step title="Allowed — it just happens">
+    Reading the board, listing tables, checking deploy status, reading logs. No prompt; you see it in the activity feed.
+  </Step>
+  <Step title="Gated — it pauses and asks you">
+    Anything with a real-world consequence. The command returns `awaiting_approval` (exit code `5`) and waits while Orbit shows you an approval card.
+
+    Typical gated actions: writing to the database, sending mail or posting through a connected account, writing or deleting files, running a shell command, clicking or typing on your screen.
+
+    Your agent's instructions require it to ask you to approve and then retry — never to look for a way around.
+  </Step>
+  <Step title="Owner-only — refused outright">
+    A short list of actions your agent can never take, in any circumstance. These refuse **locally, with no network call at all**, and return `owner_only` (exit code `6`).
+  </Step>
+</Steps>
+
+## What your agent can never do
+
+```bash
+workser project create   # create a project
+workser project use      # switch which project is pinned
+workser env rm           # delete an environment variable
+workser domain set       # attach a custom domain
+```
+
+Two rules produce that list:
+
+1. **One project.** Every command targets the single project linked to the working directory, and the token Orbit hands your agent is bound to that project. Your agent can *read* the project list; it can't create one or change which is pinned.
+2. **Operate within the project; don't administer the project set or destroy config.** Provisioning and using the pinned project's own database, bucket and auth is allowed (and gated). Administering which projects exist, or deleting configuration, isn't.
+
+<Info>
+The local refusal is the **first of two gates**. The daemon and Workser's API enforce the same boundary server-side, against the agent's project-scoped key. The local one exists so your agent gets a precise, machine-readable refusal and a clear next step, instead of a bare `403` it might try to work around — and so the boundary is visible in `--help`.
+</Info>
+
+## The safety policy
+
+Independently of approvals, some actions are refused outright by Workser's safety policy:
+
+- **Irreversible shell commands** — `rm -rf /`, `git reset --hard`, `curl | sh` and similar.
+- **Destructive SQL** — `DROP`, `TRUNCATE`. Schema changes go through migrations in the app's own code.
+- **Blocked paths** — `~/.ssh` and its neighbours are off-limits to file tools.
+- **Rate limits** on computer-use actions.
+
+A refusal here is the policy working, not a bug to route around.
+
+## Credentials
+
+Your agent never handles credentials.
+
+- **Its own provider login** is completed by you, through that agent's own command, and stored where that CLI keeps it (your OS keychain). Workser never sees it.
+- **Workser authentication** belongs to Orbit; the agent gets a scoped session token, not your account.
+- **Your app's secrets** go in with `workser env set`, which writes a value the agent never reads back. That's why the right move when you have an API key is to set it yourself rather than paste it into a conversation.
+- **The database connection string** is a least-privilege role, injected into the running app's environment. `workser db url` returns it, but Orbit's agent instructions treat it as a secret not to echo.
+
+<Warning>
+Two places to never put a secret, because both are stored and displayed:
+
+- `workser memory add` — memory is retrievable by design.
+- The answer to a `workser ask` question — it's shown in the conversation.
+
+If a key is needed, have the agent tell you *where* it goes, then set it yourself.
+</Warning>
+
+## Data protection & compliance
+
+Orbit inherits Workser's platform-wide posture. See the [Trust Center](/security/whitepaper) for the security whitepaper, [compliance status](/security/compliance-status), the [subprocessor list](/security/subprocessors), and [enterprise network requirements](/security/enterprise-network-requirements).
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Pricing & the free trial" icon="tag" href="/orbit/pricing">
+    What's free, what costs money, and why there's no AI bill from Workser.
+  </Card>
+  <Card title="FAQ" icon="circle-question" href="/orbit/faq">
+    Common questions and troubleshooting.
+  </Card>
+</CardGroup>

@@ -1,0 +1,103 @@
+---
+title: "Quickstart"
+description: "From download to a live app in four steps — no cloud setup, no code."
+---
+
+Four steps. The only prerequisite is an AI agent CLI you're already signed in to — or ten minutes to set up the free one.
+
+<Steps>
+  <Step title="Download Workser Desktop">
+    Get the app for macOS from [workser.ai/orbit](https://workser.ai/orbit) and sign in with your Workser account. The download is free, and every new organization starts with **7 days of Spark free — no card required**.
+
+    Full installer details, permissions and troubleshooting are in [Install & setup](/workser-desktop/install-setup).
+  </Step>
+
+  <Step title="Connect your AI agent">
+    Open **Orbit** in the app. It scans your machine for supported agent CLIs and shows which ones are installed and signed in.
+
+    Pick one and connect it. You authenticate through that agent's own login command in Orbit's terminal — Workser never sees those credentials.
+
+    <Note>
+    Don't pay for any AI yet? Choose **OpenCode** and Orbit will walk you onto a free model, so you can go all the way through this guide at no AI cost. See [Connect your agent](/orbit/connect-your-agent#the-free-path).
+    </Note>
+
+    <Frame>
+      <video controls preload="metadata">
+        <source src="https://pub-12d6ab783e044f15b5bfe88d65562bee.r2.dev/orbit/marketing/content/user-journey/onboarding/condigure-default-agent/configure-deepseek-v4-flash-free-opencode.mp4" type="video/mp4" />
+      </video>
+    </Frame>
+  </Step>
+
+  <Step title="Describe what you want">
+    Create an app and tell your agent what it should do, in plain language:
+
+    > *"A booking page for my salon. Customers pick a service and a time, I see the day's bookings on one screen, and everyone gets an email confirmation."*
+
+    Your agent writes the code. When it needs a database, sign-in, or file storage, it provisions them through Orbit — you'll see each of those steps happen, and you'll be asked to approve anything with a real-world consequence.
+  </Step>
+
+  <Step title="Preview, then Publish">
+    Every change opens in a **private Preview** — a real, working version of the app that only you can see. Try it. Ask for a revision. Repeat.
+
+    When it's right, press **Publish**. That's the only thing that puts it in front of other people.
+
+    <Frame>
+      <video controls preload="metadata">
+        <source src="https://pub-12d6ab783e044f15b5bfe88d65562bee.r2.dev/orbit/marketing/content/orbit-converastion/publish/claude-code-publish-web-app-drag-and-drop.mp4" type="video/mp4" />
+      </video>
+    </Frame>
+  </Step>
+</Steps>
+
+## Good first projects
+
+These work well because each one is a single, clear job with an obvious "is it working?" test:
+
+<CardGroup cols={2}>
+  <Card title="A booking page" icon="calendar">
+    Services, time slots, a confirmation email, and one screen showing today.
+  </Card>
+  <Card title="An order desk" icon="receipt">
+    Take orders from a form, list them by status, mark them fulfilled.
+  </Card>
+  <Card title="An internal tool" icon="table">
+    The spreadsheet your team keeps breaking, as a real app with sign-in.
+  </Card>
+  <Card title="A customer portal" icon="user-lock">
+    Your customers sign in and see only their own records.
+  </Card>
+</CardGroup>
+
+## What to tell your agent
+
+Orbit ships instructions your agent can read, so it knows the `workser` commands exist and when to use them. Inside Workser Desktop this is set up for you during onboarding.
+
+If you're running the CLI on its own, install the instructions yourself — see [Teach your agent](/orbit/teach-your-agent).
+
+## Habits that pay off early
+
+<AccordionGroup>
+  <Accordion title="Ask for one thing at a time" icon="list-check">
+    "Add the booking form" gets a better result than "build the whole salon system, and also a loyalty program". You can always ask for the next thing after you've previewed the last one.
+  </Accordion>
+  <Accordion title="Preview before you ask for the next change" icon="eye">
+    It's much easier to say "the time slots should be 30 minutes, not 60" while you're looking at the thing than to describe it in advance.
+  </Accordion>
+  <Accordion title="Say no when an approval looks wrong" icon="hand">
+    Orbit pauses and asks before anything with a real consequence — sending mail, changing data, running a command. If a request doesn't match what you asked for, decline it and ask your agent what it was trying to do.
+  </Accordion>
+  <Accordion title="Let it keep notes" icon="brain">
+    Orbit keeps a board, docs, decisions and memory for each project. That's what lets your agent pick the project back up next week without re-deriving everything. See [The project workspace](/orbit/project-workspace).
+  </Accordion>
+</AccordionGroup>
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="What's included" icon="database" href="/orbit/infrastructure">
+    The database, sign-in, storage, domains and connected apps every project gets.
+  </Card>
+  <Card title="Preview & publish" icon="rocket" href="/orbit/preview-and-publish">
+    Deploys, versions, logs, and how to undo something that went wrong.
+  </Card>
+</CardGroup>

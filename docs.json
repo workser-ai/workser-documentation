@@ -56,11 +56,44 @@
           },
           {
             "group": "Deep dives",
-            "pages": ["workser-desktop/computer-use", "workser-desktop/orbit"]
+            "pages": ["workser-desktop/computer-use"]
           },
           {
             "group": "Help",
             "pages": ["workser-desktop/faq"]
+          }
+        ]
+      },
+      {
+        "tab": "Workser Orbit",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "orbit/overview",
+              "orbit/quickstart",
+              "orbit/connect-your-agent"
+            ]
+          },
+          {
+            "group": "Building with Orbit",
+            "pages": [
+              "orbit/infrastructure",
+              "orbit/preview-and-publish",
+              "orbit/project-workspace"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": ["orbit/cli", "orbit/sdk", "orbit/teach-your-agent"]
+          },
+          {
+            "group": "Trust & plans",
+            "pages": [
+              "orbit/security-and-approvals",
+              "orbit/pricing",
+              "orbit/faq"
+            ]
           }
         ]
       },
@@ -103,6 +136,11 @@
     "global": {
       "anchors": [
         {
+          "anchor": "Download Orbit",
+          "href": "https://workser.ai/orbit",
+          "icon": "rocket"
+        },
+        {
           "anchor": "Workser",
           "href": "https://workser.ai",
           "icon": "book-open-cover"
@@ -125,6 +163,16 @@
       ]
     }
   },
+  "redirects": [
+    {
+      "source": "/workser-desktop/orbit",
+      "destination": "/orbit/overview"
+    },
+    {
+      "source": "/workser-desktop/orbit/:slug*",
+      "destination": "/orbit/overview"
+    }
+  ],
   "logo": {
     "light": "/logo/workser-light.png",
     "dark": "/logo/workser-dark.png"

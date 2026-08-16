@@ -1,0 +1,117 @@
+---
+title: "FAQ & troubleshooting"
+description: "The questions people ask before downloading, and what to do when something doesn't work."
+---
+
+## Before you download
+
+<AccordionGroup>
+  <Accordion title="Do I need to know how to code?">
+    No. Describe the app in your own words and your connected agent writes it. Orbit keeps the technical parts behind plain surfaces — Data, Sign-in, Files, Preview, Publish.
+
+    If you *do* code, nothing is hidden from you: the project is an ordinary repository your agent works in.
+  </Accordion>
+  <Accordion title="Which AI agents work with Orbit?">
+    **Claude Code, Codex and OpenCode.** You sign in through each one's own CLI, so Workser doesn't replace the AI subscription you already use.
+
+    Cursor, Gemini CLI, Kimi, Grok and Muse Code are wired in but currently switched off — see [Connect your agent](/orbit/connect-your-agent#supported-agents).
+  </Accordion>
+  <Accordion title="What if I don't pay for any AI?">
+    Connect **OpenCode** and Orbit will put you on a free model. Combined with the 7-day free Spark trial, that's a genuinely free path from download to a published app.
+  </Accordion>
+  <Accordion title="Do I need a card to try it?">
+    No. Every new organization gets **7 days of Spark free, no card required**. See [Pricing](/orbit/pricing).
+  </Accordion>
+  <Accordion title="Is Orbit sending my code to Workser?">
+    Your prompts, your agent's reasoning and the code it writes stay between your machine and your agent's own provider. Workser's cloud receives only what's needed to deploy and host the result — the exact list is in [Security & approvals](/orbit/security-and-approvals#what-stays-local-what-goes-to-the-cloud).
+  </Accordion>
+  <Accordion title="What happens before my app goes live?">
+    Every change opens in a private Preview first. Test it, ask for a revision, and press Publish only when you decide it's ready. There is no auto-deploy switch.
+  </Accordion>
+  <Accordion title="Which platforms is Workser Desktop on?">
+    macOS today. Windows is in progress — you can join the waitlist from the download page.
+  </Accordion>
+</AccordionGroup>
+
+## How Orbit relates to everything else
+
+<AccordionGroup>
+  <Accordion title="How is this different from Lovable, Replit or Bolt?">
+    Those platforms run their own model and bill you for the inference behind every change, on top of your subscription to them — while you're probably *also* still paying for Claude or ChatGPT.
+
+    Orbit runs no model on the code-generation path. It's a bridge for an agent you already pay for and already know how to prompt, plus the infrastructure to turn what it builds into a real hosted app. One AI bill, and it isn't Workser's.
+  </Accordion>
+  <Accordion title="How is this different from Conductor or Superset?">
+    Those tools *orchestrate* coding-agent sessions on your machine — several in parallel, across git worktrees. Orbit doesn't try to manage your agent session at all; it assumes you're running your CLI however you like, including inside a tool like that.
+
+    What it adds is the one thing those don't: a path from "my agent just changed some code" to "that change is live, on a domain, with a database", without you standing up hosting separately.
+  </Accordion>
+  <Accordion title="How is this different from just using Claude Code directly?">
+    It isn't a replacement — your CLI still does 100% of the coding. Orbit adds everything *after* the code exists: git-synced deploys, a dedicated Postgres database, managed auth, file storage, custom domains, environment variables, plus a board, docs, decisions and memory that survive the conversation.
+
+    Using your CLI with no Orbit still works great for writing code. You'd just be on your own for turning it into a running, publicly reachable app.
+  </Accordion>
+  <Accordion title="How is Orbit different from Computer Use?">
+    They ship in the same desktop app and share your account, but they're independent.
+
+    [Computer Use](/workser-desktop/computer-use) is Workser's own hosted agent that sees your screen and controls your mouse, keyboard and files. Orbit is a bridge between *your own* coding agent and Workser's app infrastructure. You can't swap your local CLI into Computer Use — it's a different capability, not a different billing mode.
+  </Accordion>
+  <Accordion title="How is Workser Desktop different from Workser Business (the web app)?">
+    Workser Business is browser-based — no install, works from any device, and is where Workflow Automation and AI Employees primarily live. Workser Desktop adds the two things a browser can't do: Computer Use and Orbit.
+
+    Both share the same account, organization and [Business Data Platform](/consumer/business-data-platform) — sign in to Desktop with the login you already use.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Orbit doesn't see my agent" icon="magnifying-glass">
+    Orbit checks two things: is the CLI on your `PATH`, and is it actually **authenticated** — by inspecting credential files, the OS keychain and environment variables.
+
+    So an agent that's installed but not signed in won't appear as connectable. Run its own login command (`claude /login`, `codex login`, …) in a terminal, then re-check in Orbit.
+
+    Also confirm you're using the CLI, not just the desktop app of the same name — Cursor's CLI binary, for instance, is `cursor-agent`, not `cursor`.
+  </Accordion>
+  <Accordion title="`not_connected` (exit 4)" icon="plug-circle-xmark">
+    The CLI can't find the Orbit daemon. Open Workser Desktop. If you're running standalone or in CI, run `workser login` instead, then `workser doctor` to see what endpoint resolved.
+  </Accordion>
+  <Accordion title="`awaiting_approval` (exit 5)" icon="hand">
+    Working as intended — something with a real consequence is waiting for you in Orbit. Approve it there, then your agent retries. It's not an error to work around.
+  </Accordion>
+  <Accordion title="`owner_only` (exit 6)" icon="user-lock">
+    Your agent tried something reserved for you: creating or switching a project, deleting an environment variable, or attaching a custom domain. Do it yourself in Orbit and carry on. See [what your agent can never do](/orbit/security-and-approvals#what-your-agent-can-never-do).
+  </Accordion>
+  <Accordion title="`no_project`" icon="folder-open">
+    No project is linked to this folder. Link it in Orbit, or pass `--project <id>` explicitly.
+  </Accordion>
+  <Accordion title="`needs_local_app`" icon="laptop">
+    You're on a machine that has only the CLI and a token, so the file-based commands (`checkpoint`, `restore`, `sync`) can't run. Every read-only command still works.
+  </Accordion>
+  <Accordion title="`workser doctor` points at the wrong environment" icon="wrench">
+    The session file records the endpoint it logged in against, so changing `$WORKSER_ENV` afterwards doesn't move an existing session. Run `workser login` again, or pass `--endpoint` explicitly.
+  </Accordion>
+  <Accordion title="`sync` says `diverged`" icon="code-branch">
+    Both your folder and Workser changed, and sync stops rather than picking a winner. Resolve it in Orbit rather than forcing it through.
+  </Accordion>
+  <Accordion title="`regionSupportsNeonBackend: false`" icon="globe">
+    Final, not retryable. A project's region is fixed when it's created, and the Neon backend (`workser neon storage` / `functions`) isn't available in yours. Use the default bucket — `workser storage` — which every project has.
+  </Accordion>
+  <Accordion title="The workflow runs but nothing appears in the app" icon="arrows-turn-right">
+    The classic one. A workflow feature is two-way: triggering it is the outbound half, and the workflow's final node has to POST back to a webhook route in your app for the result to land anywhere. See [the SDK's workflows section](/orbit/sdk#workserworkflows).
+  </Accordion>
+  <Accordion title="A shell command or SQL statement was refused" icon="ban">
+    Workser's safety policy blocks irreversible operations — `rm -rf /`, `git reset --hard`, `curl | sh`, `DROP`, `TRUNCATE` — and protected paths like `~/.ssh`. That's the policy working. Schema changes belong in a migration in the app's own code.
+  </Accordion>
+</AccordionGroup>
+
+## Still stuck?
+
+<CardGroup cols={2}>
+  <Card title="Install & setup" icon="download" href="/workser-desktop/install-setup">
+    Installer, permissions and first-run troubleshooting.
+  </Card>
+  <Card title="Talk to us" icon="envelope" href="mailto:support@workser.ai">
+    support@workser.ai
+  </Card>
+</CardGroup>

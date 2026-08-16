@@ -1,0 +1,98 @@
+---
+title: "Teach your agent"
+description: "How your AI agent learns that Workser exists — Skills, AGENTS.md, and the built-in help."
+---
+
+An AI agent can only use a tool it knows about. Orbit ships the instructions that teach yours.
+
+Inside Workser Desktop this happens during onboarding — you don't have to do anything. This page is for running the CLI on its own, or for understanding what your agent has actually been told.
+
+## Two formats, same content
+
+<CardGroup cols={2}>
+  <Card title="Skill" icon="wand-magic-sparkles">
+    For agents with native Skill support (Claude Code). Loaded on demand, so it costs nothing until it's relevant.
+  </Card>
+  <Card title="AGENTS.md" icon="file-lines">
+    The portable form, for every other agent — Codex, OpenCode and the rest. Merged into your project's `AGENTS.md`.
+  </Card>
+</CardGroup>
+
+Orbit drops the right one per agent. Installing them by hand:
+
+```bash
+# Claude Code (global)
+mkdir -p ~/.claude/skills/workser
+cp "$(npm root -g)/@workser/cli/skills/workser/SKILL.md" ~/.claude/skills/workser/
+
+# Codex / OpenCode / others — merge into the project's AGENTS.md
+cat "$(npm root -g)/@workser/cli/AGENTS.md" >> AGENTS.md
+```
+
+There's a matching pair for the SDK (`workser-sdk`), which teaches the agent how the *app* reads its own data at runtime — a different job from operating the app.
+
+## Why a Skill instead of MCP tools
+
+The obvious alternative is to expose every Workser capability as an MCP tool. Orbit deliberately doesn't make that the primary path.
+
+MCP injects tool schemas into your agent's context **on every turn**, whether or not the turn has anything to do with deploying. A shell call costs almost nothing, and a Skill teaches the agent *when* to reach for it. MCP stays available, but scoped to a subagent rather than sitting in the main context window.
+
+The practical effect: more of your agent's context is spent on your actual problem.
+
+## Progressive disclosure
+
+The Skill is an index, not a manual. It points at one focused guide per topic, each about a screen long, printed by the CLI itself:
+
+```bash
+workser help                  # the topics
+workser help deploy           # one guide
+workser <command> --help      # exact flags
+```
+
+Because the guides come from the CLI binary, what your agent reads always matches the version it's running — there's no separate documentation to drift out of date.
+
+| Topic | Covers |
+| --- | --- |
+| `sdlc-entities` | Board cards, decisions, requirements, docs |
+| `brand` | The project's colours, fonts and logo |
+| `database` | Postgres and end-user auth |
+| `deploy` | Deploying, env vars, logs, domains |
+| `version-control` | Checkpoint, restore, sync |
+| `storage` | The project's file bucket |
+| `business` | Products, orders, customers, deals |
+| `neon` | The project's own Neon backend |
+| `automation` | Workflows and connected apps |
+| `images` | Image generation |
+| `roles` | Delegating to another agent |
+| `memory` | Remembering across conversations |
+| `deliverables` | Recording output, asking you a question |
+| `computer-use` | Files, shell, screen, browser on this machine |
+
+## The rules your agent is given
+
+Worth knowing, because they explain behaviour you'll see:
+
+1. **Always pass `--json`** — so output is one stable, parseable line.
+2. **Orient first.** Read `workser status`, plus the board and the decision log, before doing anything beyond a trivial edit. The project outlives the conversation.
+3. **A phased plan goes on the board before it gets built** — one card per phase, the plan as a doc, a decision record if it settled a real tradeoff. A plan that lives only in a chat reply is gone when the conversation scrolls.
+4. **Stay in your lane.** `owner_only` means it's yours to do in Orbit. Don't retry, don't look for a workaround.
+5. **Approvals are normal.** `awaiting_approval` means asking you and retrying — never bypassing.
+6. **Never ask for or store credentials.** Orbit owns authentication; the agent never sees keys.
+7. **Verify before "done".** `workser verify` has to be green — that's the bar, not the agent's own reading of the diff.
+8. **Destructive shell actions are blocked** by Workser's safety policy: `rm -rf /`, `git reset --hard`, `DROP`/`TRUNCATE`, `curl | sh` and friends.
+
+## The mistake these instructions exist to prevent
+
+The most common failure is using the CLI where the SDK belongs: an app shelling out to `workser db query` on every request instead of reading its own data through [`@workser/app`](/orbit/sdk).
+
+The line is simple, and both skills state it:
+
+- Happens **when a user hits the app** → the SDK.
+- Happens **to the app** — provision, configure, deploy, read logs → the CLI.
+- Keeps running **after the request finishes** → a workflow.
+
+## Next
+
+<Card title="Security & approvals" icon="shield-check" href="/orbit/security-and-approvals">
+  What your agent is allowed to do, what pauses for you, and what it can never do at all.
+</Card>

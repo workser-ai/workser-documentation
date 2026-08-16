@@ -1,0 +1,79 @@
+---
+title: "What is Orbit"
+description: "Turn what your own AI agent builds into a real, live app — with its own database, sign-in, files and web address — without wiring up hosting yourself."
+---
+
+Orbit is the part of [Workser Desktop](/workser-desktop/overview) that turns an AI agent's work into **software you can actually use**.
+
+You describe what you need. The AI agent you already pay for writes it. Orbit gives that app everywhere it needs to live: a database of its own, sign-in for your users, file storage, a web address, and a Preview you check before anything goes public.
+
+<Frame>
+  <video controls preload="metadata">
+    <source src="https://pub-12d6ab783e044f15b5bfe88d65562bee.r2.dev/orbit/marketing/content/orbit-converastion/simple-agent-flow-and-web-preview.mp4" type="video/mp4" />
+  </video>
+</Frame>
+
+## The short version
+
+<CardGroup cols={3}>
+  <Card title="Bring your own AI" icon="plug">
+    Orbit doesn't sell you AI. It connects to Claude Code, Codex or OpenCode running on your machine, on the plan you already have.
+  </Card>
+  <Card title="Everything else included" icon="layer-group">
+    Data, sign-in, files, web address, connected apps and secrets are provisioned for you — nothing to assemble.
+  </Card>
+  <Card title="Nothing goes live by accident" icon="eye">
+    Every change opens in a private Preview first. It's public only when you press Publish.
+  </Card>
+</CardGroup>
+
+## Who this is for
+
+Orbit was built for the person who has an idea and an AI subscription, and no interest in becoming a cloud engineer to get from one to the other.
+
+- **You don't need to write code.** Describe the thing in your own words; your agent writes it.
+- **You don't need a second AI bill.** The intelligence comes from the subscription you already pay for.
+- **You don't need to pick a database, a host, or a domain registrar.** Every Orbit project arrives with those already switched on.
+
+If you *are* a developer, none of that gets in your way — the same project is a normal repository your agent works in, plus a [command-line tool](/orbit/cli) and an [SDK](/orbit/sdk) it can drive directly.
+
+## What Orbit is not
+
+<Warning>
+Orbit is **not** [Computer Use](/workser-desktop/computer-use). They ship in the same desktop app and share your account, but they do different jobs and neither requires the other.
+
+- **Computer Use** is Workser's own hosted agent that sees your screen and controls your mouse, keyboard and files.
+- **Orbit** is a bridge between *your own* coding agent and Workser's app infrastructure.
+
+You can't swap your local CLI into Computer Use, and Orbit doesn't drive your screen.
+</Warning>
+
+## How the pieces fit
+
+| Piece | What it is | Where it runs |
+| --- | --- | --- |
+| **Your AI agent** | Claude Code, Codex or OpenCode | Your machine, your subscription |
+| **Orbit** | The workspace, Preview, Publish, and project memory | Workser Desktop on your machine |
+| **The Orbit daemon** | A small local service your agent talks to | `127.0.0.1` only, never exposed |
+| **`workser` CLI** | The commands your agent runs to ship and operate the app | Your machine, gated by Orbit |
+| **`@workser/app` SDK** | How the finished app reads its own data at runtime | Inside your deployed app |
+| **Workser cloud** | Database, hosting, storage, auth, domains | Workser's infrastructure |
+
+Your prompts, your agent's reasoning, and the code it writes stay between your machine and your agent's own provider. Only deploy-time artifacts reach Workser — the exact list is in [Security & approvals](/orbit/security-and-approvals).
+
+## Start here
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/orbit/quickstart">
+    Download, connect an agent, and get your first app online.
+  </Card>
+  <Card title="Connect your agent" icon="robot" href="/orbit/connect-your-agent">
+    Which CLIs work, what each one needs, and the free path if you pay for none of them.
+  </Card>
+  <Card title="What's included" icon="database" href="/orbit/infrastructure">
+    The database, sign-in, files, domains and connected apps every project gets.
+  </Card>
+  <Card title="Pricing & the free trial" icon="tag" href="/orbit/pricing">
+    Free to download, 7 days of Spark free, then $10/month for the infrastructure.
+  </Card>
+</CardGroup>

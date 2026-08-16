@@ -1,0 +1,83 @@
+---
+title: "Pricing & the free trial"
+description: "Free to download, 7 days of Spark free with no card, then $10/month for the infrastructure — and no AI bill from Workser."
+---
+
+Orbit's pricing follows directly from how it works: Workser isn't running the AI, so Workser doesn't charge you for it.
+
+## What you pay for, and to whom
+
+<CardGroup cols={2}>
+  <Card title="Your AI agent" icon="robot">
+    Paid to Anthropic, OpenAI, or whichever provider your CLI uses — on the plan you already have. **Workser charges nothing for this.**
+  </Card>
+  <Card title="Your app's infrastructure" icon="server">
+    Paid to Workser. A dedicated database, hosting, storage, sign-in, domains and deploys are real infrastructure to run.
+  </Card>
+</CardGroup>
+
+## The free trial
+
+**Every new organization starts with 7 days of Spark free — no card required.**
+
+Downloading Workser Desktop is free, and so is connecting your agent. The trial covers everything Orbit does: build, preview, publish, a real database, a real web address.
+
+After 7 days without a subscription, Orbit and other paid-tier features pause. **Nothing is deleted** — your project and its data stay exactly where they are; you just need an active subscription to keep deploying and running it.
+
+<Note>
+If you want to reach $0 total, connect **OpenCode** with a free model. Combined with the trial that's a genuinely free path from download to a published app. See [the free path](/orbit/connect-your-agent#the-free-path).
+</Note>
+
+## Spark — $10/month
+
+Spark is the entry paid plan, and it's built deliberately around *your* agent subscription:
+
+- Run your own local AI agent (Claude Code, Codex, OpenCode)
+- A **dedicated Postgres database** for every project — not a shared schema
+- Hosting, deploys, and a stable web address
+- **Unlimited** end-user authentication — you're not billed per person who signs up for your app
+- File storage and environment secrets
+- **No monthly Workser AI credits** — stated as an explicit exclusion, not an omission
+
+That last point is the whole design. The $10 covers the infrastructure, not the intelligence. Anyone comparing plans should be able to see that before subscribing, not discover it after.
+
+<Info>
+Project counts, app counts and storage quotas change as plans evolve. The [pricing page](https://workser.ai/pricing) is the current source of truth for exact limits — this page states the shape, not the numbers.
+</Info>
+
+## Higher tiers
+
+Starter and Scale add **Workser AI credits** on top of everything Spark has — for when you also want Workser's own hosted agents (AI Employees, workflow automation, Computer Use) alongside your local CLI. They also raise project, app and storage limits.
+
+See [Payments & Billing](/consumer/payments-billing) for the full ladder, and the [pricing page](https://workser.ai/pricing) for current numbers.
+
+## Why bring your own key is cheaper
+
+<AccordionGroup>
+  <Accordion title="You're not paying twice for AI" icon="wallet">
+    A vibe-coding platform runs its own model and bills you for inference behind every change, on top of your subscription to it — while you're *also* still paying for Claude or ChatGPT. Orbit runs no model on the code-generation path, so there's exactly one AI bill and it isn't Workser's.
+  </Accordion>
+  <Accordion title="Your prompts don't route through Workser's providers" icon="shield">
+    Only deploy-time artifacts reach Workser. See [Security & approvals](/orbit/security-and-approvals#what-stays-local-what-goes-to-the-cloud).
+  </Accordion>
+  <Accordion title="No lock-in on the agent itself" icon="unlock">
+    Switch which CLI you use, or run several, without Workser being in the middle of that choice. Your project doesn't change.
+  </Accordion>
+</AccordionGroup>
+
+## Common questions
+
+<AccordionGroup>
+  <Accordion title="Do I need a card to try Orbit?">
+    No. The 7-day Spark trial every new organization gets requires no card.
+  </Accordion>
+  <Accordion title="What happens to my app when the trial ends?">
+    Deploying and running it pause until you subscribe. Your project, code and data are kept — nothing is deleted.
+  </Accordion>
+  <Accordion title="Does Workser charge for the AI my agent uses?">
+    Not on the Orbit path. Your agent runs on your own provider account. Workser AI credits only apply to Workser's *own* hosted agents, which Spark deliberately doesn't include.
+  </Accordion>
+  <Accordion title="Am I billed per user of the app I build?">
+    No. End-user authentication is unlimited on every plan.
+  </Accordion>
+</AccordionGroup>

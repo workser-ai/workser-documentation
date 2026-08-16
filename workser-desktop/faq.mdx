@@ -11,10 +11,10 @@ description: "Troubleshooting and common questions for computer use and Orbit."
     This happens because the current build isn't code-signed yet. Click "More info" → "Run anyway" to proceed, or wait for the signed version — you can register for that waitlist from the download page.
   </Accordion>
   <Accordion title="Orbit doesn't detect my coding-agent CLI">
-    Confirm the CLI (Claude Code, Codex, opencode, Cursor, or Muse Code) is installed and already authenticated in your terminal — Orbit connects to an existing, working CLI session rather than installing or authenticating one for you. Gemini CLI, Kimi Code, and Grok's CLI are wired in but currently disabled — see [Orbit](/workser-desktop/orbit#agents-orbit-connects-to) for why.
+    Confirm the CLI (Claude Code, Codex, or OpenCode) is installed and already authenticated in your terminal — Orbit connects to an existing, working CLI session rather than installing or authenticating one for you. Cursor, Gemini CLI, Kimi Code, Grok, and Muse Code are wired in but currently switched off — see [Orbit](/orbit/connect-your-agent#supported-agents) for why.
   </Accordion>
   <Accordion title="Is Orbit sending my code to Workser?">
-    No — under Orbit's bring-your-own-key model, code generation happens through your own connected coding agent and its own provider account. Workser's cloud only receives what's needed to deploy and host the result (git operations, environment variables, domain/billing calls). See [Orbit](/workser-desktop/orbit).
+    No — under Orbit's bring-your-own-key model, code generation happens through your own connected coding agent and its own provider account. Workser's cloud only receives what's needed to deploy and host the result (git operations, environment variables, domain/billing calls). See [Orbit](/orbit/overview).
   </Accordion>
   <Accordion title="Can I use computer-use and Orbit at the same time?">
     Yes — they're independent subsystems. Computer-use controls your screen/input at your direction; Orbit deploys what your own coding agent builds. Using one doesn't require the other.
@@ -23,7 +23,7 @@ description: "Troubleshooting and common questions for computer use and Orbit."
     No — Computer Use always runs on Workser's own hosted model. Bringing your own agent subscription is Orbit's job, for deploying code, not for screen/mouse/keyboard control. See [Computer Use's model section](/workser-desktop/computer-use#model).
   </Accordion>
   <Accordion title="Do I need to pay Workser separately for AI to use Orbit?">
-    No, not for code generation — Orbit is bring-your-own-key, so your existing coding-agent subscription (Claude Pro/Max, ChatGPT Plus/Pro, etc.) covers that. You do need an active paid Workser plan (Spark or above) for the hosting/deploy side once your 7-day free trial ends. See [Orbit's pricing section](/workser-desktop/orbit#pricing-and-the-free-trial).
+    No, not for code generation — Orbit is bring-your-own-key, so your existing coding-agent subscription (Claude Pro/Max, ChatGPT Plus/Pro, etc.) covers that. You do need an active paid Workser plan (Spark or above) for the hosting/deploy side once your 7-day free trial ends. See [Orbit's pricing section](/orbit/pricing).
   </Accordion>
   <Accordion title="What happens when my 7-day free trial ends?">
     If you haven't subscribed to a paid plan, Orbit and other paid-tier features pause — your project and its data are **not** deleted, they're just inaccessible for further building/deploying until you subscribe. See [Payments & Billing](/consumer/payments-billing).
