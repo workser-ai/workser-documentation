@@ -17,13 +17,13 @@ Every Orbit project arrives with all of it already switched on.
   <Card title="Data" icon="database">
     A dedicated Postgres database (Neon-backed) for each project — not a shared table with other customers.
   </Card>
-  <Card title="Sign-in" icon="key">
+  <Card title="User" icon="key">
     Managed authentication for your app's own users, with no user cap.
   </Card>
   <Card title="Files" icon="folder">
     A storage bucket per project for uploads, exports and generated assets.
   </Card>
-  <Card title="Web address" icon="globe">
+  <Card title="Web" icon="globe">
     A stable `*.workser.app` address from the first publish, plus custom domains.
   </Card>
   <Card title="Connected apps" icon="plug">
@@ -56,7 +56,7 @@ The database belongs to the **project**, not to a single app. If a project has s
 
 **Connection strings are credentials.** `workser db url` returns a least-privilege connection string, and the running app gets it from its environment automatically. It should never be pasted into a chat or committed to a file.
 
-## Sign-in
+## User
 
 ```bash
 workser auth enable    # provision authentication (safe to run twice)
@@ -91,7 +91,7 @@ For app uploads at runtime, the app uses `workser.storage` from the SDK — and 
   The Neon backend is **additive** and only available on dedicated tenancy in a supported region. Region is fixed when the project is created, so `regionSupportsNeonBackend: false` is final rather than something to retry. Run `workser neon status` before assuming it's there; most apps never need it.
 </Accordion>
 
-## Web address & domains
+## Web & domains
 
 Publishing gives you a stable `*.workser.app` address that **does not change between deploys** — safe to send to customers, print on a card, or point a domain at.
 
