@@ -3,7 +3,7 @@ title: "The @workser/app SDK"
 description: "How the app your agent built reads its own database, business records, files, users, connected accounts and automations — with no keys to configure."
 ---
 
-The [`workser` CLI](/orbit/cli) operates your app from the outside. `@workser/app` runs **inside** it, on every request.
+The [`workser` CLI](/code/cli) operates your app from the outside. `@workser/app` runs **inside** it, on every request.
 
 ```bash
 npm install @workser/app
@@ -196,7 +196,7 @@ const result = await workser.workflows.trigger('wf_123', { orderId }, { idempote
 await workser.workflows.triggerAndForget('wf_123', { orderId }, { idempotencyKey: orderId });
 ```
 
-An app can **run** a workflow and nothing else — listing or inspecting workflows requires a user session, so it `401`s from an app by design. Browse them in Orbit or with `workser workflow list`.
+An app can **run** a workflow and nothing else — listing or inspecting workflows requires a user session, so it `401`s from an app by design. Browse them in Workser Code or with `workser workflow list`.
 
 <Warning>
 **A workflow feature is two-way.** Triggering is the outbound half; when the workflow produces something the app needs, its final node has to POST back to a webhook route in your app:

@@ -1,11 +1,11 @@
 ---
 title: "The project workspace"
-description: "Board, docs, decisions, requirements, memory and brand — the things that make an Orbit project survive past one conversation."
+description: "Board, docs, decisions, requirements, memory and brand — the things that make an Workser Code project survive past one conversation."
 ---
 
 Most AI building tools are good at the first prompt and bad at the fiftieth. The conversation scrolls, the plan is gone, and next week your agent quietly reverses a decision you made on purpose.
 
-Orbit gives every project a workspace that outlives the conversation — and gives your agent the commands to keep it honest.
+Workser Code gives every project a workspace that outlives the conversation — and gives your agent the commands to keep it honest.
 
 <Frame>
   <video controls preload="metadata">
@@ -39,9 +39,9 @@ workser board close <id>
 
 Statuses are `backlog · in-progress · in-review · done`; priorities are `low · normal · high · urgent`.
 
-Orbit's agent instructions require that **a plan with more than one phase gets filed as cards before the work starts** — one card per phase, with only the current one in progress. The test is simple: if you closed the conversation right now, the board should still show what's left.
+Workser Code's agent instructions require that **a plan with more than one phase gets filed as cards before the work starts** — one card per phase, with only the current one in progress. The test is simple: if you closed the conversation right now, the board should still show what's left.
 
-There's deliberately no `board delete`. `done` is the terminal state for finished work, and removing a card *you* filed is yours to do in Orbit.
+There's deliberately no `board delete`. `done` is the terminal state for finished work, and removing a card *you* filed is yours to do in Workser Code.
 
 ## Documents
 
@@ -108,7 +108,7 @@ workser design show --raw    # the generated token files, verbatim
 
 The same values are generated into the project as `design/tokens.json` (DTCG format) and `design/tokens.css` (plain CSS custom properties). Both are generated wholesale and overwritten on every sync, so they're never hand-edited — your agent maps them into the app's theme instead.
 
-Having no brand set is an ordinary state, not a blocker: your agent picks sensible styling and moves on. Changing the brand is yours to do in Orbit, under **Design → Brand**, so that every surface it feeds stays consistent.
+Having no brand set is an ordinary state, not a blocker: your agent picks sensible styling and moves on. Changing the brand is yours to do in Workser Code, under **Design → Brand**, so that every surface it feeds stays consistent.
 
 ## Asking you a question
 
@@ -142,6 +142,6 @@ Never answer one of these with a secret value. The answer is stored and displaye
 
 ## Next
 
-<Card title="The workser CLI" icon="terminal" href="/orbit/cli">
+<Card title="The workser CLI" icon="terminal" href="/code/cli">
   Every command on this page, with flags, exit codes and the JSON contract.
 </Card>

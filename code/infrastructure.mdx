@@ -5,7 +5,7 @@ description: "Database, sign-in, files, web address, connected apps and secrets 
 
 The hard part of turning an idea into working software usually isn't the code. It's everything the code needs in order to run: somewhere to keep data, a way for people to sign in, somewhere to put uploaded files, an address on the internet.
 
-Every Orbit project arrives with all of it already switched on.
+Every Workser Code project arrives with all of it already switched on.
 
 <Frame>
   <video controls preload="metadata">
@@ -65,7 +65,7 @@ workser auth status    # is it on?
 
 Your app's users sign in through Workser-managed authentication. There's no user limit on any plan — you're not billed per person who signs up for your app.
 
-At runtime, your app looks users up through the [SDK](/orbit/sdk): `workser.auth`.
+At runtime, your app looks users up through the [SDK](/code/sdk): `workser.auth`.
 
 ## Files
 
@@ -101,7 +101,7 @@ workser open                    # open the live app
 workser domain list             # custom domains on this project
 ```
 
-Attaching a **custom domain is an owner action** — you do it in Orbit, not your agent. That's deliberate: pointing a domain somewhere is the sort of change that should require a human. See [Security & approvals](/orbit/security-and-approvals#what-your-agent-can-never-do).
+Attaching a **custom domain is an owner action** — you do it in Workser Code, not your agent. That's deliberate: pointing a domain somewhere is the sort of change that should require a human. See [Security & approvals](/code/security-and-approvals#what-your-agent-can-never-do).
 
 ## Connected apps
 
@@ -115,7 +115,7 @@ workser app run GMAIL_SEND_EMAIL --body '{"to":"…","subject":"…","body":"…
 ```
 
 <Warning>
-`app run` is a **real side effect in a real account**. It sends someone's actual email, posts to their actual Slack, charges an actual card. Orbit's agent instructions require the agent to say what it's about to do first, and consequential runs are approval-gated.
+`app run` is a **real side effect in a real account**. It sends someone's actual email, posts to their actual Slack, charges an actual card. Workser Code's agent instructions require the agent to say what it's about to do first, and consequential runs are approval-gated.
 
 OAuth can never be completed on your behalf — connecting an account always requires you to open the link yourself.
 </Warning>
@@ -128,12 +128,12 @@ workser env list                       # keys, values masked
 workser env get STRIPE_KEY             # the value (sensitive)
 ```
 
-Setting an environment variable writes a value **without your agent ever reading it** — which is the point. When you have a secret to add, set it yourself in Orbit or run `env set` rather than pasting the key into a conversation.
+Setting an environment variable writes a value **without your agent ever reading it** — which is the point. When you have a secret to add, set it yourself in Workser Code or run `env set` rather than pasting the key into a conversation.
 
 Deleting an environment variable is an owner action.
 
 <Note>
-`env` configures the **cloud** environment (production and preview). The `.env` files inside the app folder configure **your computer** — you edit those in Orbit under Settings → "On this computer", and saving there restarts the local dev server. They're different environments; changing one doesn't change the other.
+`env` configures the **cloud** environment (production and preview). The `.env` files inside the app folder configure **your computer** — you edit those in Workser Code under Settings → "On this computer", and saving there restarts the local dev server. They're different environments; changing one doesn't change the other.
 </Note>
 
 ## Automations that outlive a request
@@ -147,7 +147,7 @@ workser workflow activate <id>    # new workflows start inactive
 workser workflow runs <id>        # past executions
 ```
 
-The app triggers a workflow at runtime through `workser.workflows` in the [SDK](/orbit/sdk).
+The app triggers a workflow at runtime through `workser.workflows` in the [SDK](/code/sdk).
 
 <Warning>
 **A workflow feature is two-way, and the return half is the one people forget.** Triggering the workflow is outbound. When the workflow produces something the app needs, its final node has to POST back to a webhook route in your app. Build only the trigger and the workflow runs perfectly while nothing ever appears in the product.
@@ -169,10 +169,10 @@ An app built on Workser isn't integrating with a separate system — it's readin
 ## Next
 
 <CardGroup cols={2}>
-  <Card title="Preview & publish" icon="rocket" href="/orbit/preview-and-publish">
+  <Card title="Preview & publish" icon="rocket" href="/code/preview-and-publish">
     How changes get from your agent to your customers, and how to undo one.
   </Card>
-  <Card title="The SDK" icon="code" href="/orbit/sdk">
+  <Card title="The SDK" icon="code" href="/code/sdk">
     How the deployed app reads all of this at runtime.
   </Card>
 </CardGroup>

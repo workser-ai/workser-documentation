@@ -3,7 +3,7 @@ title: "The workser CLI"
 description: "The command-line surface your AI agent uses to provision, ship and operate your app — and that you can run yourself."
 ---
 
-`workser` is the command line at the centre of Orbit. It's what your AI agent runs — through its own shell — to act as your DevOps engineer: provision a database, set an environment variable, deploy, read logs.
+`workser` is the command line at the centre of Workser Code. It's what your AI agent runs — through its own shell — to act as your DevOps engineer: provision a database, set an environment variable, deploy, read logs.
 
 You can run every one of these commands yourself too.
 
@@ -19,16 +19,16 @@ workser --version
 Node 20+.
 
 <Note>
-The published build is a **single self-contained file**. Every runtime dependency is bundled in, so it runs under the system `node` from any directory with no `node_modules` beside it. That's how Orbit installs it onto your agent's `PATH` during onboarding without running an `npm install`.
+The published build is a **single self-contained file**. Every runtime dependency is bundled in, so it runs under the system `node` from any directory with no `node_modules` beside it. That's how Workser Code installs it onto your agent's `PATH` during onboarding without running an `npm install`.
 </Note>
 
 ## Two ways it connects
 
 <Tabs>
-  <Tab title="Inside Orbit (normal)">
+  <Tab title="Inside Workser Code (normal)">
     Workser Desktop writes `~/.workser/session.json` pointing at its **local daemon** on `http://127.0.0.1:<port>`.
 
-    Every call flows through Orbit, which handles authentication, **approval gates**, and live progress in the UI. This is how you *see* what your agent is doing.
+    Every call flows through Workser Code, which handles authentication, **approval gates**, and live progress in the UI. This is how you *see* what your agent is doing.
   </Tab>
   <Tab title="Standalone / CI">
     ```bash
@@ -97,8 +97,8 @@ Every command supports `--json` and returns a **single stable line**:
 | `1` | Generic failure |
 | `3` | Unauthorized |
 | `4` | Not connected |
-| `5` | Awaiting approval — you approve in Orbit, then the agent retries |
-| `6` | Owner-only — reserved for you, in Orbit |
+| `5` | Awaiting approval — you approve in Workser Code, then the agent retries |
+| `6` | Owner-only — reserved for you, in Workser Code |
 
 ### Error codes worth knowing
 
@@ -106,9 +106,9 @@ Every command supports `--json` and returns a **single stable line**:
 | --- | --- |
 | `not_connected` | Open Workser Desktop (or `workser login` for CI) |
 | `unauthorized` | Authenticate |
-| `no_project` | No project is linked to this folder — link it in Orbit |
-| `owner_only` | An owner action; do it in Orbit |
-| `awaiting_approval` | Approve in Orbit, then retry |
+| `no_project` | No project is linked to this folder — link it in Workser Code |
+| `owner_only` | An owner action; do it in Workser Code |
+| `awaiting_approval` | Approve in Workser Code, then retry |
 | `needs_local_app` | This machine has only the CLI and a token, so folder commands can't run |
 
 ## Command surface
@@ -241,7 +241,7 @@ workser domain set       # ─┘
 
 This is the **first of two gates** — the daemon and Workser's API enforce the same boundary server-side against the agent's project-scoped key. The local refusal exists so your agent gets a precise, machine-readable answer and a clear next step instead of a bare `403`.
 
-Read the whole model in [Security & approvals](/orbit/security-and-approvals).
+Read the whole model in [Security & approvals](/code/security-and-approvals).
 
 ## A typical run
 
@@ -261,7 +261,7 @@ workser board close <id> --json              # the board now matches reality
 
 ## The line between CLI and SDK
 
-`workser db query` is for **inspecting** the database while building. It is *not* how a running app reads its own data — that's [`@workser/app`](/orbit/sdk). An app that shells out to the CLI on every request is the most common mistake here.
+`workser db query` is for **inspecting** the database while building. It is *not* how a running app reads its own data — that's [`@workser/app`](/code/sdk). An app that shells out to the CLI on every request is the most common mistake here.
 
 - Needs to happen **when a user hits the app** → the SDK.
 - Needs to happen **to the app** — provision, configure, deploy, read logs → this CLI.

@@ -3,7 +3,7 @@ title: "Teach your agent"
 description: "How your AI agent learns that Workser exists — Skills, AGENTS.md, and the built-in help."
 ---
 
-An AI agent can only use a tool it knows about. Orbit ships the instructions that teach yours.
+An AI agent can only use a tool it knows about. Workser Code ships the instructions that teach yours.
 
 Inside Workser Desktop this happens during onboarding — you don't have to do anything. This page is for running the CLI on its own, or for understanding what your agent has actually been told.
 
@@ -18,7 +18,7 @@ Inside Workser Desktop this happens during onboarding — you don't have to do a
   </Card>
 </CardGroup>
 
-Orbit drops the right one per agent. Installing them by hand:
+Workser Code drops the right one per agent. Installing them by hand:
 
 ```bash
 # Claude Code (global)
@@ -33,7 +33,7 @@ There's a matching pair for the SDK (`workser-sdk`), which teaches the agent how
 
 ## Why a Skill instead of MCP tools
 
-The obvious alternative is to expose every Workser capability as an MCP tool. Orbit deliberately doesn't make that the primary path.
+The obvious alternative is to expose every Workser capability as an MCP tool. Workser Code deliberately doesn't make that the primary path.
 
 MCP injects tool schemas into your agent's context **on every turn**, whether or not the turn has anything to do with deploying. A shell call costs almost nothing, and a Skill teaches the agent *when* to reach for it. MCP stays available, but scoped to a subagent rather than sitting in the main context window.
 
@@ -75,15 +75,15 @@ Worth knowing, because they explain behaviour you'll see:
 1. **Always pass `--json`** — so output is one stable, parseable line.
 2. **Orient first.** Read `workser status`, plus the board and the decision log, before doing anything beyond a trivial edit. The project outlives the conversation.
 3. **A phased plan goes on the board before it gets built** — one card per phase, the plan as a doc, a decision record if it settled a real tradeoff. A plan that lives only in a chat reply is gone when the conversation scrolls.
-4. **Stay in your lane.** `owner_only` means it's yours to do in Orbit. Don't retry, don't look for a workaround.
+4. **Stay in your lane.** `owner_only` means it's yours to do in Workser Code. Don't retry, don't look for a workaround.
 5. **Approvals are normal.** `awaiting_approval` means asking you and retrying — never bypassing.
-6. **Never ask for or store credentials.** Orbit owns authentication; the agent never sees keys.
+6. **Never ask for or store credentials.** Workser Code owns authentication; the agent never sees keys.
 7. **Verify before "done".** `workser verify` has to be green — that's the bar, not the agent's own reading of the diff.
 8. **Destructive shell actions are blocked** by Workser's safety policy: `rm -rf /`, `git reset --hard`, `DROP`/`TRUNCATE`, `curl | sh` and friends.
 
 ## The mistake these instructions exist to prevent
 
-The most common failure is using the CLI where the SDK belongs: an app shelling out to `workser db query` on every request instead of reading its own data through [`@workser/app`](/orbit/sdk).
+The most common failure is using the CLI where the SDK belongs: an app shelling out to `workser db query` on every request instead of reading its own data through [`@workser/app`](/code/sdk).
 
 The line is simple, and both skills state it:
 
@@ -93,6 +93,6 @@ The line is simple, and both skills state it:
 
 ## Next
 
-<Card title="Security & approvals" icon="shield-check" href="/orbit/security-and-approvals">
+<Card title="Security & approvals" icon="shield-check" href="/code/security-and-approvals">
   What your agent is allowed to do, what pauses for you, and what it can never do at all.
 </Card>
