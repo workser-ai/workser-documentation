@@ -1,0 +1,78 @@
+---
+title: "Security Policy"
+description: "What we commit to, what stays your responsibility, and how to report a vulnerability."
+---
+
+<Note>
+This is the policy — what we promise and what we ask of you. For how it is actually implemented (encryption, isolation, agent controls), see the [Security Whitepaper](/security/whitepaper). For what is certified and what is not, see [Compliance Status](/security/compliance-status) — that page is the source of truth and we never round up.
+</Note>
+
+## Report a vulnerability
+
+Email **[security@workser.ai](mailto:security@workser.ai)**. If you do not get a reply, email [support@workser.ai](mailto:support@workser.ai) and say it is a security report.
+
+Please include what you need to and nothing you do not:
+
+- What the issue is, and the impact you believe it has
+- The minimum steps to reproduce it
+- Any account, request or project identifiers involved
+- How you would like to be credited, if you would like to be
+
+What we commit to in return:
+
+| | |
+|---|---|
+| First human reply | Within **2 business days** |
+| Assessment and severity | Within **5 business days** |
+| Fix or documented mitigation for a critical issue | We start immediately and keep you updated until it is closed |
+| Credit | Named in our changelog if you want it, anonymous if you do not |
+
+We do not currently run a paid bug bounty. We will say so plainly rather than leave you guessing.
+
+### Safe harbour
+
+If you are researching in good faith under the rules below, we will not pursue legal action and will not ask your hosting provider to act against you:
+
+- Only test against accounts and projects **you own**
+- Do not access, modify, or retain data belonging to anyone else — if you encounter someone else's data, stop and tell us
+- No denial of service, no spam, no social engineering of our staff or users, no physical attacks
+- Give us reasonable time to fix an issue before disclosing it publicly
+
+## What we are responsible for
+
+- **The platform.** Our APIs, our control plane, the desktop application we ship, and the infrastructure we run for you — databases, hosting, preview links, domains.
+- **Isolation between customers.** One organization's data, projects and running work must never be reachable by another.
+- **Secrets we hold.** Encrypted at rest, never returned in reversible form, and masked out of anything an AI model can see. See the [whitepaper](/security/whitepaper).
+- **Telling you when something goes wrong.** See *Incident notification* below.
+- **Naming our subprocessors.** The current list is [published](/security/subprocessors) and kept current.
+
+## What stays your responsibility
+
+Workser Code runs AI coding agents **on your own computer**, using AI subscriptions and keys that belong to you. That design is why your source code never has to leave your machine — and it means part of the boundary is yours to hold.
+
+- **Your machine.** Disk encryption, screen lock, OS updates, and who else can use the computer the agents run on.
+- **Your model provider keys.** They are yours, billed to you, and stored in your operating system's own secret store. Rotate them if you believe they are exposed.
+- **What you approve.** Consequential actions — deploying, deleting, spending, touching production data — are gated behind an approval prompt. An action you approve is an action you authorized. See [Security & approvals](/code/security-and-approvals).
+- **What you paste in.** Anything you put into a prompt may be sent to the model provider you chose, under that provider's terms.
+- **Who you invite.** Organization roles (`owner / admin / member / viewer`) decide who can manage billing, members, and destructive actions. Review them.
+
+## AI-specific commitments
+
+- **We do not train on your content.** Not your prompts, inputs, outputs, or uploaded files — not for our general product, not for another customer — without your prior written consent.
+- **Agents that check work cannot change it.** Reviewer roles are read-only at the system level, not by instruction, so a check cannot quietly fix what it found and report success.
+- **Secrets are masked before the model sees them.** Including when you ask for them explicitly.
+- **Nothing consequential runs unapproved.** Plans are approved before work starts; shipping is a separate, later approval.
+
+## Incident notification
+
+If we confirm a security incident affecting your data, we will notify the affected organization's owners and admins **without undue delay**, and in any case within the timeframe your Data Processing Agreement requires. The notice will state what we know, what we do not yet know, what we are doing, and what — if anything — we need you to do. We would rather send an early notice that is incomplete than a late one that is tidy.
+
+To request a DPA, email [support@workser.ai](mailto:support@workser.ai).
+
+## Supported versions
+
+Security fixes land on the **current release** of Workser Code and the current version of the hosted platform. The desktop application updates itself; if you have disabled automatic updates, you are responsible for updating to receive fixes.
+
+## Changes to this policy
+
+We update this page as the product changes and date material changes in the [changelog](/changelog). Commitments here are not a substitute for your contract with us — where a signed agreement says something different, the agreement governs.

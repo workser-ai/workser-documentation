@@ -133,6 +133,7 @@
           {
             "group": "Trust center",
             "pages": [
+              "security/security-policy",
               "security/whitepaper",
               "security/compliance-status",
               "security/subprocessors",
