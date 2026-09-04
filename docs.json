@@ -214,7 +214,7 @@
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://workser.ai/dashboard"
+      "href": "https://workser.ai"
     }
   },
   "contextual": {
