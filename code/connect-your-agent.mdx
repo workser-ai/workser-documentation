@@ -1,113 +1,97 @@
 ---
 title: "Connect your agent"
-description: "Which AI agent CLIs Workser Code works with, what each one needs, the free path, and how to run more than one."
+description: "Connect a supported coding agent, use Workser's built-in agent, and choose the models and tools behind your team."
 ---
 
-Workser Code is **bring-your-own-agent**. It runs no coding model of its own — it detects a coding-agent CLI that's already installed and signed in on your machine, and drives that.
+Workser Code supports two ways to run coding work: **connect an agent you already use**, or choose the **built-in Workser Code agent**. Both work with the same project, team, preview and cloud services.
 
 ## Supported agents
 
 <Columns cols={3}>
-  <img src="/images/workser-desktop/orbit/claude.svg" alt="Claude Code" />
-  <img src="/images/workser-desktop/orbit/codex.png" alt="Codex" />
-  <img src="/images/workser-desktop/orbit/opencode.png" alt="OpenCode" />
+  <img src="/images/workser-code/agents/claude.svg" alt="Claude Code" />
+  <img src="/images/workser-code/agents/codex.png" alt="Codex" />
+  <img src="/images/workser-code/agents/opencode.png" alt="OpenCode" />
+</Columns>
+<Columns cols={3}>
+  <img src="/images/workser-code/agents/workser-code.svg" alt="Workser Code" />
+  <img src="/images/workser-code/agents/cursor.svg" alt="Cursor Agent" />
+  <img src="/images/workser-code/agents/copilot.svg" alt="GitHub Copilot" />
 </Columns>
 
-| Agent | What it needs on your side |
-| --- | --- |
-| **Claude Code** | Claude Code installed and signed in — via a Claude Pro/Max plan or an Anthropic API key, whichever you already configured. |
-| **Codex** | OpenAI's Codex CLI installed and signed in — via a qualifying ChatGPT plan or an OpenAI API key. |
-| **OpenCode** | OpenCode installed and pointed at any model provider you like — **including free ones**. |
+| Agent | What you need | CLI binary |
+| --- | --- | --- |
+| Claude Code | Installed CLI and a provider account with access | `claude` |
+| Codex | Installed CLI and a provider account with access | `codex` |
+| Cursor Agent | Cursor's CLI and access through your Cursor account | `cursor-agent` |
+| GitHub Copilot | Copilot CLI and access allowed by your account or organization | `copilot` |
+| OpenCode | OpenCode and a configured model provider | `opencode` |
+| Workser Code | Your Workser account and credits for paid model usage | Bundled with the app |
 
-Workser doesn't manage, pay for, or grant access to any of these subscriptions. If a CLI isn't installed or isn't signed in, Workser Code simply won't offer it as connectable — there's no separate Workser approval step for your AI plan.
+Provider eligibility, model availability and limits are set by that provider. A chat subscription does not automatically include every coding agent or model. Workser does not pool subscriptions across providers.
 
-<Accordion title="What about Cursor, Gemini CLI, Kimi, Grok and Muse Code?" icon="wrench">
-  All five are wired into Workser Code's detection code but are **currently switched off**, for different reasons:
+Gemini CLI, Kimi Code, Grok Build and Muse Code are not currently offered in the supported-agent picker. Use an agent listed above.
 
-  - **Cursor Agent** — switched off by a product decision, not a fault.
-  - **Gemini CLI** — Google's individual-tier access was rejecting requests on accounts that otherwise showed as signed in.
-  - **Kimi Code** and **Grok** — they haven't been through Workser's own testing pass yet; nothing is known to be broken.
-  - **Muse Code** — no headless adapter yet, and its authentication path is unverified.
-
-  Each will come back as its blocker clears. Nothing about your project or workflow needs to change when one does.
-</Accordion>
-
-## The free path
-
-If you pay for no AI at all, you can still run Workser Code end to end.
-
-**OpenCode** is the one supported CLI that can talk to providers offering free models. Workser Code's onboarding knows this: pick OpenCode and it will steer you onto a free model automatically, falling back to another free model from your provider if the preferred one isn't available on your machine.
-
-<Note>
-The free path depends on your OpenCode configuration, not on Workser. If your OpenCode install has no free provider set up, Workser Code will say so rather than quietly connecting a paid model.
-</Note>
-
-Everything downstream — the database, Preview, Publish, domains — works identically no matter which agent produced the code.
-
-## How connecting works
+## Connect a third-party agent
 
 <Steps>
-  <Step title="Workser Code probes your machine">
-    It looks for each supported CLI on your `PATH` and in the standard install locations, then checks whether it's actually authenticated — by inspecting credential files, the OS keychain, and environment variables, not by scraping terminal output.
+  <Step title="Check installation">
+    Open the agent connection flow. Workser checks supported CLI binaries and their authentication state. Having the provider's desktop chat app installed is not the same as having its coding CLI.
   </Step>
-  <Step title="You sign in through the agent's own command">
-    If an agent is installed but not signed in, Workser Code runs *that agent's own* login command in an embedded terminal (`claude /login`, `codex login`, and so on). You complete the login exactly as you would in your own terminal. **Workser never sees or stores those credentials.**
+  <Step title="Complete the provider's sign-in">
+    Follow the installation or sign-in instructions shown for that agent. The embedded terminal uses the provider's own login flow. Complete authentication yourself; do not paste provider credentials into a project conversation.
   </Step>
-  <Step title="Workser Code starts its local daemon">
-    A small local service starts on `127.0.0.1`, authenticated with a per-session token. Your agent talks to it through the `workser` CLI; everything the agent does becomes visible in Workser Code's UI, and sensitive actions pause for your approval.
+  <Step title="Choose an agent and model">
+    Connect the agent, choose a model available to your account, and use a small first task to confirm the setup. Provider quota and authentication errors must be resolved with that account.
   </Step>
 </Steps>
 
-## Choosing a model
-
-Each connected CLI exposes its own models, and Workser Code asks the CLI for that list rather than shipping a hard-coded one — so a model released after your version of Workser Code still appears.
-
-- **Default** — pass no model flag at all and let the CLI decide. A good starting point.
-- **A named model** — pick from what your CLI reports.
-- **Custom** — type any value your CLI accepts, so nothing new is ever blocked.
-
-Where a model supports reasoning effort, Workser Code only offers the levels that *that* model actually accepts, because a level the model rejects fails mid-run and costs you the whole turn.
-
-## Running more than one agent: roles
-
-You don't have to pick one CLI for everything. Workser Code lets you configure **roles** — named specialists, each backed by a connected agent CLI, each with its own optional instructions.
-
-For example: your main agent builds, a `qa` role reviews the change, a `designer` role handles screens.
+Common sign-in commands:
 
 ```bash
-workser agent list                       # main agent, configured roles, which CLIs are connected
-workser agent run qa "Review the checkout diff"
-workser agent spawn codex "Research the Stripe payout API" --instructions "…"
-workser agent main                       # which agent is the main one
+claude /login
+codex login
+opencode auth login
+cursor-agent login
 ```
 
-<AccordionGroup>
-  <Accordion title="Roles vs. spawning" icon="shuffle">
-    `agent run <role>` uses a role **you configured** in Workser Code. `agent spawn <agent>` starts a temporary teammate on any connected CLI with no pre-configuration — useful for one-off parallel work, like researching something while the main agent keeps building.
-  </Accordion>
-  <Accordion title="Backup agents and failover" icon="life-ring">
-    A role can have a **backup agent**. If the primary is unavailable or a run fails, Workser Code falls over to the backup instead of the task simply failing.
-  </Accordion>
-  <Accordion title="What a delegated agent can and can't see" icon="eye-slash">
-    A subagent does **not** share the main agent's context. Everything it needs has to be in the task it was given. It also must never be told to delegate further — there's no supervision loop to stop a runaway chain, so Workser Code's instructions forbid it.
-  </Accordion>
-</AccordionGroup>
+For GitHub Copilot, start `copilot` and use `/login` inside its interface. Installation and sign-in checks are separate; an installed but unauthenticated CLI cannot run a task yet.
 
-None of this is required. One connected CLI doing everything is the default and works fine.
+## Use the built-in Workser Code agent
 
-## Switching or disconnecting
+Select **Workser Code** in the agent picker. Workser supplies access to its supported models, so there is no separate provider login to complete.
 
-Reconnect a different CLI from Workser Code's agent screen at any time, or disconnect entirely.
+Paid model usage draws from your organization's credit balance. Spark supports credit top-ups; Starter and Scale include monthly credits. There is no weekly free-agent allowance. See [Plans and credits](/code/pricing#workser-code-credits).
 
-Disconnecting stops Workser Code's local daemon from forwarding anything further. It does **not** touch your coding agent's CLI, which keeps working exactly as it did before you ever connected Workser Code.
+## The free path
 
-## Next
+The app download and new organization's 7-day Spark cloud trial are free. Model usage is a separate choice:
 
-<CardGroup cols={2}>
-  <Card title="Teach your agent" icon="graduation-cap" href="/code/teach-your-agent">
-    Install the Skill or `AGENTS.md` so your agent knows the `workser` commands exist.
-  </Card>
-  <Card title="Security & approvals" icon="shield-check" href="/code/security-and-approvals">
-    What the daemon exposes, what gets approved, and what your agent is never allowed to do.
-  </Card>
-</CardGroup>
+- An agent you already subscribe to uses that provider's allowance.
+- OpenCode can use a free model when one is available in your configured provider. Check the selected model and its limits before running.
+- The built-in Workser Code agent uses credits for paid models, including during the cloud trial.
+
+Workser's cloud trial does not guarantee free third-party inference or unlimited coding work.
+
+## Choose models and reasoning effort
+
+Use the model choices exposed for your connected agent. **Default** lets the CLI choose; a named model selects one explicitly. Where supported, you can also select reasoning effort. Availability depends on the agent, installed version and provider account.
+
+## Configure your team
+
+In **Team**, assign an agent and optional model to each role. Configure instructions, skills, tools, app connections and references for the work it should do. You can also choose a backup agent and model.
+
+```bash
+workser agent list
+workser agent main
+# Use a role name returned by `agent list`.
+workser agent run qa "Review the checkout diff"
+workser agent spawn codex "Review the API requirements"
+```
+
+`agent run` uses a configured role. `agent spawn` starts a temporary teammate using a supported connected agent. A backup helps when a primary agent is unavailable, but does not remove the backup provider's own limits.
+
+Roles share project state through tasks, documents, decisions and handovers. They do not share a single model context window. Include a clear objective and references when handing off work. See [The AI team](/code/roles).
+
+## Switch or troubleshoot
+
+Changing an agent changes who performs the next work; it does not replace your project. If a connection stops working, check installation, provider sign-in, model access and quota, then retry. For daemon and project-link errors, see [FAQ & troubleshooting](/code/faq).

@@ -52,6 +52,7 @@ Node 18+ (or Bun, Deno, or any runtime with `fetch`). **Zero runtime dependencie
 | `workser.auth` | The project's end users |
 | `workser.connect` | Gmail, Slack, Sheets, Stripe… connected once, usable by every app |
 | `workser.workflows` | Automations that outlive the request |
+| `workser.agents` | Agent Cloud definitions, asynchronous runs, events and results |
 | `workser.neon` | The project's own Neon buckets and functions (dedicated tenancy only) |
 
 These are **the same records** the Workser dashboard and your AI employees read and write. An app built on Workser isn't integrating with a separate system — it's reading its own business.
@@ -164,7 +165,7 @@ Sign-in, sessions, password handling and OAuth belong to the **app's own auth se
 
 A user list is personal data — don't log it, paste it into a conversation, or hand it to a third-party tool unasked.
 
-## `workser.connect`
+## Connected apps
 
 The connection is owned by the **project, not the app**. An owner connects Gmail once and every app in the project can send mail — no OAuth flow to implement, no tokens to store, no refresh logic.
 
@@ -178,7 +179,19 @@ await workser.connect.run('GMAIL_SEND_EMAIL', { to, subject, body }, {
 });
 ```
 
-Order of operations: `connections()` → if not connected, `connect(toolkit)` returns a `redirect_url` **the user** must open → `tools(slug)` to read the argument schema → `run(...)`.
+Order of operations: check the active connection → if needed, `connect(toolkit)` returns a `redirect_url` **the owner** opens → read `tools(slug)` for the current argument schema → execute the authorized action.
+
+```ts
+await workser.connect.isConnected('gmail');
+await workser.connect.connected();
+await workser.connect.requireConnection('gmail');
+await workser.connect.safeRun(actionSlug, schemaValidatedArguments, {
+  toolkit: 'gmail',
+  idempotencyKey: businessEventId,
+});
+```
+
+`safeRun` checks connection readiness. It does not grant end-user permission or open a desktop approval prompt. Your server must authenticate the user, authorize the business operation and validate the arguments. [App connections](/code/app-connections) covers both development-time use by agents and runtime use by your app.
 
 <Warning>
 `run()` sends someone's real email, posts to their real Slack, charges a real card. Always pass an `idempotencyKey` keyed on the thing that must happen once — an order id, a message id — not a fresh UUID.
@@ -186,7 +199,21 @@ Order of operations: `connections()` → if not connected, `connect(toolkit)` re
 `disconnect(connectionId)` removes the connection for the **whole project**, not just your app. Don't call it to clean up after yourself.
 </Warning>
 
-## `workser.workflows`
+## `workser.agents`
+
+Use Agent Cloud to run an agent inside your product:
+
+```ts
+const run = await workser.agents.run(agentId, { message: 'Summarize the open issues.' });
+for await (const event of workser.agents.stream(run.id)) {
+  handleProgress(event);
+}
+const result = await workser.agents.getRun(run.id);
+```
+
+These calls belong on your server. Authenticate the app user and authorize access to the agent and run before returning progress or results. `run()` accepts work asynchronously; inspect the final status rather than treating acceptance as completion. See [Agent Cloud](/code/agent-cloud) for the full flow and usage boundary.
+
+## Workflows
 
 ```ts
 // waits for the workflow's response node (the default)

@@ -29,7 +29,16 @@ We do not use your content — prompts, inputs, outputs, or uploaded files — t
 - Organization roles (`owner / admin / member / viewer`) govern who can manage members, billing, and destructive actions.
 - Rate limiting is enforced per API key.
 
-## AI agent safety controls
+## Workser Code execution and approvals
+
+Workser Code's coding agents operate in a local project workspace. Connected agents use their configured model providers; the built-in agent uses Workser-managed model access and metered credits. Source sync, shared project records and deployments use cloud services, so this is not a local-only data guarantee.
+
+The desktop has enforced approval gates for production deployment, live payment operations and protected database or bucket deletion. Other actions depend on the run's autonomy and permissions. These desktop controls are separate from the older hosted AI Employee flow described below and from SDK calls made by a deployed app. See [Security & approvals](/code/security-and-approvals).
+
+## Hosted AI Employee safety controls
+
+The following controls describe the existing hosted AI Employee path. Do not assume its sandbox model applies to local coding agents or that its approval behavior applies to every product.
+
 
 <AccordionGroup>
   <Accordion title="Sandbox isolation">

@@ -1,0 +1,98 @@
+---
+title: "App connections"
+description: "Let coding agents use your connected apps, and bring those same actions into the software you build."
+---
+
+Connect the tools your business uses so your agents and software can work with real context. The catalog includes apps such as Slack, Gmail, Notion, Sheets, Calendar, HubSpot, Stripe and Shopify. Available actions depend on the provider, the connected account and the permissions you authorize.
+
+## Two ways to use a connection
+
+<CardGroup cols={2}>
+  <Card title="While agents build and maintain" icon="users">
+    Let an agent read a specification in Notion, investigate an issue reported in Slack, or inspect the data format your integration needs. It can use available app actions as part of an assigned task.
+  </Card>
+  <Card title="Inside your finished software" icon="code">
+    Add a server-side feature that sends a booking confirmation, updates a CRM record or adds a row to a sheet. Your app calls the action through the Workser SDK.
+  </Card>
+</CardGroup>
+
+A project connection can be used by multiple apps in that project. It does not automatically grant every app user control of the owner's external account.
+
+## Connect an account
+
+<Steps>
+  <Step title="Choose the project and app">
+    Open Connections for the intended project and choose the service. Check the account you are about to authorize.
+  </Step>
+  <Step title="Authorize the access">
+    Complete the provider's OAuth flow yourself, or add a credential through the connection settings when required. Review the scopes before accepting.
+  </Step>
+  <Step title="Confirm it is active">
+    A started sign-in is not yet a usable connection. Check that authorization completed and that the expected actions are available.
+  </Step>
+</Steps>
+
+## Let a coding agent use it
+
+Enable the relevant app connection in the role's tool configuration. Give the agent a concrete task and name the records or documents it should use.
+
+```bash
+workser app list
+workser app connect gmail
+workser app tools gmail
+```
+
+`app connect` returns a link for you to open. `app tools` lists the available actions and their input schemas. Your agent should read those schemas before constructing a call.
+
+Reading context and taking an action are different permissions. Sending a message, changing a record or moving money affects the connected account. Review the proposed action and the applicable approval before a real-account test.
+
+## Use the actions inside your app
+
+Install `@workser/app` in your server or backend. Keep Workser credentials there; never ship a project secret to a browser or a mobile bundle.
+
+```ts
+import { workser } from '@workser/app';
+
+// Check connection readiness before enabling the feature in your UI.
+const connected = await workser.connect.isConnected('gmail');
+const availableActions = await workser.connect.tools('gmail');
+```
+
+After authenticating the app user and authorizing the business action, call the selected tool with arguments matching its current schema:
+
+```ts
+import { workser } from '@workser/app';
+
+// Server-side helper. The caller must authorize the user, load the
+// booking from trusted data and construct schema-valid arguments.
+export async function sendBookingConfirmation(
+  bookingId: string,
+  gmailArguments: Record<string, unknown>,
+) {
+  return workser.connect.safeRun('GMAIL_SEND_EMAIL', gmailArguments, {
+    toolkit: 'gmail',
+    idempotencyKey: `booking-confirmation:${bookingId}`,
+  });
+}
+```
+
+`safeRun` checks for an active connection before executing. It does not authorize your app's users or display a desktop approval prompt. Your backend must decide who can trigger each action, validate its inputs and enforce any confirmation your product requires.
+
+Use a stable idempotency key for the business event so a retry does not repeat the same action. Do not expose a generic endpoint that forwards arbitrary action names and arguments from a browser.
+
+## Connection lifecycle
+
+- Reconnect when authorization expires or the provider revokes access.
+- Show a useful unavailable state when a required connection is missing.
+- Disconnecting affects every app and agent that relies on that project connection.
+- Revocation stops future access; it does not undo an email already sent or a record already changed.
+- Provider subscriptions, API limits and service fees still apply.
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="SDK reference" icon="code" href="/code/sdk#connected-apps">Connection discovery, schemas and execution methods.</Card>
+  <Card title="Configure your team" icon="users" href="/code/roles">Choose which tools each role receives.</Card>
+  <Card title="Workflow automation" icon="diagram-project" href="/workser-business/workflow-automation">Use connected actions in longer running workflows.</Card>
+  <Card title="Agent Cloud" icon="robot" href="/code/agent-cloud">Give a hosted product agent access to selected tools.</Card>
+</CardGroup>

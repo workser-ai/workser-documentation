@@ -1,64 +1,58 @@
 ---
-title: "Payments & Billing"
-description: "How plans, credits, top-ups, and invoices work on Workser."
+title: "Payments & billing"
+description: "Manage your organization's subscription, model credits, cloud usage, top-ups and invoices."
 ---
 
-## Plans
+Workser bills at the **organization** level. Keep three costs separate when planning your budget:
 
-Workser is subscription-based, with tiers from Free up through Spark, Starter, Launch, and Scale, plus a negotiated Enterprise tier — each with its own monthly AI credit allowance, project count, database/storage limits, and workflow execution limits. Check your dashboard's pricing page for current figures, since limits can change independently of this guide.
+1. **Workser subscription:** workspace access and included cloud resources.
+2. **Model usage:** either your connected coding-agent provider or Workser credits for the built-in agent and applicable hosted services.
+3. **Additional cloud usage:** usage above the included allowance where metered billing is enabled.
 
-| Plan | Price | Workser AI credits | Projects | Notes |
-|---|---|---|---|---|
-| Free | $0 | — | Shared, limited | Good for trying Workser Business before subscribing |
-| **Spark** | $10/mo | **None included** | 2 | Built around your own local AI agent via [Workser Code](/code/overview) — see below |
-| Starter | $25/mo | 1,500/mo | 3 | Adds Workser-run AI agents on top |
-| Launch | $50/mo | 3,500/mo | 5 | For production operators |
-| Scale | $100/mo | 6,500/mo | 10 | Heavier workflow/database limits |
-| Enterprise | Custom | Custom, volume pricing | Unlimited | SSO, dedicated infra, data residency, SLA — [contact sales](https://workser.ai/consulting) |
+## Current plans
 
-<Tip>
-**Every new organization starts with 7 days of Spark, free — no card required.** If you haven't subscribed by the time the trial ends, paid-tier features (including [Workser Code](/code/overview)) pause until you do; your project and its data are kept, not deleted.
-</Tip>
+| Plan | Monthly price, USD | Included Workser Code credits | Projects |
+| --- | --- | --- | --- |
+| Spark | $10 | None; top-ups available | 2 |
+| Starter | $25 | 1,500 | 4 |
+| Scale | $100 | 6,500 | 20 |
+| Enterprise | Custom | Defined in your agreement | Unlimited |
 
-### Why Spark includes no Workser AI credits
+New organizations receive **7 days of Spark free with no card required**. Free accounts and existing Launch subscriptions are not additional current self-service offers. Existing plans may retain different terms; inspect your organization's Billing view.
 
-Spark is priced around **bring-your-own-key**: on Workser Desktop, [Workser Code](/code/overview) connects a coding-agent CLI you already pay for (Claude Code, Codex, or OpenCode) to Workser's deploy/hosting infrastructure. Code generation runs on *your* agent subscription, not Workser's — so Spark's $10/month covers the hosting side only (a dedicated database, storage, auth, and deploys), not AI inference. If you also want to use Workser's own hosted AI agents — AI Employees, workflow automation, or Computer Use — Starter and above add monthly Workser AI credits for that.
-
-<Columns cols={7}>
-  <img src="/images/consumer/payments/visa.svg" alt="Visa" />
-  <img src="/images/consumer/payments/mastercard.svg" alt="Mastercard" />
-  <img src="/images/consumer/payments/amex.svg" alt="American Express" />
-  <img src="/images/consumer/payments/apple-pay.svg" alt="Apple Pay" />
-  <img src="/images/consumer/payments/google-pay.svg" alt="Google Pay" />
-  <img src="/images/consumer/payments/paypal.svg" alt="PayPal" />
-  <img src="/images/consumer/payments/stripe.png" alt="Stripe" />
-</Columns>
-
-## How credits work
-
-Workser uses a credit/wallet model at the organization level:
-
-<CardGroup cols={2}>
-  <Card title="Credit balance" icon="wallet">Available AI credits your organization can spend.</Card>
-  <Card title="Auto-topup" icon="rotate">Set a threshold below which Workser automatically purchases more credits.</Card>
-  <Card title="One-time top-ups" icon="plus">Manual purchases whenever you need more.</Card>
-  <Card title="Credit ledger" icon="list">Every refill, top-up, deduction, and adjustment is recorded with a running balance — fully auditable.</Card>
-</CardGroup>
-
-If you're on an enterprise organization, admins can also set **per-user credit limits** to cap how much an individual member can spend.
+For database, file storage, egress, domains, authentication, team size, backups and overages, see the [full cloud comparison](/code/pricing#compare-plans). That guide is the detailed documentation reference for current published allowances.
 
 ## What consumes credits
 
-AI-driven actions consume credits: building or iterating on a web app, running an AI Employee task, and AI-evaluated workflow triggers. Plain workflow triggers (webhook, schedule, manual) and simple deterministic nodes (HTTP request, transform, logic) don't consume credits. **Workser Code is the exception that proves the rule**: because code generation runs on your own connected coding agent, not Workser's, using Workser Code to build and deploy doesn't consume Workser AI credits at all — only your Spark-or-above subscription for the hosting side.
+- **Connected coding agents:** model usage is billed by the provider configured in the CLI. Those calls do not spend Workser Code credits.
+- **Built-in Workser Code agent:** paid model usage draws from the organization's credit balance. Actual model cost, plus the current 15% uplift, converts at 100 credits per dollar. It is not a fixed charge per step.
+- **Agent Cloud and other hosted AI:** have their own model and runtime usage rules. Do not apply the local coding agent's example to every service.
 
-## Invoices and billing history
+Spark has no monthly credit grant. It can still use the built-in agent with purchased credits. A free cloud trial does not make paid model calls free. See [Workser Code credits](/code/pricing#workser-code-credits).
 
-Paid invoices and receipts are tracked separately from your live credit ledger, viewable per organization — useful for reconciling spend against your accounting.
+## Top-ups and the ledger
 
-## What we store
+Use Billing to view the organization's available credits and transaction ledger. One-time top-ups add credits when needed. If auto-topup is available and you enable it, review its trigger and purchase amount before saving.
 
-We don't store your raw card number — our payment processor handles that. We hold a customer ID, subscription status, and the transaction records needed to manage your plan and credits. See our [Privacy Policy](/security/privacy-policy) for the full picture.
+The ledger records refills, purchases, deductions and adjustments. A pre-run balance check is not a final cost estimate: actual usage may be settled after a run. Enterprise credit limits and invoicing follow the organization's agreement.
 
-<Card title="Need invoiced billing for your organization?" icon="building" href="/enterprise-vs-consumer">
-  See Enterprise vs. Consumer for what's available beyond self-serve card billing.
-</Card>
+## Cloud overage
+
+Published rates above the included allowance are **$1.25/GB for database storage**, **$0.15/GB for files**, and **$0.50/GB for egress**. For example, 10 GB of extra egress is $5. Database and file allowances are pooled across the organization's projects.
+
+Check which meters are enabled for your organization before assuming extra usage is automatically billed. Project, app and team member limits require a plan upgrade. [Cloud overage details](/code/pricing#cloud-overage).
+
+## Trial expiry and plan changes
+
+When a trial expires without a paid subscription, paid-tier features can pause. Expiry does not itself delete your project or data. Review Billing for the access available to your organization and contact support if the displayed allowance differs from your plan. Do not treat a trial as a long-term backup or retention service.
+
+## Invoices and payment data
+
+Invoices and receipts are separate from the live credit ledger. Use the organization's billing history to reconcile subscription payments, top-ups and applicable metered usage.
+
+Workser's payment processor handles card details. Workser stores the customer identifier, subscription status and transaction records needed to manage billing. See the [Privacy Policy](/security/privacy-policy).
+
+<CardGroup cols={2}>
+  <Card title="Full pricing guide" icon="tag" href="/code/pricing">All published cloud allowances and Workser Code model credit details.</Card>
+  <Card title="Billing help" icon="envelope" href="https://workser.ai/contact">Ask about a charge, plan discrepancy or Enterprise agreement.</Card>
+</CardGroup>

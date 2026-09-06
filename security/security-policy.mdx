@@ -48,10 +48,10 @@ If you are researching in good faith under the rules below, we will not pursue l
 
 ## What stays your responsibility
 
-Workser Code runs AI coding agents **on your own computer**, using AI subscriptions and keys that belong to you. That design is why your source code never has to leave your machine — and it means part of the boundary is yours to hold.
+Workser Code runs coding work on your computer using either a connected provider account or the built-in Workser agent. Model requests, shared project records, source sync and deployments can send content to the relevant cloud services. Review [Security & approvals](/code/security-and-approvals) for the data paths and permissions.
 
 - **Your machine.** Disk encryption, screen lock, OS updates, and who else can use the computer the agents run on.
-- **Your model provider keys.** They are yours, billed to you, and stored in your operating system's own secret store. Rotate them if you believe they are exposed.
+- **Your connected model provider account.** Its credentials, storage and billing follow that provider’s CLI configuration. Rotate credentials if you believe they are exposed. Workser’s built-in agent uses a separate managed-model path.
 - **What you approve.** Consequential actions — deploying, deleting, spending, touching production data — are gated behind an approval prompt. An action you approve is an action you authorized. See [Security & approvals](/code/security-and-approvals).
 - **What you paste in.** Anything you put into a prompt may be sent to the model provider you chose, under that provider's terms.
 - **Who you invite.** Organization roles (`owner / admin / member / viewer`) decide who can manage billing, members, and destructive actions. Review them.
@@ -59,9 +59,9 @@ Workser Code runs AI coding agents **on your own computer**, using AI subscripti
 ## AI-specific commitments
 
 - **We do not train on your content.** Not your prompts, inputs, outputs, or uploaded files — not for our general product, not for another customer — without your prior written consent.
-- **Agents that check work cannot change it.** Reviewer roles are read-only at the system level, not by instruction, so a check cannot quietly fix what it found and report success.
+- **Review permissions are explicit.** Supported read-only role configurations restrict review runs. Inspect the role’s capabilities and backing agent permissions before relying on a review boundary.
 - **Secrets are masked before the model sees them.** Including when you ask for them explicitly.
-- **Nothing consequential runs unapproved.** Plans are approved before work starts; shipping is a separate, later approval.
+- **Protected release decisions stay with you.** Desktop production deployment, live payments and protected database or bucket deletion require explicit approval. Other operations depend on role permissions and the selected autonomy policy.
 
 ## Incident notification
 

@@ -1,47 +1,38 @@
 ---
 title: "Workser Desktop overview"
-description: "Let your own local AI agent run your business on your computer — computer-use control, and Workser Code's bring-your-own-key deploy bridge, in one desktop app."
+description: "The installed app for Workser Code and desktop computer-use capabilities."
 ---
 
-Workser Desktop is the installed app that lets an AI agent — Workser's own hosted one, or a coding-agent CLI you already run — actually work on your computer instead of staying inside a chat window. It bundles two distinct abilities in one app:
-
-<Frame>
-  <img src="/images/workser-desktop/overview/desktop-agent.png" alt="Workser Desktop agent running on device" />
-</Frame>
+The Workser desktop app brings **Workser Code** to your computer. It also provides a separate Computer Use capability. Sign in with the same Workser account you use for the web platform.
 
 <CardGroup cols={2}>
-  <Card title="Computer Use" icon="display" href="/workser-desktop/computer-use">
-    A cloud AI agent that views your screen and controls mouse/keyboard/files, with per-action approval — nothing executes without you approving it.
+  <Card title="Workser Code" icon="users" href="/code/overview">
+    Run coding agents as an AI tech team with project channels, tasks, shared documents, preview and managed release. Connect your own agent or use Workser's built-in agent.
   </Card>
-  <Card title="Workser Code" icon="rocket" href="/code/overview">
-    Connect your own coding-agent CLI (Claude Code, Codex, or OpenCode) to deploy through Workser — bring your own key, your code stays with your own provider.
+  <Card title="Computer Use" icon="display" href="/workser-desktop/computer-use">
+    Work on screen and input tasks with the desktop permissions and approval controls required for that capability.
   </Card>
 </CardGroup>
 
-<Note>
-Computer Use and Workser Code are independent subsystems that don't require each other — see the [Workser Code FAQ](/code/faq) for how they relate, and [Enterprise vs. Consumer](/enterprise-vs-consumer) for how Workser Desktop compares to Workser Business (the web platform).
-</Note>
+## Download
 
-## What stays local vs. what goes to the cloud
+The current public Workser Code download supports **Macs with Apple silicon**. Windows is on the waitlist. Download from [workser.ai/code](https://workser.ai/code), then follow [Install & setup](/workser-desktop/install-setup).
 
-| Stays local | Goes to Workser's cloud |
-|---|---|
-| Encrypted credential store (your OS keychain) | Screenshots and action results during a computer-use session |
-| Activity/bridge logs | Deploy, git, environment variable, domain, and billing calls (Workser Code) |
-| Workser Code session handshake | — |
-| Your coding agent's own prompts, reasoning, and generated code | — |
+## Local work and cloud services
+
+Coding agents work with the local project folder and their available tools. A connected agent uses its provider account; Workser's built-in agent uses managed model access and Workser credits. Local development stops when the required local process is no longer running.
+
+Shared project records, source sync, deployments and managed infrastructure use Workser services. Published apps run on their hosting. [Agent Cloud](/code/agent-cloud) runs product agents independently of your local coding session.
+
+For screen tasks, the Computer Use service processes the screen context and action results needed for the task. For coding and project data flows, read [Security & approvals](/code/security-and-approvals).
 
 ## Pricing
 
-Computer Use runs on the same credit-based plans as Workser Business. Workser Code's hosting side needs a paid plan too (Spark and up), but doesn't charge Workser AI credits for code generation — see [Workser Code's pricing section](/code/pricing) and [Payments & Billing](/consumer/payments-billing) for the full breakdown, including the 7-day free Spark trial every new organization gets.
+The desktop app is free to download. New organizations receive 7 days of Spark free with no card required. Cloud plans start at $10/month. Connected coding-agent usage, built-in agent credits and other hosted AI usage have different billing paths. See [Plans and cloud usage](/code/pricing).
 
-## Install
+## Next
 
-<Columns cols={2}>
-  <Card title="Install & setup" icon="download" href="/workser-desktop/install-setup">
-    Get Workser Desktop running on your machine.
-  </Card>
-  <Card title="FAQ" icon="circle-question" href="/workser-desktop/faq">
-    Common questions and troubleshooting.
-  </Card>
-</Columns>
+<CardGroup cols={2}>
+  <Card title="Workser Code quickstart" icon="rocket" href="/code/quickstart">Create a project and work through a reviewed release.</Card>
+  <Card title="Desktop FAQ" icon="circle-question" href="/workser-desktop/faq">Installation, permissions and agent connections.</Card>
+</CardGroup>

@@ -5,7 +5,7 @@ description: "Database, sign-in, files, web address, connected apps and secrets 
 
 The hard part of turning an idea into working software usually isn't the code. It's everything the code needs in order to run: somewhere to keep data, a way for people to sign in, somewhere to put uploaded files, an address on the internet.
 
-Every Workser Code project arrives with all of it already switched on.
+Workser Code brings these services into the project workspace. Provision the resources your app needs, and check their status before depending on them. Apps in the same project share its resources; your organization's plan sets the included capacity.
 
 <Frame>
   <video controls preload="metadata">
@@ -52,7 +52,7 @@ workser db query "select …"    # run SQL
 The database belongs to the **project**, not to a single app. If a project has several apps, they share it — which is exactly what you want when your storefront and your admin tool are looking at the same orders.
 </Note>
 
-**Safety rails.** Writes through `db query` pause for your approval. `DROP` and `TRUNCATE` are refused outright by Workser's safety policy — schema changes go through migrations in the app's own code, not one-off destructive commands.
+**Review data changes.** Destructive queries use the applicable approval policy. Plan schema changes as migrations, inspect their effect and confirm a recovery path before changing production data. See [Security & approvals](/code/security-and-approvals).
 
 **Connection strings are credentials.** `workser db url` returns a least-privilege connection string, and the running app gets it from its environment automatically. It should never be pasted into a chat or committed to a file.
 
@@ -101,11 +101,19 @@ workser open                    # open the live app
 workser domain list             # custom domains on this project
 ```
 
-Attaching a **custom domain is an owner action** — you do it in Workser Code, not your agent. That's deliberate: pointing a domain somewhere is the sort of change that should require a human. See [Security & approvals](/code/security-and-approvals#what-your-agent-can-never-do).
+**Custom domains are included on Spark**, with plan-specific allowances on higher tiers. Purchase the domain separately and configure its DNS records. Attaching a domain alone does not finish DNS setup.
+
+```bash
+workser domain add app.example.com
+workser domain list
+workser domain rm app.example.com
+```
+
+Domain changes use the applicable desktop approval policy. Reserved Workser and provider hostnames are refused. See [Security & approvals](/code/security-and-approvals).
 
 ## Connected apps
 
-An owner connects Gmail (or Slack, Sheets, Stripe…) **once, for the project**. From then on every app in that project can use it — no OAuth flow to implement, no tokens to store, no refresh logic to maintain.
+Authorize Gmail, Slack, Sheets or another available tool for the project. **Your coding agents can use it while developing and maintaining software, and your finished apps can call its actions from their backend.** Workser manages the connection; your app still owns its end-user permissions. See [App connections](/code/app-connections).
 
 ```bash
 workser app list                    # what's connectable and what's connected
@@ -115,7 +123,7 @@ workser app run GMAIL_SEND_EMAIL --body '{"to":"…","subject":"…","body":"…
 ```
 
 <Warning>
-`app run` is a **real side effect in a real account**. It sends someone's actual email, posts to their actual Slack, charges an actual card. Workser Code's agent instructions require the agent to say what it's about to do first, and consequential runs are approval-gated.
+`app run` can have a **real side effect in a real account**. Review the available action, its inputs and the applicable authorization before sending messages, changing records or moving money. Desktop approvals do not automatically protect SDK calls made by your deployed app.
 
 OAuth can never be completed on your behalf — connecting an account always requires you to open the link yourself.
 </Warning>
@@ -123,7 +131,7 @@ OAuth can never be completed on your behalf — connecting an account always req
 ## Keys & secrets
 
 ```bash
-workser env set STRIPE_KEY=sk_live_…   # write a value the agent never sees
+workser env set STRIPE_KEY=sk_live_…   # set it yourself; keep secrets out of chat
 workser env list                       # keys, values masked
 workser env get STRIPE_KEY             # the value (sensitive)
 ```
@@ -165,6 +173,12 @@ workser business action orders <id> cancel
 ```
 
 An app built on Workser isn't integrating with a separate system — it's reading its own business. Don't build a parallel table for something the business hub already models.
+
+## Capacity and cost
+
+Your plan includes database storage, file storage and monthly egress. App user authentication has no user cap on the published paid plans. Database and file allowances are pooled across your organization's projects.
+
+Published overage rates are **$1.25/GB for database storage**, **$0.15/GB for files** and **$0.50/GB for egress**, where the corresponding usage meter is enabled. Read [Plans and cloud usage](/code/pricing) for the full comparison and account-specific billing caveats.
 
 ## Next
 

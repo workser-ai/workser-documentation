@@ -1,0 +1,76 @@
+---
+title: "The AI team"
+description: "Thirteen roles across planning and design, building, testing, release and improvement."
+---
+
+Workser Code organizes coding agents into **thirteen specialist roles**. A role defines a responsibility and its tools; the agent and model assigned to it do the work. Several roles can use the same agent, or you can mix supported agents across your team.
+
+## Plan & design
+
+| Role | Responsibility |
+| --- | --- |
+| Project Manager | Breaks the work into tasks, coordinates progress and prepares the handover |
+| Software Architect | Defines how the parts of the system fit together |
+| Designer | Designs screens, flows and the visual experience |
+
+## Build
+
+| Role | Responsibility |
+| --- | --- |
+| Web Engineer | Builds the web experience customers and staff use |
+| Backend Engineer | Builds services and data behavior behind the screens |
+| Mobile App Engineer | Builds the phone app |
+| Python Developer | Handles scripts, calculations, transformations and data workloads |
+| AI & Automation Engineer | Builds agents, workflows and automated jobs |
+
+## Test, launch & improve
+
+| Role | Responsibility |
+| --- | --- |
+| Software Tester | Checks the result against the requested behavior |
+| Security Engineer | Reviews risks in access, data handling and implementation |
+| Cloud Engineer | Prepares deployment and maintains the release setup |
+| Reliability Engineer | Investigates operational failures and improves reliability |
+| Data Analyst | Analyzes data and reports findings that guide the next change |
+
+A role being enabled does not mean it runs constantly. The work depends on the tasks assigned, the connected agents and the tools available. Local agents need the computer running.
+
+## Configure a role
+
+Open **Team** in the project. Choose which roles participate and configure:
+
+- Primary agent and model, with reasoning effort where supported.
+- Optional backup agent and its model.
+- Instructions, skills and reference documents or files.
+- App connections, MCP tools and other supported tools.
+
+Review the role's capabilities before saving. Read-only checks depend on the role's allowed tools and the underlying agent's supported permission mode. A role name alone does not prove what its agent can access.
+
+## How work stays connected
+
+Project channels, goals, tasks, documents, decisions and handovers carry context between roles. A teammate receives the relevant task and project context, not a copy of every other agent's private reasoning or entire conversation.
+
+A useful handover states what changed, which files or services matter, what was checked, what failed and what still needs a decision. Check evidence and release approval remain separate from an agent saying it is done.
+
+## Run a configured role
+
+```bash
+workser agent list
+workser agent main
+# Replace qa with a configured role shown by agent list.
+workser agent run qa "Check the booking capacity rule"
+workser agent spawn codex "Review the API requirements"
+```
+
+A role run uses its saved configuration. A spawned agent is a temporary teammate. Delegate a bounded task with the references it needs; do not assume it can recover missing context from another agent's conversation.
+
+External agents use their own provider limits. A role using the built-in Workser Code agent spends Workser credits for paid models. [Plans and credits](/code/pricing).
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="Project workspace" icon="book" href="/code/project-workspace">Tasks, documents, decisions and memory across releases.</Card>
+  <Card title="App connections" icon="plug" href="/code/app-connections">Give agents access to the apps needed for their work.</Card>
+  <Card title="Connect your agent" icon="robot" href="/code/connect-your-agent">Choose the agent and model behind each role.</Card>
+  <Card title="Security & approvals" icon="shield-check" href="/code/security-and-approvals">Understand the approval boundary before release.</Card>
+</CardGroup>

@@ -28,6 +28,49 @@
         ]
       },
       {
+        "tab": "Workser Code",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "code/overview",
+              "code/quickstart",
+              "code/connect-your-agent"
+            ]
+          },
+          {
+            "group": "Building with Workser Code",
+            "pages": [
+              "code/app-types",
+              "code/project-workspace",
+              "code/roles",
+              "code/infrastructure",
+              "code/app-connections",
+              "code/agent-cloud",
+              "code/preview-and-publish",
+              "code/mobile-apps"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "code/cli",
+              "code/sdk",
+              "code/teach-your-agent"
+            ]
+          },
+          {
+            "group": "Trust & plans",
+            "pages": [
+              "code/security-and-approvals",
+              "code/pricing",
+              "code/platform-stats",
+              "code/faq"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "Workser Business",
         "groups": [
           {
@@ -79,43 +122,6 @@
         ]
       },
       {
-        "tab": "Workser Code",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "code/overview",
-              "code/quickstart",
-              "code/connect-your-agent"
-            ]
-          },
-          {
-            "group": "Building with Workser Code",
-            "pages": [
-              "code/infrastructure",
-              "code/preview-and-publish",
-              "code/project-workspace"
-            ]
-          },
-          {
-            "group": "Reference",
-            "pages": [
-              "code/cli",
-              "code/sdk",
-              "code/teach-your-agent"
-            ]
-          },
-          {
-            "group": "Trust & plans",
-            "pages": [
-              "code/security-and-approvals",
-              "code/pricing",
-              "code/faq"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "Consumer Guides",
         "groups": [
           {
@@ -156,7 +162,7 @@
       "anchors": [
         {
           "anchor": "Download Workser Code",
-          "href": "https://workser.ai/orbit",
+          "href": "https://workser.ai/code",
           "icon": "rocket"
         },
         {
@@ -176,7 +182,7 @@
         },
         {
           "anchor": "Talk to Sales",
-          "href": "https://workser.ai/consulting",
+          "href": "https://workser.ai/contact",
           "icon": "calendar-check"
         }
       ]
@@ -213,8 +219,8 @@
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://workser.ai"
+      "label": "Get Workser Code",
+      "href": "https://workser.ai/code"
     }
   },
   "contextual": {

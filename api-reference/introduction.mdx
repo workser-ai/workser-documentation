@@ -1,26 +1,20 @@
 ---
-title: "Introduction"
-description: "Workser is Vibe Coding API for Developers so they can integrate vibe coding into their platform made easy with custom template that ai agent will use your existing backend to help end-user vibe code and got their expected web app easier."
+title: "API introduction"
+description: "Choose the Workser API, CLI or runtime SDK for the job you are building."
 ---
 
-<Note>
-  If you have any question, please contact [support@workser.ai](mailto:support@workser.ai)
-</Note>
+Workser exposes project, task and publishing APIs for the existing web platform. Workser Code also provides a local CLI for development operations and a server-side SDK for the software you build.
 
-## Welcome
+| Interface | Use it for |
+| --- | --- |
+| [Workser CLI](/code/cli) | Provisioning, deployment, logs, domains and project operations during development |
+| [Workser SDK](/code/sdk) | Database, storage, connections, workflows and Agent Cloud calls from your app's backend |
+| Project API | Reading and managing web-platform projects |
+| Task API | Creating and inspecting web-platform tasks and their results |
+| Publish API | Publishing and inspecting web-platform deployments |
 
-There are two ways to build with Workser: use Workser Vibe coding API or use Workser as [Internal tools](https://docs.workser.ai/how-to/internal-tools) for vibe coding. This section will talking about API part only.
+The endpoint pages in this reference describe the web-platform API. Do not treat a legacy Task API request as the contract for a Workser Code team task or Agent Cloud run. Follow the relevant endpoint schema and credential scopes.
 
-Now Workser has 3 main groups of API: Project, Task, Publish.
+Keep project credentials on your server. Authenticate and authorize your own app users before making a scoped Workser call on their behalf.
 
-<Card title="Project API" icon="file-binary">
-  Get data, Manage, and create project
-</Card>
-
-<Card title="Task API" icon="list-check">
-  Get data, manage, and create task
-</Card>
-
-<Card title="Publish API" icon="cloud-arrow-up">
-  Manage custom domain on workser.app and deployment alias
-</Card>
+Questions about an integration: [support@workser.ai](mailto:support@workser.ai).

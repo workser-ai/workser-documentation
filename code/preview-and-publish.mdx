@@ -3,7 +3,7 @@ title: "Preview & publish"
 description: "How a change gets from your agent to your customers — and how to take it back."
 ---
 
-Nothing your agent builds goes public on its own. Preview and Publish are always two separate steps.
+Review a working preview before a production release. Building, checking and publishing are separate stages, and production deployment requires your approval.
 
 <Frame>
   <video controls preload="metadata">
@@ -13,7 +13,7 @@ Nothing your agent builds goes public on its own. Preview and Publish are always
 
 ## Preview
 
-Every change your agent hands off opens in a **private Preview**: a real, running version of the app, with its own working database connection, that only you can reach.
+Use **Preview** to try the working app before publishing it. Confirm which environment, data and integrations it uses. A preview is not automatically a copy of production data or proof that external actions are harmless.
 
 Use it the way a customer would. Then either ask for a revision, or publish.
 
@@ -34,12 +34,12 @@ workser deploy --prod --watch
 Your app lives at a **stable address that doesn't change between deploys** — safe to hand to customers, put on a card, or point a domain at. Publishing again updates what's behind that same address.
 
 <Note>
-There is no hidden auto-deploy switch. If you never press Publish, nothing is ever public.
+An agent requesting a production deploy must receive your approval. Pressing the desktop's production-deploy button can provide consent for that specific operation. Inspect the destination before approving.
 </Note>
 
 ## Before "done": verify
 
-`workser verify` runs the project's own typecheck, lint and build. Workser Code's agent instructions treat a green result — not the agent's own judgement — as the bar for calling work finished.
+`workser verify` runs the available project checks, such as typecheck, lint and build. Inspect which checks actually ran, and test the important customer flows in the preview. A green result is evidence of those checks, not a guarantee that every requirement works.
 
 ```bash
 workser verify --json
@@ -86,7 +86,7 @@ workser sync                                        # reconcile this folder with
 **Restoring never discards anything.** The current state is saved first, *then* the older state is restored on top. If you restore the wrong thing, restore again. That's what makes it safe to say yes to.
 </Info>
 
-These are the same checkpoints as Workser Code's Undo button — one history, not two. A checkpoint your agent takes appears in the app, and vice versa.
+These are the same source checkpoints used by Workser Code's Undo flow. **Restoring files does not roll back a production database, reverse an external action or publish the restored version.** Check the affected services, then review and approve a new deployment if required.
 
 <Accordion title="Why not just use git?" icon="code-branch">
   Your project folder *is* a git repository, but the history lives with Workser and there is no remote. Code moves to and from Workser over its API as git bundles, using the same session everything else uses — no credential is read, and your own git keys and identity are never touched.

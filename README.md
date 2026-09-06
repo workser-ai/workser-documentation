@@ -1,43 +1,56 @@
-# Mintlify Starter Kit
+# Workser documentation
 
-Use the starter kit to get your docs deployed and ready to customize.
+Mintlify documentation for Workser Code, Workser's existing web platform, cloud services and security information. `docs.json` controls navigation. Product guides use MDX.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+## Preview and validate
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+Use Node.js 22 LTS. The installed Mintlify CLI rejects Node.js 25 and newer.
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
-
-## Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
-
-```
-npm i -g mint
+```bash
+mint dev --no-open
+mint validate --telemetry=false
+mint broken-links --telemetry=false
 ```
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
+On a Mac with Homebrew Node 22 installed, select that runtime for the command:
 
+```bash
+PATH="/opt/homebrew/opt/node@22/bin:$PATH" mint validate --telemetry=false
 ```
-mint dev
-```
 
-View your local preview at `http://localhost:3000`.
+`mint dev` normally uses port 3000. If the marketing app already uses it, select another available port. Do not stop the existing app just to preview documentation.
 
-## Publishing changes
+## Product sources
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+When updating a claim, check the current source in the surrounding Workser workspace:
 
-## Need help?
+| Documentation | Source to verify |
+| --- | --- |
+| Product positioning and role groups | `web/workser-web/src/app/code/page.tsx`, `feature-sections.tsx`, `data.ts` and `faq.tsx` |
+| Published plans, allowances and cloud rates | `web/workser-web/src/constants/pricing.ts` and `src/app/(marketing)/pricing/page.tsx` |
+| Supported agents and app creation options | `on-device/computer-use-ai-agent/workser-desktop-ai-agent/src/app/orbit/lib/agents.ts` and `useAppTypes.ts` |
+| Mobile store availability | Desktop `src/app/orbit/components/PublishMobileDialog.tsx` |
+| Role configuration and approvals | Desktop `src-electron/orbit/daemon/agent-roles.ts` and `approval.ts` |
+| CLI syntax and owner-only refusals | `cli/workser-cli/src/commands/` |
+| SDK methods | `workser-sdk/src/resources/connect.ts`, `agents.ts` and `src/index.ts` |
+| Built-in coding-agent billing | Core API `src/modules/orbit/orbit-agent-gateway.service.ts` and `gateway-pricing-catalog.ts` |
+| Live statistics definitions | Core API `src/modules/public-stats/` and web `src/lib/platform-stats.ts` |
+| Cloud overage activation | Core API `src/modules/subscription/subscription-usage-reconciliation.service.ts` and the configured organization billing meters |
 
-### Troubleshooting
+The detailed public plan documentation lives in `code/pricing.mdx`; other billing pages should link to it rather than maintain another full allowance table. Keep the published offer separate from live account entitlements, provider terms and Enterprise agreements.
 
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
+## September 6, 2026 audit follow-ups
 
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+This update documents current product source and published marketing data. It does not change backend entitlements, deploy services or activate billing.
+
+- The earlier read-only billing audit in this work session found Spark file storage missing in live configuration (falling back to 0 GB), against the published 5 GB. It also found Spark and Starter app limits of 2 and 4 against published 5 and 10. Those discrepancies still need an explicit product decision and a separate backend change; do not silently rewrite live customer allowances as part of a docs edit.
+- The database and file overage meter price configuration was empty in that audit. Publishing $1.25/GB and $0.15/GB rates does not activate automatic Stripe charging. Egress is published at $0.50/GB; verify its metering path separately before claiming it is actively charged.
+- Store submission remains disabled in the desktop's `STORE_ROUTE_ENABLED` flag. Hidden app types are not launch promises.
+- Platform totals are aggregate operational evidence, not Workser Code-only adoption, revenue, active users or paying customers. Keep counts on the dated live product display rather than copying a quickly stale number into prose.
+- Existing web AI Employee controls, local coding-agent controls and deployed SDK authorization are different execution paths. Do not describe one as covering all three.
+
+Recheck these observations before resolving them; live configuration can change independently of this repository. Never store credentials, customer records or environment values in documentation.
+
+## Publishing
+
+The repository's Mintlify integration may publish pushes to its configured branch. Validate and review before pushing. Editing or locally validating these files does not publish them.

@@ -148,6 +148,8 @@ Every command supports `--json` and returns a **single stable line**:
     workser logs [-n 100] [-f]
     workser versions
     workser domain list
+    workser domain add <hostname> [--app <webAppId>]
+    workser domain rm <hostname> [--app <webAppId>]
     workser open
 
     workser env set KEY=VALUE [K2=V2…]
@@ -228,15 +230,14 @@ Topics: `automation` · `brand` · `business` · `computer-use` · `database` ·
 The CLI is deliberately small, because it's driven by a model that can be influenced by whatever it reads. Two rules define the surface:
 
 1. **One project.** Every command targets the single project linked to the working directory. Your agent can list and read projects, but not create one or switch which is pinned.
-2. **Operate within that project; don't administer the project set.** Your agent can provision and use the project's *own* infrastructure — create the database, read its connection string, browse rows, provision storage and auth, deploy, set env vars, manage files. Sensitive actions pause for your approval.
+2. **Operate within that project; don't administer the project set.** Your agent can provision and use the project's *own* infrastructure — create the database, read its connection string, browse rows, provision storage and auth, deploy, set env vars, manage files. Sensitive operations use the applicable approval and autonomy policy.
 
 What it can never do, in any circumstance:
 
 ```bash
-workser project create   # ─┐
-workser project use      #  ├─ refuse locally with `owner_only` (exit 6),
-workser env rm           #  │  and make no network call at all
-workser domain set       # ─┘
+workser project create   # Create the project in the desktop UI.
+workser project use      # Link the project in the desktop UI.
+workser env rm           # Remove configuration in the owner UI.
 ```
 
 This is the **first of two gates** — the daemon and Workser's API enforce the same boundary server-side against the agent's project-scoped key. The local refusal exists so your agent gets a precise, machine-readable answer and a clear next step instead of a bare `403`.

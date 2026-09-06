@@ -1,83 +1,86 @@
 ---
-title: "Pricing & the free trial"
-description: "Free to download, 7 days of Spark free with no card, then $10/month for the infrastructure — and no AI bill from Workser."
+title: "Plans, credits & cloud usage"
+description: "Compare Spark, Starter and Scale, understand Workser Code credits, and see cloud allowances and overage rates."
 ---
 
-Workser Code's pricing follows directly from how it works: Workser isn't running the AI, so Workser doesn't charge you for it.
-
-## What you pay for, and to whom
-
-<CardGroup cols={2}>
-  <Card title="Your AI agent" icon="robot">
-    Paid to Anthropic, OpenAI, or whichever provider your CLI uses — on the plan you already have. **Workser charges nothing for this.**
-  </Card>
-  <Card title="Your app's infrastructure" icon="server">
-    Paid to Workser. A dedicated database, hosting, storage, sign-in, domains and deploys are real infrastructure to run.
-  </Card>
-</CardGroup>
+The **Workser Code desktop app is free to download**. Your Workser plan covers the workspace and cloud services that run your software. Connected coding agents use their own provider account; the built-in Workser Code agent uses Workser credits.
 
 ## The free trial
 
-**Every new organization starts with 7 days of Spark free — no card required.**
+New organizations start with **7 days of Spark free. No card required.** Choose a paid plan to continue using paid cloud features after the trial. Trial expiry does not itself delete your project or its data; it is not a promise of indefinite retention.
 
-Downloading Workser Desktop is free, and so is connecting your agent. The trial covers everything Workser Code does: build, preview, publish, a real database, a real web address.
+Spark has no monthly model credit grant. Use a connected coding agent or purchase credits for the built-in agent. A third-party free model is subject to that provider's availability and limits.
 
-After 7 days without a subscription, Workser Code and other paid-tier features pause. **Nothing is deleted** — your project and its data stay exactly where they are; you just need an active subscription to keep deploying and running it.
+## Compare plans
+
+These are the published self-service plans as of **September 6, 2026**. Allowances belong to your organization. Existing subscriptions and Enterprise agreements can differ; check your organization's Billing view before changing plans.
+
+| Included | Spark | Starter | Scale |
+| --- | --- | --- | --- |
+| Monthly price, USD | **$10** | **$25** | **$100** |
+| Workser Code credits per month | None; top-ups available | 1,500 | 6,500 |
+| Projects | 2 | 4 | 20 |
+| Apps per project | 5 | 10 | 10 web apps |
+| Database storage | 1 GB | 8 GB | 40 GB |
+| File storage | 5 GB | 100 GB | 500 GB |
+| Data transfer (egress) per month | 10 GB | 100 GB | 500 GB |
+| Custom domains | Included | 3 | Unlimited |
+| App user authentication | Unlimited users | Unlimited users | Unlimited users |
+| Workspace team members | 1 | Up to 3 | Up to 10 |
+| Monthly workflow executions | No allowance listed | 5,000 | 80,000 |
+| Backups | No daily backup feature listed | Automatic daily backups | Daily backups with point-in-time recovery |
+| Support | Community | Priority email | Priority support |
+
+Each paid project has its own Postgres database. Multiple apps in a project share that database and its file storage. The storage allowances above are pooled across the organization's projects, not multiplied by the project count.
+
+**Custom domains are available on Spark.** Domain registration is purchased separately, and you must configure the domain's DNS records. App users are the people signing into your software; workspace team members are the people managing projects with you.
+
+**Enterprise** has custom pricing, cloud allowances and credit terms. SSO, dedicated infrastructure, data residency, an SLA and a named customer success manager are scoped in the agreement. [Contact sales](https://workser.ai/contact).
+
+Free accounts and existing Launch subscriptions are not additional current self-service plans. See your Billing view for legacy subscription terms.
+
+## Cloud overage
+
+Your included usage comes first. Published overage rates apply to usage above that allowance, in addition to the monthly plan:
+
+| Cloud resource | Published overage rate |
+| --- | --- |
+| Database storage | **$1.25 per additional GB** |
+| File storage | **$0.15 per additional GB** |
+| Data transfer (egress) | **$0.50 per additional GB** |
+
+For example, **10 GB of egress above your monthly allowance costs $5** at $0.50 per GB. Egress is data transferred out of your apps and files.
 
 <Note>
-If you want to reach $0 total, connect **OpenCode** with a free model. Combined with the trial that's a genuinely free path from download to a published app. See [the free path](/code/connect-your-agent#the-free-path).
+Overage billing depends on the usage meters enabled for your organization. A published rate alone does not confirm that automatic charging is active. Check Billing or [contact support](https://workser.ai/contact) to confirm how excess usage is handled for your account.
 </Note>
 
-## Spark — $10/month
+Project, app and team member limits require a plan upgrade rather than a per-GB charge. Cloud overage is separate from model credits. Enterprise overage follows your agreement.
 
-Spark is the entry paid plan, and it's built deliberately around *your* agent subscription:
+## Workser Code credits
 
-- Run your own local AI agent (Claude Code, Codex, OpenCode)
-- A **dedicated Postgres database** for every project — not a shared schema
-- Hosting, deploys, and a stable web address
-- **Unlimited** end-user authentication — you're not billed per person who signs up for your app
-- File storage and environment secrets
-- **No monthly Workser AI credits** — stated as an explicit exclusion, not an omission
+### Connected coding agents
 
-That last point is the whole design. The $10 covers the infrastructure, not the intelligence. Anyone comparing plans should be able to see that before subscribing, not discover it after.
+Claude Code, Codex, Cursor Agent, GitHub Copilot and OpenCode use the account configured in their own CLI. Those model calls do **not** spend Workser Code credits. Their provider can still charge you or apply subscription limits.
 
-<Info>
-Project counts, app counts and storage quotas change as plans evolve. The [pricing page](https://workser.ai/pricing) is the current source of truth for exact limits — this page states the shape, not the numbers.
-</Info>
+### The built-in Workser Code agent
 
-## Higher tiers
+You do not need a separate AI subscription to use this agent. Its model usage is paid from your organization's credit balance. The selected model and the amount of work determine the cost.
 
-Starter and Scale add **Workser AI credits** on top of everything Spark has — for when you also want Workser's own hosted agents (AI Employees, workflow automation, Computer Use) alongside your local CLI. They also raise project, app and storage limits.
+- **100 credits equal $1.**
+- The current conversion uses reported model cost plus **15%**, rounded to whole credits at settlement.
+- A turn with **$1 of reported model cost uses 115 credits**.
+- A turn is not a fixed-price step. Longer context, additional model calls and a different model can change its cost.
+- The old weekly cap is no longer the model. Available credits determine whether a self-service run can start.
 
-See [Payments & Billing](/consumer/payments-billing) for the full ladder, and the [pricing page](https://workser.ai/pricing) for current numbers.
+A balance check happens before a run; actual usage is settled afterward. A turn can finish with a negative balance when its final cost exceeds the balance available at the start. Top up before starting more paid work. Enterprise usage follows its agreement.
 
-## Why bring your own key is cheaper
+Starter includes 1,500 credits per month and Scale includes 6,500. Spark includes none, but supports purchased credits. A feature being available does not mean its model usage is unlimited or free.
 
-<AccordionGroup>
-  <Accordion title="You're not paying twice for AI" icon="wallet">
-    A vibe-coding platform runs its own model and bills you for inference behind every change, on top of your subscription to it — while you're *also* still paying for Claude or ChatGPT. Workser Code runs no model on the code-generation path, so there's exactly one AI bill and it isn't Workser's.
-  </Accordion>
-  <Accordion title="Your prompts don't route through Workser's providers" icon="shield">
-    Only deploy-time artifacts reach Workser. See [Security & approvals](/code/security-and-approvals#what-stays-local-what-goes-to-the-cloud).
-  </Accordion>
-  <Accordion title="No lock-in on the agent itself" icon="unlock">
-    Switch which CLI you use, or run several, without Workser being in the middle of that choice. Your project doesn't change.
-  </Accordion>
-</AccordionGroup>
+## Agent Cloud and other hosted AI
 
-## Common questions
+[Agent Cloud](/code/agent-cloud) runs agents inside your software on Workser infrastructure. Its runtime, workspace and model usage are separate from your local coding-agent subscription. Workser Business AI Employees and Computer Use also have their own usage rules. The built-in coding agent's cost example above is not a rate card for all hosted AI services.
 
-<AccordionGroup>
-  <Accordion title="Do I need a card to try Workser Code?">
-    No. The 7-day Spark trial every new organization gets requires no card.
-  </Accordion>
-  <Accordion title="What happens to my app when the trial ends?">
-    Deploying and running it pause until you subscribe. Your project, code and data are kept — nothing is deleted.
-  </Accordion>
-  <Accordion title="Does Workser charge for the AI my agent uses?">
-    Not on the Workser Code path. Your agent runs on your own provider account. Workser AI credits only apply to Workser's *own* hosted agents, which Spark deliberately doesn't include.
-  </Accordion>
-  <Accordion title="Am I billed per user of the app I build?">
-    No. End-user authentication is unlimited on every plan.
-  </Accordion>
-</AccordionGroup>
+## Manage your account
+
+Use [Payments & billing](/consumer/payments-billing) for top-ups, invoices and organization billing. The [public pricing page](https://workser.ai/pricing) carries the same plan comparison.

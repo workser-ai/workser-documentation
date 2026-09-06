@@ -1,0 +1,30 @@
+---
+title: "Understanding platform statistics"
+description: "What the Workser platform totals count, where they come from and how to interpret them."
+---
+
+The Workser Code product page shows aggregate evidence from **the wider Workser platform**. The web app and deployment records come from Workser's existing web platform. They are not counts of apps created specifically through the Workser Code desktop product.
+
+## What each metric means
+
+| Metric | What it counts | What it does not prove |
+| --- | --- | --- |
+| Apps deployed to production | Unique apps with a successful production release in the recorded history | Current traffic, paying customers or apps built only in Workser Code |
+| Successful deployments | Successful production releases and previews; another release counts again | Unique apps or only production releases |
+| AI tasks and runs completed | Completed work across web AI tasks, web workspace tasks, Orbit, Workser Code and Agent Cloud | Customer acceptance, a production release or revenue |
+
+The expanded task total removes mirrored desktop records and retries so the same desktop task counts once. Parent planning threads, unfinished work and explicitly marked Agent Cloud test runs are excluded. This is an operational count, not a claim that every recorded run represents a paying customer.
+
+## Older snapshots
+
+During a rollout, the page may receive the older snapshot format. It then labels the available values as **organizations**, **web app records**, and **completed AI tasks** rather than presenting them as production deployment metrics.
+
+An organization is an account grouping, not a paying business. A web app record is not necessarily a live app. The displayed labels matter when comparing snapshots.
+
+## Loading and freshness
+
+The page fetches a snapshot when the statistics section enters view. While the section is visible and the browser tab is active, it refreshes about once a minute. Loading feedback indicates a request in progress. An error offers a retry instead of presenting invented totals.
+
+The timestamp reports when the server calculated the snapshot. A cached snapshot is not a live event stream, and totals may change as the underlying records and counting rules change.
+
+No fixed totals are copied into this guide. Read the dated snapshot on the [Workser Code page](https://workser.ai/code) for the current display.

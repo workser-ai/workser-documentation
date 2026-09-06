@@ -1,0 +1,56 @@
+---
+title: "What you can build"
+description: "The kinds of app a Workser Code project can hold, what each is for, and why several of them share one database."
+---
+
+A Workser Code **project** is not one app. It is a workspace that can hold several, and they share the project's database, storage, connected apps and secrets — which is exactly what you want when your storefront and your admin tool are looking at the same orders.
+
+## Current creation options
+
+| Option | What you build | How you review it |
+| --- | --- | --- |
+| Web app | Customer portals, booking tools, dashboards and websites | Browser preview and production address |
+| Mobile app | A phone experience with the available device preview and distribution routes | Device preview or web export; see [Mobile apps](/code/mobile-apps) |
+| API service | A TypeScript backend that other apps call | Endpoint responses and request tests |
+| Python & data | A Python service for analysis, transformations and computation | Endpoint responses and output checks |
+
+Creation options depend on the current app catalog and desktop release. Background jobs, scheduled jobs, standalone AI Agent app types, Python script flows and desktop app installers are not currently offered in the desktop creation picker. Existing records of those types do not establish that a new user can create or publish them through the current UI.
+
+You can use [workflow automation](/workser-business/workflow-automation) for scheduled work and [Agent Cloud](/code/agent-cloud) to add hosted agents to your product. These are separate from a hidden app-type entry.
+
+## Preview the right result
+
+Web and mobile apps have a visual preview. An API or Python service should be checked through its endpoint, inputs, outputs and logs; a JSON response is not a broken website. A preview alone does not confirm production deployment.
+
+Keep the service that owns your business records clear. Python can process data while your app's backend applies its authorization and business rules. Do not assume every SDK namespace runs directly in every language or client runtime.
+
+## Several apps, one project
+
+```
+your-project/
+├─ storefront      (web app)      ─┐
+├─ admin           (web app)       ├─ same database
+├─ orders-api      (API)           │  same storage
+└─ nightly-report  (scheduled job) ─┘  same connected apps
+```
+
+The database belongs to the **project**, not to a single app. So does the storage bucket, so do the connected apps you authorised once, and so do the secrets. Adding the admin tool six weeks after the storefront does not mean wiring any of that up again.
+
+<Warning>
+Because the bucket is shared, keys should be namespaced — `invoices/2026/…` rather than files dumped at the root. Two apps writing `logo.png` to the same bucket are writing to the same object.
+</Warning>
+
+## Publishing a mobile app is different
+
+Web apps publish to an address. Phones do not work that way — an app has to get onto a device, and there is more than one way to do that. See [Putting an app on a phone](/code/mobile-apps).
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="What every project gets" icon="database" href="/code/infrastructure">
+    The database, sign-in, files, domains and connected apps.
+  </Card>
+  <Card title="Putting an app on a phone" icon="mobile" href="/code/mobile-apps">
+    Preview on your own phone, share a link, or install on the phones you know.
+  </Card>
+</CardGroup>

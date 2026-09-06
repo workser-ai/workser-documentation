@@ -1,34 +1,33 @@
 ---
-title: "Enterprise vs. Consumer"
-description: "Same two products, different depth of governance, support, and data controls."
+title: "Enterprise & self-service"
+description: "Choose between published self-service plans and an Enterprise agreement for your organization's requirements."
 ---
 
-Workser Business and Workser Desktop are the same products for every customer — there's no separate enterprise codebase. What changes across tiers is tenant isolation, access governance, and the compliance artifacts available to you.
+Workser Code and the wider Workser platform serve individuals, small teams and larger organizations. **Spark, Starter and Scale** are the current self-service plans. **Enterprise** is a tailored agreement for organizations with specific infrastructure, access, support or procurement requirements.
 
 ## At a glance
 
-| | Consumer / self-serve | Enterprise |
-|---|---|---|
-| Onboarding | Self-serve signup, credit card | Sales-assisted, contract + DPA, security review |
-| Data isolation | Free tier: shared database | Paid tier (Spark+): dedicated database and storage per project |
-| Access control | Single org, informal roles | Multi-seat org with `owner / admin / member / viewer` roles enforced |
-| Compliance artifacts | Not typically needed | DPA, Security Whitepaper, Subprocessor List — see [Security & Trust](/security/whitepaper) |
-| Billing | Self-serve credit top-up | Per-user credit limits, invoiced billing history |
-| Support | Docs + community | Direct support channel, incident notification per your DPA |
+| Area | Self-service | Enterprise |
+| --- | --- | --- |
+| Onboarding | Free desktop download and a new organization's 7-day Spark trial | Sales-assisted rollout as agreed |
+| Subscription | Spark $10, Starter $25, Scale $100 per month | Custom agreement and invoicing |
+| Projects | 2, 4 or 20 by plan | Unlimited in the published offer |
+| Cloud | Published database, files and transfer allowances | Custom cloud allowance and infrastructure terms |
+| Database | Dedicated Postgres database per paid project | Dedicated infrastructure scoped in the agreement |
+| App user authentication | Unlimited app users | Requirements defined in the agreement |
+| Workspace team | 1, up to 3 or up to 10 members | Agreed organization access and governance |
+| Credits | Purchased credits; monthly grant on Starter and Scale | Negotiated credit and usage terms |
+| Support | Community, priority email or priority support by plan | Named customer success manager and agreed support |
 
-## If you're evaluating Workser for your organization
+SSO, data residency and SLA requirements should be confirmed in the Enterprise agreement. Their appearance in a plan offer is not proof of certification or that every control is active for your organization. Consult [Compliance status](/security/compliance-status) and [Enterprise network requirements](/security/enterprise-network-requirements).
 
-Start with the [Security & Trust center](/security/whitepaper) — it covers encryption, access control, AI agent safety controls, data residency status, and our current compliance program status, stated honestly (including what's still in progress). Then read the [Workser Business](/workser-business/overview) and [Workser Desktop](/workser-desktop/overview) overviews for what your team would actually use day to day.
+## Evaluate the product
+
+Start with [Workser Code](/code/overview) to understand the software workflow, then review [Security & approvals](/code/security-and-approvals), the [Security Whitepaper](/security/whitepaper) and the [Subprocessor List](/security/subprocessors).
+
+Connected agents retain their provider account and usage terms. Workser's built-in coding agent and hosted AI services have separate usage rules. See [Plans and cloud usage](/code/pricing).
 
 <CardGroup cols={2}>
-  <Card title="Enterprise Network Requirements" icon="network-wired" href="/security/enterprise-network-requirements">
-    Domains to allowlist, and honest status on SSO, egress IPs, and audit logs.
-  </Card>
-  <Card title="Consulting & Corporate Training" icon="calendar-check" href="https://workser.ai/consulting">
-    Get hands-on help rolling Workser out, or book time directly with sales.
-  </Card>
+  <Card title="Start building" icon="rocket" href="/code/quickstart">Try a project with a defined result and review its release.</Card>
+  <Card title="Contact sales or arrange training" icon="calendar-check" href="https://workser.ai/contact">Discuss rollout, security review, support and your agreement.</Card>
 </CardGroup>
-
-## If you're building on your own
-
-You don't need any of the governance detail above to get value from Workser. Jump straight to the [quickstart](/workser-business/quickstart), or the [payments & billing guide](/consumer/payments-billing) if you just want to understand how credits work before you start.

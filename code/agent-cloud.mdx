@@ -1,0 +1,58 @@
+---
+title: "Agent Cloud"
+description: "Run an agent inside your software on Workser infrastructure, with asynchronous runs, progress events and results."
+---
+
+**Agent Cloud runs agents for the people using your product.** For example, your app can ask an agent to research a question, process a document or carry out a task using its configured tools and knowledge.
+
+This is a different job from your local AI tech team. Coding agents build and maintain the software on your computer. An Agent Cloud agent runs on Workser infrastructure when the finished software calls it.
+
+## Define the agent
+
+Configure the agent's instructions, model, tools, skills and knowledge for its job. Limit access to what that job needs. A catalog entry or a connected tool is not proof that the agent has permission to act on every record.
+
+Test with a bounded request, inspect the result and check any side effects before exposing the feature to your app's users.
+
+## Start a run from your backend
+
+The SDK supports starting work, following progress and reading the result:
+
+```ts
+import { workser } from '@workser/app';
+
+// Call from your server after authenticating and authorizing the app user.
+const run = await workser.agents.run(agentId, {
+  message: 'Summarize this project’s open support issues.',
+});
+
+for await (const event of workser.agents.stream(run.id)) {
+  // Forward only the progress your user is permitted to see.
+  handleProgress(event);
+}
+
+const finished = await workser.agents.getRun(run.id);
+if (finished.status === 'COMPLETED') {
+  handleResult(finished.output);
+}
+```
+
+`run` returns when the work is accepted, not when it is finished. Your UI should show progress and handle completed, failed and cancelled outcomes. The SDK's stream can reconnect using the last event sequence; read the run record for its final status.
+
+For a backend worker that can wait, `workser.agents.runAndWait(...)` returns the final run record. Long work should not rely on keeping an ordinary browser request open indefinitely.
+
+## Access and data
+
+Keep project API keys on your server. Check that the current user can access a run before returning its events or results. Run records can contain inputs, outputs, messages and artifacts; filter them for the intended audience.
+
+App connections let the agent use authorized external tools. Your app still owns its end-user authorization and any confirmation needed before an external action. See [App connections](/code/app-connections).
+
+## Usage and cost
+
+Agent Cloud has its own runtime, workspace and model usage. A Claude Code or Codex subscription used for local development does not pay for hosted agent runs. Check usage and your agreement before starting a large workload. [Plans and billing](/code/pricing#agent-cloud-and-other-hosted-ai).
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="SDK reference" icon="code" href="/code/sdk">Call Workser services from your server.</Card>
+  <Card title="Local AI tech team" icon="users" href="/code/roles">The roles that build and maintain the software.</Card>
+</CardGroup>

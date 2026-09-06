@@ -35,7 +35,7 @@ There's a matching pair for the SDK (`workser-sdk`), which teaches the agent how
 
 The obvious alternative is to expose every Workser capability as an MCP tool. Workser Code deliberately doesn't make that the primary path.
 
-MCP injects tool schemas into your agent's context **on every turn**, whether or not the turn has anything to do with deploying. A shell call costs almost nothing, and a Skill teaches the agent *when* to reach for it. MCP stays available, but scoped to a subagent rather than sitting in the main context window.
+The Workser CLI provides a discoverable command surface with focused help. Skills teach the agent when and how to use it. MCP tools can also be configured for a role; enable the tools that role needs rather than assuming every task needs the full catalog.
 
 The practical effect: more of your agent's context is spent on your actual problem.
 
@@ -77,9 +77,9 @@ Worth knowing, because they explain behaviour you'll see:
 3. **A phased plan goes on the board before it gets built** — one card per phase, the plan as a doc, a decision record if it settled a real tradeoff. A plan that lives only in a chat reply is gone when the conversation scrolls.
 4. **Stay in your lane.** `owner_only` means it's yours to do in Workser Code. Don't retry, don't look for a workaround.
 5. **Approvals are normal.** `awaiting_approval` means asking you and retrying — never bypassing.
-6. **Never ask for or store credentials.** Workser Code owns authentication; the agent never sees keys.
-7. **Verify before "done".** `workser verify` has to be green — that's the bar, not the agent's own reading of the diff.
-8. **Destructive shell actions are blocked** by Workser's safety policy: `rm -rf /`, `git reset --hard`, `DROP`/`TRUNCATE`, `curl | sh` and friends.
+6. **Keep credentials out of prompts and output.** Use environment or connection settings. Secret-revealing commands are sensitive; do not echo their results.
+7. **Verify before "done".** Inspect which checks ran, report their results and test the required behavior. An agent’s reading of the diff alone is not verification.
+8. **Respect permissions and refusals.** Use the appropriate migration, recovery and approval flow. Do not bypass a denied or unsupported operation.
 
 ## The mistake these instructions exist to prevent
 

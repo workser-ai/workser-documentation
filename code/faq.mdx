@@ -1,65 +1,77 @@
 ---
 title: "FAQ & troubleshooting"
-description: "The questions people ask before downloading, and what to do when something doesn't work."
+description: "Getting started, choosing agents, understanding cost and solving common Workser Code problems."
 ---
 
 ## Before you download
 
 <AccordionGroup>
+  <Accordion title="What is Workser Code?">
+    A desktop workspace where coding agents work as one team to plan, build, test, publish and maintain software. Workser adds shared project context and managed cloud services.
+  </Accordion>
   <Accordion title="Do I need to know how to code?">
-    No. Describe the app in your own words and your connected agent writes it. Workser Code keeps the technical parts behind plain surfaces: Data, User, Files, Web, Preview, Publish.
-
-    If you *do* code, nothing is hidden from you: the project is an ordinary repository your agent works in.
+    You can describe the work in plain language and review it in Preview. You still need to explain business rules, test important flows and decide what is ready. Complex or sensitive software may need a developer's review.
   </Accordion>
-  <Accordion title="Which AI agents work with Workser Code?">
-    **Claude Code, Codex and OpenCode.** You sign in through each one's own CLI, so Workser doesn't replace the AI subscription you already use.
-
-    Cursor, Gemini CLI, Kimi, Grok and Muse Code are wired in but currently switched off — see [Connect your agent](/code/connect-your-agent#supported-agents).
+  <Accordion title="Which agents can I use?">
+    Claude Code, Codex, Cursor Agent, GitHub Copilot and OpenCode, plus the built-in Workser Code agent. Each external CLI uses its own provider account and limits. [Connect your agent](/code/connect-your-agent).
   </Accordion>
-  <Accordion title="What if I don't pay for any AI?">
-    Connect **OpenCode** and Workser Code will put you on a free model. Combined with the 7-day free Spark trial, that's a genuinely free path from download to a published app.
+  <Accordion title="What if I do not have an AI subscription?">
+    Use the built-in Workser Code agent with credits for paid models, or configure OpenCode with a model available through your provider. A free OpenCode model depends on provider availability. Spark's cloud trial is not an unlimited model allowance.
   </Accordion>
-  <Accordion title="Do I need a card to try it?">
-    No. Every new organization gets **7 days of Spark free, no card required**. See [Pricing](/code/pricing).
+  <Accordion title="Can I use different agents for different roles?">
+    Yes. Assign a supported agent and model to each role, with instructions, skills, tools and references. The thirteen roles are grouped into Plan & design, Build, and Test, launch & improve. [The AI team](/code/roles).
   </Accordion>
-  <Accordion title="Is Workser Code sending my code to Workser?">
-    Your prompts, your agent's reasoning and the code it writes stay between your machine and your agent's own provider. Workser's cloud receives only what's needed to deploy and host the result — the exact list is in [Security & approvals](/code/security-and-approvals#what-stays-local-what-goes-to-the-cloud).
-  </Accordion>
-  <Accordion title="What happens before my app goes live?">
-    Every change opens in a private Preview first. Test it, ask for a revision, and press Publish only when you decide it's ready. There is no auto-deploy switch.
-  </Accordion>
-  <Accordion title="Which platforms is Workser Desktop on?">
-    macOS today. Windows is in progress — you can join the waitlist from the download page.
+  <Accordion title="Which computers are supported?">
+    The current public download is for Macs with Apple silicon. Windows is on the waitlist. See [Install & setup](/workser-desktop/install-setup).
   </Accordion>
 </AccordionGroup>
 
-## How Workser Code relates to everything else
+## Plans and usage
 
 <AccordionGroup>
-  <Accordion title="How is this different from Lovable, Replit or Bolt?">
-    Those platforms run their own model and bill you for the inference behind every change, on top of your subscription to them — while you're probably *also* still paying for Claude or ChatGPT.
-
-    Workser Code runs no model on the code-generation path. It's a bridge for an agent you already pay for and already know how to prompt, plus the infrastructure to turn what it builds into a real hosted app. One AI bill, and it isn't Workser's.
+  <Accordion title="What am I paying for?">
+    The desktop app is free to download. Workser cloud plans start at $10/month. Connected coding agents use their provider accounts; the built-in agent uses Workser credits. Cloud overage and other hosted services can add usage charges. [Full pricing guide](/code/pricing).
   </Accordion>
-  <Accordion title="How is this different from Conductor or Superset?">
-    Those tools *orchestrate* coding-agent sessions on your machine — several in parallel, across git worktrees. Workser Code doesn't try to manage your agent session at all; it assumes you're running your CLI however you like, including inside a tool like that.
-
-    What it adds is the one thing those don't: a path from "my agent just changed some code" to "that change is live, on a domain, with a database", without you standing up hosting separately.
+  <Accordion title="Do I need a card for the trial?">
+    No. A new organization gets 7 days of Spark free. Spark includes no monthly model credits; top-ups are available. Paid cloud features can pause when the trial expires without a subscription.
   </Accordion>
-  <Accordion title="How is this different from just using Claude Code directly?">
-    It isn't a replacement — your CLI still does 100% of the coding. Workser Code adds everything *after* the code exists: git-synced deploys, a dedicated Postgres database, managed auth, file storage, custom domains, environment variables, plus a board, docs, decisions and memory that survive the conversation.
-
-    Using your CLI with no Workser Code still works great for writing code. You'd just be on your own for turning it into a running, publicly reachable app.
+  <Accordion title="How are built-in agent credits calculated?">
+    Actual reported model cost plus 15%, converted at 100 credits per dollar and rounded at settlement. A $1 model cost uses 115 credits. It is not a fixed per-step fee or a weekly allowance.
   </Accordion>
-  <Accordion title="How is Workser Code different from Computer Use?">
-    They ship in the same desktop app and share your account, but they're independent.
-
-    [Computer Use](/workser-desktop/computer-use) is Workser's own hosted agent that sees your screen and controls your mouse, keyboard and files. Workser Code is a bridge between *your own* coding agent and Workser's app infrastructure. You can't swap your local CLI into Computer Use — it's a different capability, not a different billing mode.
+  <Accordion title="Can Spark use a custom domain?">
+    Yes. Custom domains are included in the current Spark offer. You purchase the domain separately and configure DNS. [Cloud allowances](/code/pricing#compare-plans).
   </Accordion>
-  <Accordion title="How is Workser Desktop different from Workser Business (the web app)?">
-    Workser Business is browser-based — no install, works from any device, and is where Workflow Automation and AI Employees primarily live. Workser Desktop adds the two things a browser can't do: Computer Use and Workser Code.
+  <Accordion title="What happens above the cloud allowance?">
+    Published rates are $1.25/GB for database storage, $0.15/GB for files and $0.50/GB for egress. Automatic overage depends on the meters enabled for your organization. Project, app and team member limits require an upgrade. [Cloud overage](/code/pricing#cloud-overage).
+  </Accordion>
+  <Accordion title="Does it keep working when I close my Mac?">
+    Published software runs on its hosting. Agent Cloud runs hosted product agents. Local coding agents need your Mac and required tools running to continue development.
+  </Accordion>
+</AccordionGroup>
 
-    Both share the same account, organization and [Business Data Platform](/consumer/business-data-platform) — sign in to Desktop with the login you already use.
+## Building and maintaining software
+
+<AccordionGroup>
+  <Accordion title="What does Workser add to a coding agent?">
+    Roles, project channels, goals, tasks, documents, decisions, handovers, checks and managed deployment. The same project context helps you continue after the first release.
+  </Accordion>
+  <Accordion title="Can agents use my apps, and can my software use them too?">
+    Yes. Agents can use authorized connections while developing or maintaining a project. Your software can call the same available actions from its backend using the SDK. Your app must enforce its own end-user permissions. [App connections](/code/app-connections).
+  </Accordion>
+  <Accordion title="Does all my code stay on my machine?">
+    No blanket local-only promise applies. A connected agent sends model requests to its provider; the built-in agent uses Workser-managed model access. Shared project records, sync and deployment also use cloud services. [Security & approvals](/code/security-and-approvals).
+  </Accordion>
+  <Accordion title="What happens before an app goes live?">
+    Try the preview, inspect check evidence and approve the production release. Successful checks do not guarantee every business rule is correct. [Preview & publish](/code/preview-and-publish).
+  </Accordion>
+  <Accordion title="Can it build a mobile app?">
+    Yes. Preview on a device and use the available distribution routes. Store submission is currently disabled in the desktop release. [Mobile apps](/code/mobile-apps).
+  </Accordion>
+  <Accordion title="Is Agent Cloud a hosted Codex or Claude subscription?">
+    No. Agent Cloud runs agents inside your product using its own configured models, tools and usage. Your local provider subscription does not pay for hosted runs. [Agent Cloud](/code/agent-cloud).
+  </Accordion>
+  <Accordion title="How does this relate to Workser Business and Computer Use?">
+    Workser Business documents the existing web platform, workflows and AI Employees. Computer Use is a separate desktop capability for screen and input tasks. They share your Workser account, but their execution and usage rules differ.
   </Accordion>
 </AccordionGroup>
 
@@ -80,7 +92,7 @@ description: "The questions people ask before downloading, and what to do when s
     Working as intended — something with a real consequence is waiting for you in Workser Code. Approve it there, then your agent retries. It's not an error to work around.
   </Accordion>
   <Accordion title="`owner_only` (exit 6)" icon="user-lock">
-    Your agent tried something reserved for you: creating or switching a project, deleting an environment variable, or attaching a custom domain. Do it yourself in Workser Code and carry on. See [what your agent can never do](/code/security-and-approvals#what-your-agent-can-never-do).
+    Your agent tried something reserved for you: creating or switching a project, or deleting an environment variable. Do it yourself in Workser Code and carry on. See [what your agent can never do](/code/security-and-approvals#owner-only-cli-actions).
   </Accordion>
   <Accordion title="`no_project`" icon="folder-open">
     No project is linked to this folder. Link it in Workser Code, or pass `--project <id>` explicitly.
@@ -98,10 +110,10 @@ description: "The questions people ask before downloading, and what to do when s
     Final, not retryable. A project's region is fixed when it's created, and the Neon backend (`workser neon storage` / `functions`) isn't available in yours. Use the default bucket — `workser storage` — which every project has.
   </Accordion>
   <Accordion title="The workflow runs but nothing appears in the app" icon="arrows-turn-right">
-    The classic one. A workflow feature is two-way: triggering it is the outbound half, and the workflow's final node has to POST back to a webhook route in your app for the result to land anywhere. See [the SDK's workflows section](/code/sdk#workserworkflows).
+    The classic one. A workflow feature is two-way: triggering it is the outbound half, and the workflow's final node has to POST back to a webhook route in your app for the result to land anywhere. See [the SDK's workflows section](/code/sdk#workflows).
   </Accordion>
   <Accordion title="A shell command or SQL statement was refused" icon="ban">
-    Workser's safety policy blocks irreversible operations — `rm -rf /`, `git reset --hard`, `curl | sh`, `DROP`, `TRUNCATE` — and protected paths like `~/.ssh`. That's the policy working. Schema changes belong in a migration in the app's own code.
+    Read the refusal and the operation it names. Agent permissions, protected paths and destructive-operation checks can stop a command. Do not bypass the refusal. Use the project's migration and approval workflow for schema changes, and inspect [Security & approvals](/code/security-and-approvals).
   </Accordion>
 </AccordionGroup>
 

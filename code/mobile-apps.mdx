@@ -1,0 +1,107 @@
+---
+title: "Putting an app on a phone"
+description: "Preview a mobile app on your own phone, share it as a link, or install it on the phones your team already carries."
+---
+
+A web app publishes to an address, and that is the whole story. A phone app has to get **onto a device**, and there is more than one way to do that — with very different costs.
+
+Workser Code offers the routes honestly, including what each one costs you, rather than assuming everyone wants the App Store.
+
+## Seeing it on your own phone first
+
+While the app is being built you can run it on a real phone, live, with changes appearing as your agent makes them.
+
+<Steps>
+  <Step title="Start the preview">
+    Workser Code runs the project's dev server and shows a QR code beside the phone frame.
+  </Step>
+  <Step title="Scan it with Expo Go">
+    Install **Expo Go** from the App Store or Play, scan the code, and the real native app opens on your phone. Not a simulator — the actual runtime.
+  </Step>
+  <Step title="Keep it open while you work">
+    Changes reload on the phone as they are made.
+  </Step>
+</Steps>
+
+<Note>
+Expo Go is **version-locked to the SDK** your app targets. If Workser Code offers to install it for you, it fetches the build that matches your project rather than the newest one — installing the newest for an older SDK gives you an app that opens and immediately refuses the project.
+</Note>
+
+### When your phone isn't on the same wifi
+
+The QR code normally carries a **local network address**, which only works if the phone and the computer are on the same network. Coffee shop wifi, a guest network, a phone on mobile data, and a corporate network that blocks device-to-device traffic all break it — and the failure looks like the QR code simply not working.
+
+Turn on **tunnel mode** and the address becomes a public one that reaches your machine from anywhere.
+
+- The first time, Workser Code installs the tunnel dependency (`@expo/ngrok`) into the project for you.
+- It takes ten to thirty seconds to come up. Workser Code says so rather than showing you a local code that cannot work.
+- A tunnel is strictly slower — every byte of the bundle travels out and back — so it is a switch, not the default.
+
+<Tip>
+There is also a **refresh** button on the preview frame. A preview that has gone stale, or a dev server that restarted underneath it, is fixed by remounting the frame rather than by restarting anything.
+</Tip>
+
+### Simulators
+
+An iOS Simulator or an Android emulator works too, and Workser Code can open one and install Expo Go into it. It is the second choice deliberately: a real phone is both cheaper to reach and higher fidelity, and a simulator with no Expo Go in it cannot open an `exp://` URL at all.
+
+## Your test app
+
+Expo Go can only run what Expo Go already contains. The moment your app needs a native library Expo Go doesn't ship, you need a **test app** — a build of your own app with the developer runtime inside it, installed once on the phones that need it.
+
+After that, pushing a change to those phones is an **update**, not a rebuild — no new install, no waiting on a build queue.
+
+## The three ways to publish
+
+<CardGroup cols={3}>
+  <Card title="Share a link" icon="link">
+    **A browser link.** Share the web export using the project’s hosting. Your cloud plan and browser compatibility still apply.
+  </Card>
+  <Card title="Install on phones you know" icon="mobile">
+    **An Android install file.** Build and share with people you know. Build requirements and device policies still apply.
+  </Card>
+  <Card title="Put it in the app store" icon="store">
+    **Your own developer account, review takes days.** Anyone in the world can find and install it.
+  </Card>
+</CardGroup>
+
+### Share a link
+
+The web export of your app, already built and already deployed — it is what the preview panel frames. Send the address to anyone.
+
+The web export runs in a browser. Native integrations and permissions can behave differently there, so test the features your app relies on instead of assuming native parity.
+
+### Install it on phones you know
+
+An installable Android app file. Send it by chat, email or a link; the first time, Android asks the person to allow installing apps from that source, once. Nothing is published anywhere and no account is involved.
+
+<Warning>
+**There is no iPhone equivalent, and Workser Code does not pretend otherwise.** Apple requires every device to be registered against a paid developer account for ad-hoc distribution — which is the account this route exists to avoid. On iOS the option disappears and the reason is shown in its place.
+</Warning>
+
+### Put it in the app store
+
+Everything behind this route is built — the store build profile, the App Store Connect and Play Console submission config, and the listing checklist — but it is **switched off in the app** until a real submission has been watched end to end through both reviews.
+
+Store distribution requires your own Apple or Google developer account, the platform's signing and submission credentials, and completion of the store review process. Provider fees, eligibility and review timing follow the provider's current terms. Workser's cloud subscription does not include those accounts or guarantee store approval.
+
+## Publish the things it talks to, first
+
+A mobile app that calls a backend is not live when the app is live. This is the single most common way a launch looks finished and isn't.
+
+Workser Code checks the project's other apps before you publish and names the ones that would break it:
+
+> *Orders API is not live yet. Your app talks to it, so publish it first or the app will not work for the people you send it to.*
+
+Only apps that **serve** something count — APIs, background jobs, scheduled jobs and AI agents. Another mobile app is a sibling, not a dependency.
+
+## Next
+
+<CardGroup cols={2}>
+  <Card title="What you can build" icon="shapes" href="/code/app-types">
+    The kinds of app a project can hold, and why they share one database.
+  </Card>
+  <Card title="Preview & publish" icon="rocket" href="/code/preview-and-publish">
+    The same idea for web apps: private first, public on purpose.
+  </Card>
+</CardGroup>
