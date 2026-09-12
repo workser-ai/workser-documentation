@@ -68,6 +68,19 @@ A role's capabilities, tools and the backing agent's permission mode determine w
 
 The desktop approval flow applies to desktop operations. Your deployed app must enforce its own user authentication, authorization and confirmations for SDK calls. [App connections](/code/app-connections#use-the-actions-inside-your-app).
 
+## Agent Cloud access
+
+[Agent Cloud](/code/agent-cloud) has a separate server-side execution path:
+
+- Product runs use the agent's published version. Draft changes affect test runs until you publish them.
+- Project-scoped API keys cannot invoke agents in another project. Reading a run or its event stream also checks organization ownership before returning messages or tool activity.
+- Product agents require a reference for the app user they serve. This creates an attributable session and audit record; it does not replace your app's own authentication or authorization.
+- Tool calls pass the agent's capability grants. Protected writes can pause for a person, and the run can return a waiting-for-human outcome.
+- Secrets are stored separately from the versioned agent definition. Artifact downloads use short-lived links.
+- Runtime and spend ceilings can stop work. Cancellation ends an active run but does not erase usage already incurred.
+
+Treat connected actions, MCP servers, workflows and custom sandbox packages as separate trust boundaries. Test unavailable services, denied approvals, expired credentials and partial failures before exposing the agent to users.
+
 ## Credentials
 
 - Store app credentials in environment or connection settings, not in source code.

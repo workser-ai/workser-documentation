@@ -213,6 +213,8 @@ const result = await workser.agents.getRun(run.id);
 
 These calls belong on your server. Authenticate the app user and authorize access to the agent and run before returning progress or results. `run()` accepts work asynchronously; inspect the final status rather than treating acceptance as completion. See [Agent Cloud](/code/agent-cloud) for the full flow and usage boundary.
 
+For product agents, pass `referenceUserId` so the session and audit record identify the app user the agent is serving. Use `runAndWait()` for a backend job that can hold a connection, `listRuns()` to query history and `cancelRun()` to stop active work. The event stream resumes from its last handled sequence when a retryable connection drops.
+
 ## Workflows
 
 ```ts

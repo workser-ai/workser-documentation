@@ -1,58 +1,227 @@
 ---
 title: "Agent Cloud"
-description: "Run an agent inside your software on Workser infrastructure, with asynchronous runs, progress events and results."
+description: "Build Product Agents and Employee Agents on a managed runtime with models, sandboxes, connections, multimodal tools, approvals and durable run records."
 ---
 
-**Agent Cloud runs agents for the people using your product.** For example, your app can ask an agent to research a question, process a document or carry out a task using its configured tools and knowledge.
+<Warning>
+  Agent Cloud is in beta. Models, tools and connected actions depend on your
+  project, permissions, credits and service availability. Test the complete
+  flow, including failures and side effects, before relying on it in production.
+</Warning>
 
-This is a different job from your local AI tech team. Coding agents build and maintain the software on your computer. An Agent Cloud agent runs on Workser infrastructure when the finished software calls it.
+**Agent Cloud is Workser's managed runtime for agents that operate your product or your business.** Give an agent a model, instructions, knowledge, selected tools and an isolated workspace. Then test a draft, publish a version and inspect the work from request to result.
 
-## Define the agent
+This is separate from the AI tech team that builds your software:
 
-Configure the agent's instructions, model, tools, skills and knowledge for its job. Limit access to what that job needs. A catalog entry or a connected tool is not proof that the agent has permission to act on every record.
+|               | AI tech team                                            | Agent Cloud                               |
+| ------------- | ------------------------------------------------------- | ----------------------------------------- |
+| Who it serves | You and the people building the project                 | Product users or internal business teams  |
+| Where it runs | Through the coding agents connected to Workser Code     | On Workser's hosted agent runtime         |
+| How it starts | A project conversation or task in the desktop workspace | An API or SDK call from your software     |
+| Usage         | Your connected provider account or Workser Code credits | Hosted model, runtime and workspace usage |
 
-Test with a bounded request, inspect the result and check any side effects before exposing the feature to your app's users.
+## Two primary use cases
 
-## Start a run from your backend
+<CardGroup cols={2}>
+  <Card title="Product Agent" icon="code">
+    An agent-powered feature inside your software. It can receive a product
+    event or user request, perform permitted multi-step work and return progress
+    and a recorded outcome through the API or SDK.
+  </Card>
+  <Card title="Employee Agent" icon="briefcase">
+    An AI employee for operations, back office and internal business work. Start
+    it from a request, API call or schedule, and connect it to the systems and
+    procedures its role requires.
+  </Card>
+</CardGroup>
 
-The SDK supports starting work, following progress and reading the result:
+Examples include customer support and onboarding inside a product, invoice reconciliation, CRM operations, research, reporting and recurring administrative work. These are starting points, not separate Agent Cloud products; both use the same runtime and control model.
+
+## What the runtime provides
+
+<CardGroup cols={2}>
+  <Card title="Runtime sandbox (files + terminal)" icon="terminal">
+    A run can use a disposable, project-scoped E2B workspace with file read,
+    file write, directory listing and terminal commands. The sandbox starts only
+    when a run needs it, confines work to its workspace and is released when the
+    owning run finishes. You can add npm, pip and apt packages through a sandbox
+    template.
+  </Card>
+  <Card title="AI model gateways" icon="cpu">
+    Choose a primary and fallback model from the live catalogs available to your
+    project. Current gateway catalogs can include model families from OpenAI,
+    Anthropic, Google, Moonshot AI, Z.ai and other model makers. Availability,
+    pricing, tool use and accepted modalities come from the current gateway
+    catalog and can change.
+  </Card>
+  <Card title="App connections, MCP and workflows" icon="plug">
+    Attach only the connected-app actions, MCP servers, Workser project tools,
+    workflows and subagents the job needs. Each run records what reached the
+    model; protected writes can require a human approval.
+  </Card>
+  <Card title="Perception and generation" icon="image">
+    Where enabled, an agent can understand images, video and audio, and can
+    generate images, video, speech, sound effects and music. Model and service
+    availability, plan limits and configured capability grants still apply.
+  </Card>
+</CardGroup>
+
+You can create the first draft from the Agent Cloud UI or ask your coding agent to help define and configure the job. Review the resulting instructions, tools, connections and permissions before publishing; a conversational setup is still a configuration change.
+
+## The agent lifecycle
+
+<Steps>
+  <Step title="Configure a draft">
+    Set the agent's instructions, primary and fallback model, skills and project
+    knowledge. Add only the tools, app connections, workflows, MCP servers and
+    sandbox packages its job requires.
+  </Step>
+  <Step title="Test the draft">
+    Start a test run from Workser Code. A test reads the current draft so you
+    can check changes before they affect the published agent. Test runs use real
+    hosted resources and can incur usage.
+  </Step>
+  <Step title="Publish a version">
+    Publishing freezes the current setup as a numbered version. Ordinary product
+    runs resolve the published version, while later edits remain in the draft
+    until you publish again.
+  </Step>
+  <Step title="Call it from your product">
+    Start work asynchronously from your server. A product agent requires a
+    reference for the end user it is acting for. Continue a session when the
+    work belongs to an existing conversation.
+  </Step>
+  <Step title="Observe and operate">
+    Stream durable run events, inspect the final messages and artifacts, review
+    costs, cancel active work, or roll back the agent to an earlier published
+    version.
+  </Step>
+</Steps>
+
+## Start and follow a run
+
+Keep the project API key on your server. `run()` returns when Core API accepts the work; it does not wait for the agent to finish.
 
 ```ts
-import { workser } from '@workser/app';
+import { createClient } from "@workser/app";
 
-// Call from your server after authenticating and authorizing the app user.
-const run = await workser.agents.run(agentId, {
-  message: 'Summarize this project’s open support issues.',
+const workser = createClient({
+  projectId: process.env.WORKSER_PROJECT_ID!,
+  apiKey: process.env.WORKSER_API_KEY!,
 });
 
+const run = await workser.agents.run(
+  process.env.WORKSER_AGENT_ID!,
+  { message: "Summarize this customer’s open support issues." },
+  {
+    referenceUserId: currentUser.id,
+    idempotencyKey: `support-summary:${currentUser.id}:${requestId}`,
+  },
+);
+
 for await (const event of workser.agents.stream(run.id)) {
-  // Forward only the progress your user is permitted to see.
-  handleProgress(event);
+  // Forward only progress this user is authorized to see.
+  publishSafeProgress(event);
 }
 
 const finished = await workser.agents.getRun(run.id);
-if (finished.status === 'COMPLETED') {
-  handleResult(finished.output);
+if (finished.status === "COMPLETED") {
+  return finished.output;
 }
 ```
 
-`run` returns when the work is accepted, not when it is finished. Your UI should show progress and handle completed, failed and cancelled outcomes. The SDK's stream can reconnect using the last event sequence; read the run record for its final status.
+The event stream resumes from the last sequence after a dropped connection. For a backend job that can wait, `workser.agents.runAndWait(...)` starts the run, follows its events and then reads the final run record. You can also use `listRuns()`, `getRun()` and `cancelRun()` directly.
 
-For a backend worker that can wait, `workser.agents.runAndWait(...)` returns the final run record. Long work should not rely on keeping an ordinary browser request open indefinitely.
+### HTTP endpoints
 
-## Access and data
+The SDK wraps the same project-scoped API:
 
-Keep project API keys on your server. Check that the current user can access a run before returning its events or results. Run records can contain inputs, outputs, messages and artifacts; filter them for the intended audience.
+| Operation                          | Endpoint                        | Required scope |
+| ---------------------------------- | ------------------------------- | -------------- |
+| Start a run                        | `POST /v1/agents/:agentId/runs` | `runs:invoke`  |
+| List runs                          | `GET /v1/runs`                  | `runs:read`    |
+| Read a run, messages and artifacts | `GET /v1/runs/:id`              | `runs:read`    |
+| Stream events                      | `GET /v1/runs/:id/events`       | `runs:read`    |
+| Cancel active work                 | `POST /v1/runs/:id/cancel`      | `runs:cancel`  |
 
-App connections let the agent use authorized external tools. Your app still owns its end-user authorization and any confirmation needed before an external action. See [App connections](/code/app-connections).
+Pass an `Idempotency-Key` when the same business event must start at most one run. The SDK supplies a fresh key automatically for transport retries; pass your own order, request or job identifier when duplicate prevention must survive a new process.
+
+## What you can configure
+
+<CardGroup cols={2}>
+  <Card title="Instructions and models" icon="sliders">
+    Define the job, choose a primary model and add a fallback. The model picker
+    reads live gateway catalogs; a listed maker or modality does not mean every
+    model is available to every project. Per-run inference overrides work only
+    for paths explicitly allowed by the agent.
+  </Card>
+  <Card title="Skills and knowledge" icon="book-open">
+    Add reusable skills and project resources such as files, text, Markdown and
+    URLs. Treat retrieved content as input to the agent, not as a permission
+    grant.
+  </Card>
+  <Card title="Tools and connections" icon="plug">
+    Attach built-in capabilities, project tools, selected connected-app actions
+    and MCP servers. A configured tool can still be unavailable when its
+    connection or service is unavailable.
+  </Card>
+  <Card title="Workflows and subagents" icon="diagram-project">
+    Allow no workflows, a selected list, or organization-wide workflow access.
+    Delegate bounded work to configured subagents when the job needs a team.
+  </Card>
+  <Card title="Workspace" icon="terminal">
+    Use the ready-made sandbox or add npm, pip and apt packages for a custom
+    template. The agent receives confined file and terminal tools only when the
+    sandbox capability is enabled. Extra packages can require a background build
+    before they are available.
+  </Card>
+  <Card title="Perception and media generation" icon="image">
+    Grant only the image, video and audio understanding or generation
+    capabilities the role needs. Media calls use the project's service, plan and
+    credit controls and can fail when a model, provider or feature is
+    unavailable.
+  </Card>
+  <Card title="Secrets" icon="key">
+    Store model credentials and other runtime secrets separately from the
+    published configuration. Version views return secret counts rather than
+    decrypted values.
+  </Card>
+</CardGroup>
+
+## Access, approvals and records
+
+- API keys are organization and project scoped. A key for one project cannot invoke an agent in another project.
+- Product agents require `reference_user_id`, which ties the session and audit record to the app user the agent is serving. Your backend must still authenticate that user and authorize the request.
+- Every tool call passes the agent's capability grants. Protected writes can pause for a human decision instead of running immediately.
+- Run detail can include inputs, outputs, messages, tool steps, subagent runs, artifacts and cost information. Filter this data before returning it to an end user.
+- Artifact downloads use short-lived links. Do not copy them into long-lived records or public pages.
+- Runtime and spend ceilings can stop new work. Active runs can be cancelled, but completed, failed and cancelled runs may still have incurred hosted usage.
+
+An approval request can leave a run waiting for a person. Design the product UI for waiting, completed, failed and cancelled outcomes; do not treat the absence of a final answer as success.
 
 ## Usage and cost
 
-Agent Cloud has its own runtime, workspace and model usage. A Claude Code or Codex subscription used for local development does not pay for hosted agent runs. Check usage and your agreement before starting a large workload. [Plans and billing](/code/pricing#agent-cloud-and-other-hosted-ai).
+The run record reports model usage. The run detail can also report settled infrastructure usage for the hosted runtime, workspace and per-run services. A newly finished run may show an unsettled cost breakdown briefly while those records are written.
+
+Agent Cloud usage is separate from the Claude Code, Codex, Cursor Agent, Copilot or OpenCode account used by your local AI tech team. Check your organization's usage and agreement before starting a large workload. [Plans and billing](/code/pricing#agent-cloud-beta-and-other-hosted-ai).
 
 ## Next
 
 <CardGroup cols={2}>
-  <Card title="SDK reference" icon="code" href="/code/sdk">Call Workser services from your server.</Card>
-  <Card title="Local AI tech team" icon="users" href="/code/roles">The roles that build and maintain the software.</Card>
+  <Card title="SDK reference" icon="code" href="/code/sdk">
+    Call Agent Cloud and the rest of your project from server code.
+  </Card>
+  <Card title="App connections" icon="plug" href="/code/app-connections">
+    Give an agent selected actions from connected services.
+  </Card>
+  <Card
+    title="Security and approvals"
+    icon="shield-check"
+    href="/code/security-and-approvals"
+  >
+    Understand project scope, protected actions and owner decisions.
+  </Card>
+  <Card title="Local AI tech team" icon="users" href="/code/roles">
+    Meet the roles that build and maintain your software.
+  </Card>
 </CardGroup>

@@ -188,24 +188,7 @@
       ]
     }
   },
-  "redirects": [
-    {
-      "source": "/orbit/overview",
-      "destination": "/code/overview"
-    },
-    {
-      "source": "/orbit/:slug*",
-      "destination": "/code/:slug*"
-    },
-    {
-      "source": "/workser-desktop/orbit",
-      "destination": "/code/overview"
-    },
-    {
-      "source": "/workser-desktop/orbit/:slug*",
-      "destination": "/code/overview"
-    }
-  ],
+  "redirects": [],
   "logo": {
     "light": "/logo/workser-light.png",
     "dark": "/logo/workser-dark.png"

@@ -15,21 +15,21 @@ Spark has no monthly model credit grant. Use a connected coding agent or purchas
 
 These are the published self-service plans as of **September 6, 2026**. Allowances belong to your organization. Existing subscriptions and Enterprise agreements can differ; check your organization's Billing view before changing plans.
 
-| Included | Spark | Starter | Scale |
-| --- | --- | --- | --- |
-| Monthly price, USD | **$10** | **$25** | **$100** |
-| Workser Code credits per month | None; top-ups available | 1,500 | 6,500 |
-| Projects | 2 | 4 | 20 |
-| Apps per project | 5 | 10 | 10 web apps |
-| Database storage | 1 GB | 8 GB | 40 GB |
-| File storage | 5 GB | 100 GB | 500 GB |
-| Data transfer (egress) per month | 10 GB | 100 GB | 500 GB |
-| Custom domains | Included | 3 | Unlimited |
-| App user authentication | Unlimited users | Unlimited users | Unlimited users |
-| Workspace team members | 1 | Up to 3 | Up to 10 |
-| Monthly workflow executions | No allowance listed | 5,000 | 80,000 |
-| Backups | No daily backup feature listed | Automatic daily backups | Daily backups with point-in-time recovery |
-| Support | Community | Priority email | Priority support |
+| Included                         | Spark                          | Starter                 | Scale                                     |
+| -------------------------------- | ------------------------------ | ----------------------- | ----------------------------------------- |
+| Monthly price, USD               | **$10**                        | **$25**                 | **$100**                                  |
+| Workser Code credits per month   | None; top-ups available        | 1,500                   | 6,500                                     |
+| Projects                         | 2                              | 4                       | 20                                        |
+| Apps per project                 | 5                              | 10                      | 10 web apps                               |
+| Database storage                 | 1 GB                           | 8 GB                    | 40 GB                                     |
+| File storage                     | 5 GB                           | 100 GB                  | 500 GB                                    |
+| Data transfer (egress) per month | 10 GB                          | 100 GB                  | 500 GB                                    |
+| Custom domains                   | Included                       | 3                       | Unlimited                                 |
+| App user authentication          | Unlimited users                | Unlimited users         | Unlimited users                           |
+| Workspace team members           | 1                              | Up to 3                 | Up to 10                                  |
+| Monthly workflow executions      | No allowance listed            | 5,000                   | 80,000                                    |
+| Backups                          | No daily backup feature listed | Automatic daily backups | Daily backups with point-in-time recovery |
+| Support                          | Community                      | Priority email          | Priority support                          |
 
 Each paid project has its own Postgres database. Multiple apps in a project share that database and its file storage. The storage allowances above are pooled across the organization's projects, not multiplied by the project count.
 
@@ -43,16 +43,19 @@ Free accounts and existing Launch subscriptions are not additional current self-
 
 Your included usage comes first. Published overage rates apply to usage above that allowance, in addition to the monthly plan:
 
-| Cloud resource | Published overage rate |
-| --- | --- |
-| Database storage | **$1.25 per additional GB** |
-| File storage | **$0.15 per additional GB** |
+| Cloud resource         | Published overage rate      |
+| ---------------------- | --------------------------- |
+| Database storage       | **$1.25 per additional GB** |
+| File storage           | **$0.15 per additional GB** |
 | Data transfer (egress) | **$0.50 per additional GB** |
 
 For example, **10 GB of egress above your monthly allowance costs $5** at $0.50 per GB. Egress is data transferred out of your apps and files.
 
 <Note>
-Overage billing depends on the usage meters enabled for your organization. A published rate alone does not confirm that automatic charging is active. Check Billing or [contact support](https://workser.ai/contact) to confirm how excess usage is handled for your account.
+  Overage billing depends on the usage meters enabled for your organization. A
+  published rate alone does not confirm that automatic charging is active. Check
+  Billing or [contact support](https://workser.ai/contact) to confirm how excess
+  usage is handled for your account.
 </Note>
 
 Project, app and team member limits require a plan upgrade rather than a per-GB charge. Cloud overage is separate from model credits. Enterprise overage follows your agreement.
@@ -77,9 +80,9 @@ A balance check happens before a run; actual usage is settled afterward. A turn 
 
 Starter includes 1,500 credits per month and Scale includes 6,500. Spark includes none, but supports purchased credits. A feature being available does not mean its model usage is unlimited or free.
 
-## Agent Cloud and other hosted AI
+## Agent Cloud (Beta) and other hosted AI
 
-[Agent Cloud](/code/agent-cloud) runs agents inside your software on Workser infrastructure. Its runtime, workspace and model usage are separate from your local coding-agent subscription. Workser Business AI Employees and Computer Use also have their own usage rules. The built-in coding agent's cost example above is not a rate card for all hosted AI services.
+[Agent Cloud](/code/agent-cloud) runs Product Agents and Employee Agents on Workser infrastructure. Model usage and hosted runtime, sandbox and per-run services are metered separately from your local coding-agent subscription. A run detail can show model and infrastructure cost after settlement. Workser Business AI Employees and Computer Use also have their own usage rules. The built-in coding agent's cost example above is not a rate card for all hosted AI services.
 
 ## Manage your account
 
