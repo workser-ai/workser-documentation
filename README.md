@@ -1,6 +1,6 @@
 # Workser documentation
 
-Mintlify documentation for Workser Code, Workser's existing web platform, cloud services and security information. `docs.json` controls navigation. Product guides use MDX.
+Mintlify documentation for Workser, the proactive AI workforce, plus Workser Code, the desktop app and security information. `docs.json` controls navigation. Product guides use MDX.
 
 ## Preview and validate
 
@@ -26,7 +26,11 @@ When updating a claim, check the current source in the surrounding Workser works
 
 | Documentation | Source to verify |
 | --- | --- |
-| Product positioning and role groups | `web/workser-web/src/app/code/page.tsx`, `feature-sections.tsx`, `data.ts` and `faq.tsx` |
+| AI workforce positioning, FAQ and key facts | `web/workser-web/src/constants/faq.ts`, `src/lib/seo/llms-text.ts` (the site's `/llms-full.txt`) and `src/app/(marketing)/blog/posts.ts` |
+| AI agent roles and teams | `web/workser-web/src/app/(marketing)/ai-agents/ai-agents-copy.ts` and `src/lib/computer-web/workforce-templates.pure.ts` |
+| Use cases and comparisons | `web/workser-web/src/app/(marketing)/for/segments.ts` and `compare/competitors.ts` (dated, sourced facts: link, don't copy) |
+| Automations, Company knowledge, side panel tabs | `web/workser-web/src/lib/computer-web/automation-browse.pure.ts`, `brain-thread.pure.ts` and `src/design/one/react/chat/side-tabs.pure.ts` |
+| Workser Code positioning and role groups | `web/workser-web/src/app/code/page.tsx`, `feature-sections.tsx`, `data.ts` and `faq.tsx` |
 | Published plans, allowances and cloud rates | `web/workser-web/src/constants/pricing.ts` and `src/app/(marketing)/pricing/page.tsx` |
 | Supported agents and app creation options | `on-device/computer-use-ai-agent/workser-desktop-ai-agent/src/app/orbit/lib/agents.ts` and `useAppTypes.ts` |
 | Mobile store availability | Desktop `src/app/orbit/components/PublishMobileDialog.tsx` |
@@ -37,7 +41,7 @@ When updating a claim, check the current source in the surrounding Workser works
 | Live statistics definitions | Core API `src/modules/public-stats/` and web `src/lib/platform-stats.ts` |
 | Cloud overage activation | Core API `src/modules/subscription/subscription-usage-reconciliation.service.ts` and the configured organization billing meters |
 
-The detailed public plan documentation lives in `code/pricing.mdx`; other billing pages should link to it rather than maintain another full allowance table. Keep the published offer separate from live account entitlements, provider terms and Enterprise agreements.
+The detailed public plan documentation lives in `ai-workforce/plans-and-credits.mdx`; `code/pricing.mdx` covers only what is specific to building and hosting apps. Other pages should link to them rather than maintain another full allowance table. Use the owner's words: Task (not job), Automations (not Routines or Duties), Company knowledge, Logins, Stuck, and "AI agent", never "assistant". Keep the published offer separate from live account entitlements, provider terms and Enterprise agreements.
 
 ## September 6, 2026 audit follow-ups
 

@@ -15,12 +15,45 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Get Started",
+        "tab": "AI Workforce",
         "groups": [
           {
-            "group": "Overview",
+            "group": "Get started",
             "pages": [
               "index",
+              "ai-workforce/overview",
+              "ai-workforce/quickstart",
+              "ai-workforce/ai-agents"
+            ]
+          },
+          {
+            "group": "Working with AI agents",
+            "pages": [
+              "ai-workforce/chats-and-tasks",
+              "ai-workforce/automations",
+              "ai-workforce/approvals-and-stuck",
+              "ai-workforce/company-knowledge"
+            ]
+          },
+          {
+            "group": "Tools and identity",
+            "pages": [
+              "ai-workforce/logins-and-computers",
+              "ai-workforce/connect-your-apps",
+              "ai-workforce/chat-apps",
+              "ai-workforce/identity"
+            ]
+          },
+          {
+            "group": "Plans and answers",
+            "pages": [
+              "ai-workforce/plans-and-credits",
+              "ai-workforce/plan-and-account",
+              "ai-workforce/your-team",
+              "ai-workforce/consulting-and-training",
+              "ai-workforce/use-cases",
+              "ai-workforce/compare",
+              "ai-workforce/faq",
               "enterprise-vs-consumer",
               "changelog"
             ]
@@ -35,6 +68,7 @@
             "pages": [
               "code/overview",
               "code/quickstart",
+              "workser-desktop/install-setup",
               "code/connect-your-agent"
             ]
           },
@@ -71,69 +105,6 @@
         ]
       },
       {
-        "tab": "Workser Business",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "workser-business/overview",
-              "workser-business/quickstart"
-            ]
-          },
-          {
-            "group": "Deep dives",
-            "pages": [
-              "workser-business/web-development",
-              "workser-business/workflow-automation",
-              "workser-business/ai-employees",
-              "workser-business/connections-integrations"
-            ]
-          },
-          {
-            "group": "Help",
-            "pages": [
-              "workser-business/faq"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Workser Desktop",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "workser-desktop/overview",
-              "workser-desktop/install-setup"
-            ]
-          },
-          {
-            "group": "Deep dives",
-            "pages": [
-              "workser-desktop/computer-use"
-            ]
-          },
-          {
-            "group": "Help",
-            "pages": [
-              "workser-desktop/faq"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Consumer Guides",
-        "groups": [
-          {
-            "group": "Everyday use",
-            "pages": [
-              "consumer/payments-billing",
-              "consumer/business-data-platform"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "Security & Trust",
         "groups": [
           {
@@ -149,7 +120,9 @@
           {
             "group": "Policies",
             "pages": [
+              "security/terms-of-service",
               "security/privacy-policy",
+              "security/data-deletion",
               "security/cookie-policy",
               "security/acceptable-use",
               "security/accessibility"
@@ -188,7 +161,56 @@
       ]
     }
   },
-  "redirects": [],
+  "redirects": [
+    {
+      "source": "/workser-business/overview",
+      "destination": "/ai-workforce/overview"
+    },
+    {
+      "source": "/workser-business/quickstart",
+      "destination": "/ai-workforce/quickstart"
+    },
+    {
+      "source": "/workser-business/ai-employees",
+      "destination": "/ai-workforce/ai-agents"
+    },
+    {
+      "source": "/workser-business/workflow-automation",
+      "destination": "/ai-workforce/automations"
+    },
+    {
+      "source": "/workser-business/connections-integrations",
+      "destination": "/ai-workforce/connect-your-apps"
+    },
+    {
+      "source": "/workser-business/web-development",
+      "destination": "/code/overview"
+    },
+    {
+      "source": "/workser-business/faq",
+      "destination": "/ai-workforce/faq"
+    },
+    {
+      "source": "/consumer/payments-billing",
+      "destination": "/ai-workforce/plans-and-credits"
+    },
+    {
+      "source": "/consumer/business-data-platform",
+      "destination": "/ai-workforce/company-knowledge"
+    },
+    {
+      "source": "/workser-desktop/overview",
+      "destination": "/ai-workforce/logins-and-computers"
+    },
+    {
+      "source": "/workser-desktop/computer-use",
+      "destination": "/ai-workforce/logins-and-computers"
+    },
+    {
+      "source": "/workser-desktop/faq",
+      "destination": "/code/faq"
+    }
+  ],
   "logo": {
     "light": "/logo/workser-light.png",
     "dark": "/logo/workser-dark.png"
@@ -196,14 +218,22 @@
   "navbar": {
     "links": [
       {
+        "label": "Pricing",
+        "href": "https://workser.ai/pricing"
+      },
+      {
+        "label": "Blog",
+        "href": "https://workser.ai/blog"
+      },
+      {
         "label": "Support",
         "href": "mailto:support@workser.ai"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Get Workser Code",
-      "href": "https://workser.ai/code"
+      "label": "Start free",
+      "href": "https://workser.ai"
     }
   },
   "contextual": {
@@ -228,6 +258,15 @@
     "posthog": {
       "apiKey": "phc_NqSqOc5ZQgTTfNAHQAwUjVPPywv4GJXWMMvI7NV2iyH",
       "apiHost": "https://us.i.posthog.com"
+    }
+  },
+  "description": "Docs for Workser, the proactive AI workforce that runs your business: AI agents hired by role that work on a shared cloud computer, use your apps and ask you only when a step is risky.",
+  "seo": {
+    "indexing": "navigable",
+    "metatags": {
+      "og:site_name": "Workser Docs",
+      "twitter:site": "@workserai",
+      "keywords": "AI workforce, AI agents for small business, AI employees, Workser"
     }
   }
 }
