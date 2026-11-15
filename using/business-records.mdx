@@ -1,0 +1,134 @@
+---
+title: "Business records: the Data tab"
+description: "Every record Workser keeps for your business — customers, orders, products, invoices, campaigns, bookings and more — in one Data tab, with your own fields and access rules."
+keywords: ["Workser business records", "Workser Data tab", "CRM Workser", "orders and customers"]
+---
+
+**Business records are the facts of your business, kept where your AI agents can work on them: customers, orders, products,
+invoices, campaigns, bookings and the rest.** They live in the **Data** tab, in 19 tables across five groups, plus any kinds
+of record you add yourself.
+
+Turn them on once in **Settings › Business → Use Workser business records** ("Customers, orders, bookings and stock."). Once
+on, AI agents can read and update products, stock, customers and orders, and **Open the shop** appears.
+
+## Open a table or one record
+
+- **From the "+" launcher**: search a customer, order or product, or pick a table under its group.
+- **From the Data tab**: the tables are grouped the way the business works.
+- **From a link**: a customer on an invoice, an order on a payment, or a record from another record opens in its own tab.
+
+A table is a list you can search, filter, sort and save views of. Some tables also offer **Board** (cards by status) or
+**Calendar** (records on their date). A row opens the full record, with its fields, the records it is linked to, its history,
+and on some records a **Map** card of links, files and notes that belong to it alone. Editing saves in place; required fields
+are checked before it saves.
+
+## The 19 tables
+
+### Your business
+
+| Table | What it is for |
+| --- | --- |
+| **Customers** | Manage customers and their history |
+| **Orders** | Follow every order from sale to delivery |
+| **Payments** | Money received and given back — this tab opens your Stripe dashboard, not a Workser list |
+| **Deliveries** | Packing and delivery status |
+| **Products** | What you sell, with prices and stock |
+
+### Appointments
+
+| Table | What it is for |
+| --- | --- |
+| **Bookings** | Appointments, times and deposits |
+| **Staff** | Who works when, and what they offer |
+
+### Selling
+
+| Table | What it is for |
+| --- | --- |
+| **Collections** | Group products to sell together |
+| **Discounts** | Codes and offers for customers |
+| **Carts** | Shoppers who haven't checked out yet |
+| **Shipping** | Where you deliver and what it costs |
+
+### Sales and support
+
+| Table | What it is for |
+| --- | --- |
+| **Deals** | Move sales opportunities toward a close |
+| **Support** | Answer customer questions and issues |
+| **Quotes** | Send proposals and win the work |
+| **Invoices** | Bill customers and get paid |
+| **Subscriptions** | Recurring plans and renewals |
+
+### Marketing and website
+
+| Table | What it is for |
+| --- | --- |
+| **Campaigns** | Plan and send your marketing |
+| **Pages** | The pages of your website |
+| **Blog posts** | Articles that bring people to you |
+
+**Subscriptions have no Add button**: they appear here when someone subscribes, and follow Stripe. **Payments** is the
+project's Stripe dashboard. Invoices and quotes have their own guides:
+[invoices, proposals and getting paid](/using/invoices-and-payments).
+
+## What is not here
+
+- **No CSV import or export** and **no bulk edit**. Records are added one at a time, or arrive from Stripe, Shopify, HubSpot or
+  Salesforce sync.
+- **No archive and no trash.** Deleting a record is permanent: "It is removed from your records for good, with its own fields
+  and links." Cancelling an order or a booking is the reversible way to retire one.
+- **No geographic map view.** The **Map** card belongs to one record; it is not a map of all records.
+
+## Your own records
+
+Some things your business tracks have no table in Workser: vehicles, properties, cases, equipment. Add a **kind of record**
+in **Settings › Business → Your own records**, and it appears in Data with its own list and records. You can also show a
+table from your project's database as records; the table itself is not changed.
+
+## Your own fields
+
+On any record kind, **Settings › Business → Your fields** adds typed fields:
+
+| Field type | Use it for |
+| --- | --- |
+| **Text** | Names, references, notes |
+| **Choice / status** | A fixed list, with your own labels |
+| **Money** | An amount and its currency |
+| **Record link** | Point at another record, like the customer on an order |
+| **AI field** | A value an AI agent fills from other fields, with instructions and an output type |
+
+Each AI fill uses credits. Fields can be renamed, hidden or deleted (with a confirmation); a hidden field does not show on the
+record but its data stays.
+
+## Who sees which records
+
+Record access is separate from the business roles. **Settings › Business → Who sees what** maps each role to **Hidden**,
+**See** or **Change** per record kind, can hide particular fields, and can limit locations. People and AI agents get one role
+or none; **none means they see everything**. Owners and admins always see everything and are the only ones who change this.
+
+An AI agent follows the same rule: if its role hides a record kind, it cannot read or change it, whatever you ask in chat.
+
+## Keeping records in step with your apps
+
+**Settings › Business → Connected systems** syncs HubSpot, Salesforce and Shopify: what crosses, which way, who wins per
+field, the last run, rows set aside, **Retry** and **Sync now**. Core runs it every 10 minutes while on. It never creates
+pipelines or stages, and orders only ever come in from Shopify.
+
+## If something is missing
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| Data is empty | Business records are off | **Settings › Business** → **Use Workser business records** |
+| A table is missing | The business's pack does not include it, or it is your own kind and not added | **Kind of business** / **Your own records** |
+| An AI agent cannot see a record | Its record role is **Hidden** | **Who sees what** |
+| A field is read-only | Your role is **See**, or the field is hidden | Ask an owner or admin |
+| A record will not save | A required field is empty | Fill the field the form marks |
+
+## Related
+
+- [Your business profile](/using/business-profile): the records switch, fields, access, sync and payouts
+- [Selling: orders, deliveries and stock](/using/selling-orders-and-deliveries)
+- [Marketing and campaigns](/using/marketing-and-campaigns)
+- [Bookings](/using/bookings)
+- [Invoices, proposals and getting paid](/using/invoices-and-payments)

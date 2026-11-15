@@ -1,0 +1,71 @@
+---
+title: "Troubleshooting: when something will not move"
+description: "The common reasons a Task stalls, an AI agent cannot get in, a purchase is refused, a chat app is silent or a code never arrives, with the fix for each."
+keywords: ["Workser stuck", "AI agent not working", "Workser troubleshooting", "AI agent cannot log in"]
+---
+
+**Most problems are one of five things: a login, a permission, credits, a plan limit, or a page that needs a refresh.** Start
+with the message on screen — Workser says what it needs in the ask — then use this table.
+
+## Tasks
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| A Task sits at **Request** | It asked you something and is waiting | Answer the card above the message box, or in [Requests](/using/tasks) |
+| A Task says **Stuck** and will not resume | Replying starts a *new* Task, not the old one | Read "What it needs", reply with what to do next, then Send |
+| A Task is **Queued** for a long time | The plan's "Tasks at once" is full, or you hit the account's parallel limit | Wait for one to finish, or check **Tasks at once** at the top. Starter 5, Pro 10, Team 5 per person |
+| A Task **Didn't finish** with no clear reason | A step failed, often a site or a file | Open the step's details; retry the work in a new message |
+| A Task paused at **10% of the month's credits** | The single-Task spending limit | Choose to keep going, or split the work into smaller Tasks |
+| Work stopped entirely | Credits ran out | Add credits or change plan in **Settings › Plan and billing** |
+| "Already answered." | Someone else answered the same ask | Nothing; the card is gone and the Task carried on |
+
+## Sign-ins and access
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| An AI agent cannot get into a site | No saved login, or the site signed it out | **Settings › Identity › Logins**, or answer the **Save your sign-in** card |
+| The login is saved but still refused | The site wants a code, a captcha or a passkey | Take over the computer and finish that step, or give it a sign-in page it can use |
+| A connector says **Sign in again** | Its OAuth token expired | Reconnect it in **Settings › Connectors** |
+| An AI agent cannot see a connector the project has | It is set to **Only selected**, or **Isolated AI agent** is on | **Manage → Connectors & skills** |
+| "Only an owner or admin can…" | Your role | Ask an owner or admin; roles are in [Settings](/using/settings) |
+
+## Money and cards
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| A card purchase is refused before the passkey | **Can buy for you** is off, the monthly limit is used, or the store is not allowed | Change the AI agent's rules in **Settings › Card and spending** |
+| The passkey page does not open | The browser blocked the new tab | Allow the tab, or use the link shown in the panel |
+| An order says **Check this one** | The final state could not be read | Check your card statement before ordering again |
+| Card checkout is missing | The plan is below Starter, or you are not an owner or admin | Upgrade, or ask an owner or admin |
+
+## Email, phone and chat apps
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| A verification code never arrives | Spam filter, wrong number, or an expired code | Send a new code; check the exact address or number, with country code |
+| WhatsApp does not answer | The Meta app is not Live, or the webhook is wrong | Follow the checklist in **Settings › Chat apps**; see [Get your WhatsApp access key](/ai-workforce/whatsapp-meta-access-key) |
+| Telegram answers only in a private chat | Group privacy mode is on | Turn group privacy off for the bot, then send a test message |
+| A work email bounces | The inbox is new or the address is wrong | Check the address on the AI agent's **Identity**, then send a test |
+| Calls do not connect | The number is outside the US and Canada | Those numbers are **Soon**; use email or a chat app |
+
+## Publishing and hosting
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| A change is not live | It was previewed but not published | **Changes → Publish**, then check the app's version |
+| A publish fails | A build error, or a domain not verified | Open **Cloud → Deploys** and read the log; check **Domains** |
+| The morning report did not arrive | It is off, or the time zone is not yours | **Settings › Notifications**: turn it on and check the time |
+
+## When nothing above fits
+
+1. **Read the ask again.** It names the step, the site or the exact thing it needs.
+2. **Open the Task's steps** and the failed one's details; the error is usually the site's own words.
+3. **Retry as a new message.** Say what changed, for example "the login is saved now".
+4. **Ask support** at [support@workser.ai](mailto:support@workser.ai) with the project name, the Task, and what you expected.
+
+## Related
+
+- [Tasks and Requests](/using/tasks)
+- [Autonomy and probation](/using/autonomy-and-probation)
+- [Plans, credits and add-ons](/ai-workforce/plans-and-credits)
+- [Chat apps](/ai-workforce/chat-apps)

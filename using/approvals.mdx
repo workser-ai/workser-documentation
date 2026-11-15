@@ -1,0 +1,101 @@
+---
+title: "Approvals: what waits for your yes"
+description: "Every kind of ask in Workser, the passkey for money, Always allow, trusting a contact, and where the answer goes after you give it."
+keywords: ["Workser approvals", "AI agent passkey", "trust a contact", "always allow AI agent", "AI agent permission"]
+---
+
+**An AI agent asks before anything risky and does everything else on its own.** The ask appears above the message box and waits
+in **Requests**; answering it lets the Task carry on. This page is the detail behind
+[Approvals and Stuck](/ai-workforce/approvals-and-stuck).
+
+## What always asks
+
+- **Money:** refunds, card purchases and other payments from $50.
+- **Deletes and cancellations**, and anything that cannot be undone.
+- **A first email or message to someone you have not trusted yet.**
+- **Your Never rules**, checked before every action they cover.
+- **Any kind of work set to Asks first** in the AI agent's [Autonomy](/using/autonomy-and-probation).
+
+## The four asks
+
+| Head | What it asks | Your answers |
+| --- | --- | --- |
+| **Question for you** | A choice or a written answer | A chip (its words are the answer), or "Or say it in your own words" |
+| **Needs your OK** | What it will do | **Yes, go ahead** / **No**, or **Allow once** / **Don't send** |
+| **Needs your permission** | A step on a computer or in an app | **Allow** / **Deny**, and sometimes **Always allow** |
+| **Stuck and waiting for you** | What happened, what it tried, what it needs | **Carry on**, or tell it what to do next and **Send** |
+
+An approval shows the action in the AI agent's words: **"If you approve, it will …"**, with **Change → Approve with changes**
+when the action can be adjusted.
+
+## Money: the passkey
+
+A purchase or a payment never completes in the chat. **Approve with passkey** opens the card service's own page in a new tab,
+with the note **"Approve it with your passkey in the tab that opened. It leaves this list once it's paid."** If the browser
+blocks the tab, the card shows a plain **Open your passkey page** link instead.
+
+Only an owner or admin can approve; a member sees **"An owner or admin approves this."**
+
+## Always allow, and trusting a contact
+
+Two answers make future asks rarer, and both are deliberate:
+
+- **Always allow for \<name\>** (owner or admin, only when offered): that AI agent may do that kind of step without asking.
+  The note says "You can undo it any time." — the control is in its **Autonomy** tab.
+- **Approve and trust \<address\>** (or **Approve and trust these contacts**): future email to that address goes out without
+  asking. "Trusting a contact means their emails go out without asking. You can change this in Logins."
+
+**Trusted contacts** live in **Settings › Identity › Email**. Add an **Address** or a **Whole domain** (shown as `@shop.com`);
+a domain matches only that exact domain. Empty: **"No one is trusted yet. Replies wait for your yes."** Removing one asks
+**"Stop trusting \<x\>?"** and "Their emails will wait for your yes again."
+
+A learned approval can also offer **Let Workser decide these**; the note says Workser decides from then on, and the control is
+in that AI agent's **Rules & alerts**.
+
+## Sign-ins and secrets
+
+Some asks carry their own secure form:
+
+- **Save your sign-in for \<site\>** asks for a username or email, a password (with Show/Hide), an optional 2FA key, then
+  **Save and carry on** or **Skip**. The login goes to the Logins vault and only "Saved, carry on" is returned — never the
+  password.
+- A secret typed for one Task says **"Sent straight to the task. Workser doesn't keep it."**
+- A site that needs a sign-in in **Requests** offers **Sign in** or **Not now** ("Okay. It asks again tomorrow if it still
+  needs it.").
+
+## Requests
+
+**Requests** collects every ask across projects, "Most urgent first", with filters **All**, **Approvals**, **Questions**,
+**Suggestions**, **Payments** and **Sign-ins**, and **From** for one AI agent.
+
+- Repeated identical approvals read "… asked the same thing N times: “…”" with **Approve all N** or "I'll read them one by
+  one".
+- Answering one removes it. **"That one is already answered."** means someone else got there first.
+- Nothing waiting reads **"Nothing is waiting on you."**
+
+## After you answer
+
+The card collapses in the chat to one quiet line — **Answered** — with the answer word: **You approved**, **You declined**,
+**You dismissed it**, **You sent it securely**, **No answer in time**, **Approved automatically**, or **You answered: “…”**.
+The AI agent's next message keeps the trail as **"Approved: \<title\>"** or **"Declined: \<title\>"**, and your reply carries
+**"Answer to \<title\>"**.
+
+## Cost limits that act like approvals
+
+- **The 10% pause:** a paid Task with no limit of its own pauses and asks after it uses 10% of the month's credits.
+- **A Task's own credit limit** (Manage → Advanced) stops it at the limit without asking.
+- **Under 10 credits** nothing new starts; the Task stops and **Add credits** appears.
+- **The card's monthly limit and stores** can refuse a purchase before the passkey is even offered.
+
+## Telling people it is an AI agent
+
+For chat apps, **Settings › Chat apps → Say it is an AI agent** adds a line to the first message each person gets; some
+countries require it. On a call, the legal line is added to the greeting and says the call may be recorded when recording is
+on.
+
+## Related
+
+- [Tasks and Requests](/using/tasks): the ask in the flow of a Task
+- [Autonomy and probation](/using/autonomy-and-probation): reducing the asks over time
+- [Logins](/using/logins): where saved sign-ins and trusted contacts live
+- [Approvals and Stuck](/ai-workforce/approvals-and-stuck): the shorter guide

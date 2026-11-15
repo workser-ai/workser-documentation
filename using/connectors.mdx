@@ -1,0 +1,92 @@
+---
+title: "Connectors: the apps AI agents work in"
+description: "Connect Gmail, Slack, Shopify, HubSpot, Stripe and hundreds more, keep the sign-in healthy, and set which AI agents may use which connector. MCP servers included."
+keywords: ["Workser connectors", "connect Gmail AI agent", "MCP server Workser", "connector access"]
+---
+
+**A connector is an app your AI agents may work in: Gmail, Google Sheets, Slack, Shopify, HubSpot, Stripe and hundreds more.**
+You connect it once for the project, then decide which AI agents may use it. For what each connector can do, see
+[Connectors](/ai-workforce/connectors).
+
+## Connect one
+
+<Steps>
+  <Step title="Open Settings › Connectors">
+    The page lists only the apps that are connected, each with its state and who uses it. **Add a connector** opens the
+    catalog.
+  </Step>
+  <Step title="Find the app">
+    Search ("Search connectors: Gmail, Google Sheets, Slack…"), pick a category, or switch between **All connectors** and
+    **Connected**.
+  </Step>
+  <Step title="Sign in">
+    **Continue to Gmail** opens the app's own sign-in page in a new window. If it needs a key, you paste it there: "Workser
+    never sees your password."
+  </Step>
+  <Step title="Finish">
+    The app says **"Gmail is connected"**. **Done**, or **Add another connector**.
+  </Step>
+</Steps>
+
+Apps marked **Needs setup** are shown, not hidden: "An operator has to add this app's sign-in first." A half-finished sign-in
+is abandoned, so it never appears as connected.
+
+## What the states mean
+
+| State | What it means |
+| --- | --- |
+| **Connected** | Working now |
+| **Turned off** | Connected but not available to tasks |
+| **Needs you to sign in again** | The app's token expired; **Sign in again** |
+| **MCP** badge | An MCP server: your AI agents use its tools directly |
+
+The scope line matters: **Used by \<agent\>**, **Used by the whole team**, or **Shared by every project**. Disconnecting a
+shared app asks **"Every project loses it. Disconnect?"** and only an owner or admin can do it:
+"This app is shared by every project. Only an owner or admin can disconnect it."
+
+The promise on the page is the same everywhere: "It asks you before it pays, deletes anything, or writes to someone new."
+
+## Which AI agents may use it
+
+In an AI agent's **Manage → Connectors & skills**, each of **Connectors**, **Skills** and **Plugins** has:
+
+- **All shared**: use everything the project has, with the project's limits.
+- **Only selected**: use only what you tick. "A selected connector allows all its actions. All shared keeps the existing
+  limits."
+
+A switch above them, **Isolated AI agent**, means: "Uses only the connectors, skills and plugins given to it here. The
+project's shared ones are left out."
+
+This is how one AI agent gets Stripe while another does not.
+
+## MCP servers
+
+An MCP server gives an AI agent tools from another system. They appear in the same catalog and list with an **MCP** badge,
+and can also be added by URL: only `https://` addresses are accepted ("Only https MCP servers can be connected here."). For
+the server URL, transport, auth and publishing, see [MCP servers](/using/mcp-servers).
+
+## Reading an app's records
+
+Open a connected app in the workspace and its **Connector** tab shows what it can show, read-only: "Read-only, through this
+project's own Slack connection. Nothing here changes Slack." If there is more, **Ask your AI agent to pull …** puts the
+request in the chat beside it.
+
+Refusals are specific: **"This connection isn't here any more"** (reconnect it), **"Slack needs you to sign in again"**, or
+**"You can't open this project's connectors"**.
+
+## If something is wrong
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| The app says **Needs you to sign in again** | The token expired | **Sign in again** |
+| A task says it cannot use an app | The AI agent is on **Only selected**, or **Isolated** | Change its Connectors & skills |
+| **Disconnect** is refused | The app is shared by every project | Ask an owner or admin |
+| "Needs setup" | Workser has no sign-in for that app yet | Try another app, or add its MCP server |
+| **No preview** in the Connector tab | The app has no readable records here | Ask the AI agent to pull what you need |
+
+## Related
+
+- [Connectors](/ai-workforce/connectors): what each app is for
+- [MCP servers](/using/mcp-servers): tools from other systems
+- [Logins](/using/logins): passwords the computer types
+- [The AI agent panel](/using/agent-panel): where access is set

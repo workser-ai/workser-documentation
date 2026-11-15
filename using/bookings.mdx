@@ -1,0 +1,123 @@
+---
+title: "Bookings: the calendar and the public page"
+description: "Take and manage bookings in Workser: day, week and list views, held-for-deposit, confirm, done, no-show, reschedule, cancel, refund a deposit, and the page customers book from."
+keywords: ["Workser bookings", "AI booking page", "appointment scheduling", "deposit refund"]
+---
+
+**Bookings are appointments with a time, a service and a person — taken by you in Workser or by a customer on your public
+booking page.** They live in **Data › Bookings**, which opens as a **Calendar**.
+
+## The calendar
+
+- **Day**, **Week** and **List** views, with **Today** and **New booking**.
+- Filters: **All staff**, **Any status**, and **All locations** when there is more than one.
+- The time zone is shown: **"Times in Asia/Bangkok"**, for example.
+- Columns are the staff member's name, **No one named** for an unassigned booking, or **Bookings** when no one is set up.
+- Empty: "No bookings this day." / "No bookings this week."
+
+A booking's own tab shows **Customer**, **When**, **Service**, **With** (or **Anyone**), **Status**, **Deposit**, **Refunded**,
+**Phone**, **Email**, **Number** and **Why cancelled**.
+
+## Statuses
+
+| Status | What it means |
+| --- | --- |
+| **Held for deposit** | A public booking is holding the time until its deposit is paid |
+| **Booked** | The time is taken |
+| **Confirmed** | You or the customer confirmed it |
+| **Done** | It happened |
+| **No-show** | The customer did not come |
+| **Cancelled** | The time is free again |
+
+## Take a booking yourself
+
+**New booking** is a full form:
+
+- **Service** (from your service records), **Where** when there are several locations, **With** ("Anyone free" or a person).
+- **From** date, then **Free times** chips for that day.
+- **Customer**: search "Find a customer by name, email or phone", or **Or a new customer** with name, email and phone.
+- **Notes** (optional), then **Book Tue 27 Oct, 10:30**.
+
+Errors: "Pick a free time." / "Say who it is for: pick a customer or type their name." If the slot is taken, the next free
+times appear; if none are close, "No other free times close by. Pick another day."
+
+## Move a booking along
+
+Under **What happened**, the buttons depend on the state:
+
+- **Confirm**
+- **Mark done**
+- **Mark no-show**
+- **Move to another time**
+- **Cancel booking**
+
+A done, no-show or cancelled booking says: "This booking is done. Book a new one for another time."
+
+**Move to another time** picks a person and a free time from today onward; choosing one moves it at once ("Moved to Tue 27
+Oct, 10:30."). **Cancel booking** frees the time and asks for an optional reason. When a deposit was paid it says:
+"The deposit was paid. Cancelling doesn't refund it: use Refund deposit if you want to give it back."
+
+## Deposits
+
+A service can ask for a deposit. On the public page the customer sees: "{business} asks for a $20.00 deposit of the $45.00 to
+hold your time. You pay it next, on a secure payment page."
+
+- The booking is **Held for deposit** until the payment lands: "Held until Tue 27 Oct, 10:30 while the deposit is paid. Then
+  the time is let go."
+- Deposit states: **No deposit**, **Deposit asked for**, **Deposit paid**, **Deposit refunded**.
+- The amount can be edited only before it is paid ("Deposit to ask for"). Once paid: "The deposit was paid, so it can't
+  change. Refund it instead if you need to."
+- **Refund deposit** is for an owner or admin, for the amount left: "Refund the deposit?" — "The money goes back to the
+  customer's card. This can't be undone." Part-refunds are allowed.
+
+Card payments must be live for a deposit service to be bookable online; until then the booking page says so in its **Still
+to do** list.
+
+## Staff, services and hours
+
+- **Staff** are the people who take bookings: **Who customers can book** lists them, with **Add someone**, **Edit**,
+  **Remove** and **Hours**. Removing keeps past and coming bookings, with no one named.
+- **Locations** have a name and a time zone, and can be stopped and used again.
+- **Business hours** are per day, with **Open this day**, **Add more hours** and special days; a person can work the
+  business's hours or their own.
+- **Services** are records with a duration (and optionally a price and a deposit). The booking page shows them with
+  duration, price and deposit.
+
+## Who customers book with
+
+**Settings › Business → Booking page** decides: **Let customers choose who they book with** reads "Customers choose who they
+book with" or "Whoever is free". On the public page, when choosing is on and more than one person is available, the customer
+sees **Who with**: **Anyone free** or a name. Otherwise it is whoever is free.
+
+## The public booking page
+
+The page lives at `/book/<slug>` and opens without signing in:
+
+1. **Choose a service**.
+2. **Where** (if there are locations).
+3. **Who with** (if allowed).
+4. **Pick a time** — free times in the business's time zone.
+5. **Your details**, and **Anything we should know? (optional)**.
+6. **Book this time**, or **Continue and pay $20.00 deposit**.
+7. **You're booked**, with **Add to calendar** / **Google Calendar** and the booking number.
+
+If payment is abandoned: "You didn't finish paying, so your time wasn't booked. Pick a time to try again." A service with a
+deposit and no live payments says: "Not available to book online yet. Please contact {business}."
+
+## If something is wrong
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| No free times | No opening hours, or the day is full | Set **Hours** / **Business hours**, or pick another day |
+| The booking page says unavailable | It is off, or has no address or service | **Settings › Business → Booking page** and its **Still to do** |
+| A held booking never confirms | The deposit was not paid | Check the deposit state; cancel to free the time if needed |
+| A customer cannot choose a person | **Who customers book with** is set to "Whoever is free", or only one person is available | Change the setting, or add staff |
+| The deposit cannot be refunded | It was not paid, or it is fully refunded | Check **Deposit** and **Refunded** |
+| The time shown is wrong | The location's time zone | Fix the location's time zone and business hours |
+
+## Related
+
+- [Your business profile](/using/business-profile): the booking page switch, address and services
+- [Marketing and campaigns](/using/marketing-and-campaigns): filling the calendar
+- [Business records](/using/business-records): the Data tab
+- [Invoices, proposals and getting paid](/using/invoices-and-payments): deposits and payouts

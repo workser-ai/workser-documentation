@@ -1,0 +1,138 @@
+---
+title: "Cards and spending: let AI agents buy for you"
+description: "Connect a card once per project, set each AI agent's monthly limit and stores, and approve every purchase with your passkey. Cards are powered by Agentcard."
+keywords: ["AI agent that can pay", "virtual card for AI agent", "agentcard", "approve an AI agent purchase", "spending limit for AI agent"]
+---
+
+**In Workser, an owner or admin connects a card once per project in Settings › Card and spending, then sets each AI agent's
+monthly limit and approves every purchase with their passkey.** Card checkout is on Starter, Pro and Team. Nothing is
+bought without you: not by a Task, not by an Automation, not by an AI agent acting on its own.
+
+The card behind this is **Agentcard** (its Vault keeps your card, its Issuing makes single-use cards), which is why the
+panel ends with "Powered by agentcard.com".
+
+## Before you start
+
+- **Who can do it:** an owner or admin connects the card, adds it, changes rules, approves orders and disconnects.
+  Everyone else sees the card and the orders and the line "An owner or admin connects this and approves orders."
+- **Plan:** Starter, Pro or Team. Below Starter the panel says "Card checkout is on Starter and up" with an Upgrade button.
+- **What you need:** the card you want your AI agents to use, and a phone number (with country code) or an email address
+  to receive a one-time code.
+- **Where it lives:** **Settings › Card and spending**. Each AI agent also has a **Cards** view under
+  **Resources**, and the project's **Card** tab in the workspace shows the same ground from the work side.
+
+## Connect the project card
+
+<Steps>
+  <Step title="Open Settings › Card and spending">
+    The panel starts at "Not connected" and shows the four steps: **Send me a code**, **Type the code**,
+    **Add your card**, **Connected**.
+  </Step>
+  <Step title="Send me a code">
+    Enter the email address or phone number (with country code) that should receive the code. It is the code that proves
+    the card account is yours, not a Workser password.
+  </Step>
+  <Step title="Type the code">
+    Paste the code back into the panel. If it does not arrive, send a new one; the newest code is the one that works.
+  </Step>
+  <Step title="Add your card">
+    The card page opens in its own tab. Add the card there and come back. The panel then reads **Connected** and shows the
+    card it will use, for example "Uses the project card ending 4242".
+  </Step>
+</Steps>
+
+You can disconnect at any time. Orders already placed stay in the list.
+
+## Set what each AI agent may buy
+
+Under the card, **Each AI agent's rules** has one row per AI agent. Three settings, nothing else:
+
+| Setting | What it does |
+| --- | --- |
+| **Can buy for you** | Off means this AI agent cannot place an order at all. |
+| **Monthly limit (USD)** | The most this AI agent may spend in a calendar month. It resets on the 1st at 00:00 UTC, and purchases still waiting for your passkey count toward it. |
+| **Stores it may use** | **Any store**, or **Only these**: the store names exactly as they appear at checkout. |
+
+An AI agent's **Cards** view (Resources › Cards) shows this month's spend against its limit as one thin meter, then the
+last six months as small bars, so a limit is not a number you have to remember.
+
+## Approve a purchase
+
+Every purchase waits for the owner's yes. When an order is waiting, it appears under **Orders** with the store, the date
+and the amount.
+
+<Steps>
+  <Step title="Find the order">
+    **Settings › Card and spending › Orders**, the project **Card** tab, or the AI agent's **Cards** view. A waiting
+    order reads **Waiting for your passkey**.
+  </Step>
+  <Step title="Approve with passkey">
+    The passkey page opens in its own tab. Confirm there. The order moves to **Payment pending**, then **Paid**, and
+    leaves the waiting list once it is paid.
+  </Step>
+  <Step title="Or say no">
+    **Don't buy** cancels the order before it is placed. It stays in the list as **Cancelled**.
+  </Step>
+</Steps>
+
+| Order status | What it means | What to do |
+| --- | --- | --- |
+| Placing it | The order is being set up at the store | Wait a moment, then Refresh |
+| Waiting for your passkey | It is waiting for you | Approve with passkey, or Don't buy |
+| Payment pending | The passkey was accepted; the charge is settling | Wait; do not order again |
+| Paid | Done | Nothing |
+| Declined | The card or the store refused it | Check the card, then try again if you still want it |
+| Didn't go through | The order failed | Try again, or ask the AI agent to stop |
+| Check this one | Workser could not read the final state | Look at your card statement before ordering again |
+| Cancelled | You said no, or it was cancelled | Nothing |
+
+Declined, failed and cancelled orders are never counted as spent.
+
+## Single-use cards
+
+Below the project card, **Single-use cards** are issued to an AI agent for one purchase: a card that exists for one
+checkout and one amount.
+
+- Each card waits for your yes before it is **made** and again before it is **used**.
+- Cards are funded from a prepaid balance: **Add prepaid funds**, choose an amount from $1 to $10,000, and confirm on
+  the funding page that opens. This is a prepaid balance, not Workser credits.
+- The first time, you confirm the phone number that receives the issuance code.
+- A card has a checkout window. Past it, the row says **checkout window ended**; the card cannot be used again.
+- **Close** a card to end it early. Closing is permanent.
+- The rows show card issuance, not proof of a completed purchase. An uncertain issuance stays reserved until it is
+  reviewed in the card account.
+
+## What it costs
+
+- **The purchase amount goes on the card you added**, through Agentcard. It is not paid from Workser credits.
+- **Workser's per-request fee** for asking the card service is **0 today**, while the card service is in its free beta.
+  If it changes, the fee is charged in credits, one per request, and shows in **Settings › Credits and usage**.
+- **Single-use cards** are paid from the prepaid balance you fund in the same panel, not from the project card.
+- Card checkout itself is part of the plan, on Starter, Pro and Team ([plans and credits](/ai-workforce/plans-and-credits)).
+
+## Across your projects
+
+When the business has more than one project, Settings › Card and spending also lists **Across your projects**: each
+project's card, this month's spend and how many orders are waiting for a passkey. It is read-only; a project's card and
+rules are set in that project.
+
+## If something is wrong
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| "Waiting for your code" never moves | Wrong address, or the code expired | Send a new code and enter it within its window |
+| "Needs reconnecting" | The card connection was revoked at the provider | Reconnect and add the card again if asked |
+| Approve with passkey does nothing | The browser blocked the new tab, or you are not an owner or admin | Allow the tab, or open the passkey link shown in the panel |
+| An order says "Check this one" | The final state could not be read | Check your card statement before ordering again |
+| The AI agent cannot buy | **Can buy for you** is off, the limit is used, or the store is not in **Only these** | Change the rule, or wait for the 1st |
+| Single-use card stuck at Reserved | Issuance is uncertain | Review it in the card account before issuing another |
+
+## Related
+
+- [Work email, phone and card](/ai-workforce/identity): the three parts of an AI agent's identity
+- [Approvals and Stuck](/ai-workforce/approvals-and-stuck): everything else that waits for your yes
+- [Plans, credits and add-ons](/ai-workforce/plans-and-credits): what each plan includes
+- [Credits and usage](/using/credits-and-usage): where the AI agent's own spend shows
+
+Checked 16 Nov 2026 against `Settings › Card and spending`, `merchant-purchases.pure.ts` and `PLAN_LIMITS` in
+`constants/pricing.ts`.

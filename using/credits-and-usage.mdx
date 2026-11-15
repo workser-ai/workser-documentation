@@ -1,0 +1,90 @@
+---
+title: "Credits and usage: what was charged"
+description: "Read every credit charge in Workser, by Task or AI agent, understand what is charged as work runs, and add credits. Owners and admins only."
+keywords: ["Workser credits", "Workser usage", "what did my AI agent cost", "add credits", "AI agent billing"]
+---
+
+**Credits are what work costs in Workser, charged as it runs.** 100 credits = $1 when you pay. **Settings › Credits and usage**
+shows every charge, with its units and price, and what is left. Only owners and admins can open it; everyone else sees "Only
+owners and admins can see credits and usage. Ask an admin for access."
+
+## Open the page
+
+**Settings › Credits and usage** is the first row in Settings, and the default row when Settings opens with nothing chosen.
+
+- **Pick a period:** 7, 30 or 90 days.
+- **Read the chart:** charges grouped by category, each with its share.
+- **Switch view:** **By task** (the default), **By AI agent** or **Every charge**.
+- **Find one charge:** search by Task, AI agent or charge, or filter with **All AI agents**.
+- **Recent top-ups:** credits you bought, newest first, each with its status: **Added**, **On its way**, **Refunded** or
+  **Didn't go through**.
+
+The balance is split in two: **Plan credits** ("1,200 of 2,000", used first, and what is left expires when the plan renews)
+and **Bought credits** ("Never expire. Used after your plan credits."). A negative balance reads "−1,137 credits" with how
+many more are needed to start work.
+
+## What is charged
+
+| What | When it is charged |
+| --- | --- |
+| **AI model calls** | The moment each call finishes, in the units the provider returns: input and output tokens |
+| **Cloud computer and sandbox minutes** | When each piece finishes or fails, billed per second |
+| **Phone** | Calls and texts when each piece finishes or fails, at the provider's cost + 30% |
+| **Work email** | 200 emails a month per inbox are included; after that, 0.2 credits per email in either direction |
+| **Cloud browser** | Not sold today (postponed) |
+| **A card purchase** | The purchase goes on your card, not your credits. Workser's per-request fee for the card service is 0 today |
+
+**A Task that fails pays for what actually ran, no more**, and its credits are not given back. That is why a failed Task can
+still show a charge.
+
+## Before and during a Task
+
+- **An estimate** appears on a start screen once enough similar Tasks have finished: "Estimate: 12–30 credits, from what this
+  AI agent's last N jobs like this were charged."
+- **The live meter** is on the Task's own sheet: "14 credits so far", then "Charged 20 credits".
+- **A single paid Task pauses and asks** after it uses **10% of the month's credits** — Starter 200, Pro 1,050, Team 10% of
+  the team's shared credits (440 for two people). The pause is an ordinary approval card; with no answer in 4 hours the Task
+  stops.
+- **A Task with its own Credit limit per task** (Manage → Advanced) stops at that limit without asking.
+- **Under 10 credits, nothing new starts.** You see **"You're out of credits"** and **"Your AI agents have stopped."**, with
+  **Add credits** and **Upgrade plan**. A Task already running stops.
+
+Nothing is billed past your credits: work stops until you add credits or change plan. The balance chip reads **Low** at 50
+credits or fewer, and Workser emails you at 50%, 80% and 100% of the month's credits, then again when work stops.
+
+For accounting, the organization's Credits page can download every charge as a CSV or a PDF.
+
+## Add credits
+
+<Steps>
+  <Step title="Open Add credits">
+    From **Settings › Credits and usage**, the out-of-credits banner, or **Settings › Plan and billing**.
+  </Step>
+  <Step title="Choose an amount">
+    Any whole-dollar amount from **$3 to $1,000**, or a quick amount: $3, $5, $10, $25, $50 or $100.
+  </Step>
+  <Step title="See what you get">
+    **$1 per 100 credits.** The sheet shows **You pay**, **You get** and **Balance after**.
+  </Step>
+  <Step title="Pay">
+    One payment, no plan change, by card, Apple Pay or Google Pay. Credits you add never expire, and the page shows them
+    under **Recent top-ups** once they land.
+  </Step>
+</Steps>
+
+Only owners and admins can buy credits; a member sees "Ask an owner or admin to add credits."
+
+If your balance is negative because work ran past the credits, the sheet says so and asks for at least the amount that covers
+the shortfall before work can start again.
+
+## Where the numbers come from
+
+Plan credits and limits come from `constants/pricing.ts`; the rate is 100 credits per dollar; top-ups are whole-dollar units
+of $1. The live plan values are at [workser.ai/pricing](https://workser.ai/pricing).
+
+## Related
+
+- [Plans, credits and add-ons](/ai-workforce/plans-and-credits): what each plan includes
+- [Tasks and Requests](/using/tasks): the 10% pause and its card
+- [Cards and spending](/using/cards-and-agentcard): what is paid on your card instead
+- [Your plan and account](/ai-workforce/plan-and-account): invoices, cancelling, the guarantee

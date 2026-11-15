@@ -1,0 +1,106 @@
+---
+title: "Cloud: data, keys, domains and logs"
+description: "The backend behind an app Workser Code built: database tables, app users, files, environment keys, payments, connections, web addresses, builds, logs and usage."
+keywords: ["Workser cloud", "app database", "custom domain Workser", "app environment variables"]
+---
+
+**The Cloud tab is everything behind an app Workser Code built: its database, users, files, keys, payments, connections, web
+address, builds, logs and storage usage.** It is one tab for the project, with a rail on the left.
+
+## The pages
+
+| Rail | Also called in the "+" menu | What it is for |
+| --- | --- | --- |
+| **Data** | App data | Your app's Postgres, browsed as tables, with a SQL editor |
+| **Users** | App users | People who signed up to your app |
+| **Storage** | Storage | Images, uploads and documents your app keeps |
+| **Keys & settings** | Environment | Values your app reads when it runs |
+| **Payments** | Payments | Card payments through your own Stripe account |
+| **Connections** | Connections | Services your app and AI agents can act through |
+| **Web address** | Domains | The free `workser.app` name and your own domain |
+| **Builds** | Deploys | Every version that was built, and what is live |
+| **Logs** | Logs | What the live app is doing right now |
+| **Usage** | Usage | Database storage against your plan |
+
+In the page, two more are reachable but not in the "+" menu: **AI** (connect Claude, GPT or Gemini with your own key) and
+**Functions** (small pieces that run on the server).
+
+## Data
+
+Browse tables and rows, create and edit tables and records, or write SQL. If the project's cloud is on but has no database:
+**"No database yet"** → **Set up database**. If the cloud is off: **"Your app's cloud isn't on yet"** → **Turn it on**.
+
+## Users
+
+Two tabs, **Users** and **Accounts**, with **Add User**, **Refresh**, and per-user change email, password or delete. If the app
+has no sign-up: "Your app doesn't have sign-up yet. When your app lets people create accounts, they show here."
+
+## Storage
+
+The app's files and folders, with upload, rename, delete and preview. Below it, optional **Object Storage** on the project's
+Neon branch, with buckets and objects.
+
+## Keys and settings
+
+Environment variables, one row per key:
+
+- Secrets are masked and never shown in full; **Secret** means "never shown in full".
+- Each key can have a value for production and one for preview.
+- **Add key** asks for the name, the value and a short description.
+- Saving redeploys the app: "Saved 2 environment variables — redeploying your app."
+
+Without an app chosen: **"Choose an app first"**.
+
+## Payments
+
+Card payments into your own Stripe account, or your own Stripe secret key (`sk_test_…` or `sk_live_…`) pasted into the app.
+A test key works immediately and carries no fee on test sales; going live needs Stripe's verification. Find the key in Stripe
+under **Developers → API keys**.
+
+## Connections
+
+The project's connected services, with a catalog to add more. This is the same connector world as
+[Connectors](/using/connectors), viewed from the app's side.
+
+## Web address
+
+Two free addresses on `workser.app`, one for **Live** and one for **Preview**, with availability checked as you type. Or
+**Use your own domain**: add `app.acme.com`, then put the **Type**, **Name** and **Value** records at your registrar. SSL is
+issued automatically, and a domain moves through **Setting up** → **Verifying…** → **Live**, or **Needs attention** when DNS
+is wrong. One domain can be the **Main domain**.
+
+A custom domain needs a published app: "Publish a web app first to attach a custom domain."
+
+## Builds and versions
+
+**Builds** lists every version that was built, newest 30, with **Queued**, **Building**, **Ready**, **Didn't build** or
+**Cancelled**, and **Build Preview again** / **Build Live again**. It is history, not rollback: to put an older version live,
+use the app's **Versions** tab → **Make this live**.
+
+**Logs** is a live stream of visits, errors and warnings, with a level filter and **Reconnect**. Leaving the page closes the
+stream.
+
+## Usage
+
+Database storage against the plan: **Used**, **Quota**, **Usage %**, a progress bar, and a breakdown per project database with
+**This app** marked. The quota is shared across the organization's databases.
+
+## If something is wrong
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| **No database yet** | The cloud is on but no database was made | **Set up database** |
+| **Your app's cloud isn't on yet** | Cloud was never turned on | **Turn it on** |
+| A key change did not reach the app | The redeploy is still running | Check **Builds**, then reload the app |
+| **No keys yet** | No environment variables are set | **Add key** |
+| A custom domain says **Needs attention** | DNS records are missing or wrong | Compare them at your registrar |
+| **Couldn't read your builds** | The read failed | **Try again** |
+| The log stream says **Not connected** | The page lost its stream | **Reconnect** |
+| Usage looks wrong | It is the organization's shared quota | Check the breakdown per database |
+
+## Related
+
+- [Workser Code in the app](/using/code-in-the-app): build, preview and publish
+- [Connectors](/using/connectors): the services behind Connections
+- [Documents and the Library](/using/documents): files rather than app storage
+- [Plans, credits and add-ons](/ai-workforce/plans-and-credits): app limits and hosting

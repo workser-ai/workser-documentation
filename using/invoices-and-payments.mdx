@@ -1,0 +1,124 @@
+---
+title: "Invoices, proposals and getting paid"
+description: "Send an invoice or proposal with a link your customer opens without signing in, record a payment made another way, refund it, and manage subscriptions — paid into your own Stripe account."
+keywords: ["Workser invoices", "AI agent invoice", "send an invoice", "payment link", "Stripe payouts Workser"]
+---
+
+**Workser writes invoices and proposals, sends a link your customer opens without signing in, and takes card payments into
+your own Stripe account.** Invoicing and payment links are in **beta**: the flow works, and we are still testing it live. The records live in the **Data** tab: **Invoices**, **Quotes** (called Proposals in some business
+packs), **Subscriptions** and **Payments**. An AI agent can write, send and chase them like any other Task.
+
+## Before you start: set up payouts
+
+Money goes to **your own Stripe account**, not to Workser.
+
+<Steps>
+  <Step title="Open Settings › Business">
+    Scroll to **Get paid**. Its badge reads **Not set up** or **Ready**.
+  </Step>
+  <Step title="Set up payouts">
+    **Set up payouts** opens Stripe's own onboarding. You need your business details and a bank account; Stripe approves it.
+  </Step>
+  <Step title="Come back">
+    Stripe returns you to the same settings. **Ready** means payouts are on and "Your AI agents can take payments."
+  </Step>
+</Steps>
+
+Only an owner or admin can set up payouts. Until it is ready, an invoice can still be written and sent, but its link cannot
+take a card payment.
+
+## An invoice
+
+**Data › Invoices → New invoice.** Pick a customer by name, email or phone, or type a new one. Add a title, the items (what
+it is, quantity, price), the currency, the due date, and terms. **Internal notes** are only for your team and AI agents.
+
+**Save as draft** first if you want to check it. The record then offers:
+
+| Action | What it does |
+| --- | --- |
+| **Send** | Makes the customer's link. Copy it and send it yourself, or ask an AI agent to. "Sent. Copy the link and send it to your customer, or ask an AI agent to." |
+| **Mark paid** | Records a payment made another way, like a bank transfer. Nothing is charged, and the link stops working. |
+| **Edit** | Changes a draft or a sent invoice |
+| **Void** | Stops the link taking payment for good; nothing is charged or refunded |
+| **Refund** | Returns the whole card payment; it can take a few days and cannot be undone |
+| **Delete** | Removes a draft that was never sent |
+
+The customer's link opens without signing in and takes a card payment. It shows the items, totals, terms and due date — never
+internal notes. Editing a sent invoice changes what that link shows.
+
+There is no reminder button on an invoice: chasing an overdue one is an AI agent Task ("send a reminder"), and the
+**Needs attention** chip on the Customers and Orders lists shows how many are overdue.
+
+### What the status means
+
+| Status | What it means |
+| --- | --- |
+| **Draft** | Not sent; no link yet ("Not sent yet") |
+| **Sent** | The link works; "Due Nov 30, 2026" or "Overdue: was due Nov 3, 2026" |
+| **Paid** | "Paid USD 1,200.00 by card", or "(recorded by hand: reference)" |
+| **Refunded** | "Refunded USD 1,200.00" |
+| **Void** | "Voided: nothing to pay" |
+
+The payment line is separate from the status, so a sent invoice can read "USD 1,200.00 due", and a refunded one "Refunded
+USD 1,200.00".
+
+## Proposals (quotes)
+
+The same shape, with one extra step: a proposal can be **Accepted** or **Declined** by the client through its link.
+
+**Data › Quotes → New quote**: items, currency, how long it holds, what is paid on accepting ("Nothing to pay now", the full
+amount, or a deposit) and terms. Send it, and the client opens the link, reads it and accepts with their name or declines.
+
+- **Draft → Sent → Accepted** or **Declined**; a sent one can go back to draft while it is being edited.
+- **Mark payment received** records a deposit paid another way; the invoice then takes it off.
+- **Make an invoice** turns an accepted proposal into an invoice for the same items. If one already exists, core says so and
+  opens it.
+
+## Subscriptions
+
+**Data › Subscriptions** lists the subscriptions your customers have, with their plan, price and where they stand:
+
+| Status | What it means |
+| --- | --- |
+| **Active** | Charged each period; "Renews Nov 30, 2026" |
+| **Trial** | In a trial period |
+| **Past due** | A payment failed and is being retried |
+| **Paused** | "Paused: nobody is charged until you resume" |
+| **Canceled** | "Canceled Oct 3, 2026" |
+
+**Pause**, **Resume**, **Keep** (undo a cancel set for the period's end), **Cancel at period end** or **Cancel now**. A
+subscription set to end can still be kept before the period closes.
+
+## Payments and the Stripe dashboard
+
+The **Payments** tab in Data opens the project's own **Stripe dashboard**, not a Workser list. It has a **Test / Live** switch
+and tabs for **Payments** (with **Overview** and **Disputes**), **Balances**, **Payouts**, **Products**, **Customers**,
+**Subscriptions**, **Invoices**, **Payment Methods**, **Webhooks**, **Fees & Refunds**, **Branding**, **Tax**, **Documents** and
+**Settings**. Payouts and refunds there need an owner or admin.
+
+Money moves in your Stripe account, so Stripe's own processing fees and payout schedule apply. Workser does not hold the
+money.
+
+## What it costs
+
+- **Workser** charges for the AI agent's work in credits, as any Task. Writing or sending an invoice from the record page
+  costs no credits by itself.
+- **Stripe** charges its processing fees on each card payment; the money lands in your account on Stripe's schedule.
+- An invoice paid by bank transfer costs neither: you record it with **Mark paid**.
+
+## If something is wrong
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| The link will not take a card | Payouts are not **Ready** | Settings › Business › Get paid |
+| The customer says the link is dead | The invoice was voided, or already paid | Check its status; make a new invoice if needed |
+| "It already has an invoice" | A proposal was turned into an invoice before | Open the existing invoice from the proposal |
+| A payment is missing | It was made in test mode, or on another Stripe account | Check the **Test / Live** switch and the account |
+| Refund is not offered | The payment was recorded by hand, not by card | Refunds are for card payments; adjust the record instead |
+
+## Related
+
+- [Cards and spending](/using/cards-and-agentcard): the card AI agents buy with
+- [Credits and usage](/using/credits-and-usage): what the work costs
+- [Business records](/using/workspace): the Data tab where customers, products and orders live
+- [Plans, credits and add-ons](/ai-workforce/plans-and-credits)

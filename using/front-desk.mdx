@@ -1,0 +1,99 @@
+---
+title: "Front desk: one address, a team behind it"
+description: "Put the whole team behind one business email address, phone number or chat app: who answers, who the work goes to, how the line answers, and where every contact ended up."
+keywords: ["Workser front desk", "AI receptionist team", "shared business inbox", "who answers"]
+---
+
+**A front desk is one business address, number or chat app with the whole team behind it.** The AI agent that answers passes
+each request to the teammate it fits; that teammate replies from the same address, number or chat, and the work behind the
+reply goes to whoever owns it.
+
+The page is **Front desk** in the sidebar, after Home and Tasks.
+
+## What the page shows
+
+- **Today** or **This week**, and a headline like **"Today: 11 of 14 contacts handled · 1 in progress · 2 need you"**.
+- **All**, **Needs you**, **Working** and **Done**, each with a count.
+- One row per contact: channel icon, who wrote, what it was, the outcome, up to three background lines, the person who has
+  it, and the status.
+
+| Status | What it means |
+| --- | --- |
+| **Done** | Answered and finished |
+| **Working** | Being handled now |
+| **Needs you** | A person has to decide or answer |
+| **Not answered** | It arrived and nobody has picked it up yet; counted under **Needs you** |
+| **Screened** | Kept without a Task because it needed no work (a newsletter, an automated notice); it is counted, but the filters do not list it today |
+
+Rows with a Task behind them open it. Empty filters read "Nothing in yet", "Nothing needs you", "Nothing in progress" or
+"Nothing done yet", with a note that everything appears once the business has an address or number.
+
+Home shows one quiet line when something arrived today: **"Front desk today · 14 contacts · 12 handled · 2 need you"**.
+
+## Set it up
+
+With no line yet, the page offers three actions:
+
+- **Give an email**
+- **Get a phone number**
+- **Connect a chat app**
+
+The setup note explains the split: "Your Front Desk Team answers them: Workser Support replies and picks up, Workser Sales
+takes quotes and new leads, and the rest of your AI agents do the work behind each reply."
+
+Open a line for Workser Support, or connect a chat app, to start.
+
+## Who answers
+
+Lines are set in **Settings › Identity › Lines** (also reachable from a line card's **Open Lines**):
+
+| Setting | What it decides |
+| --- | --- |
+| **Who answers** | The AI agent that takes the first reply or call. Default: **Workser, the manager**. |
+| **Unmatched sign-up codes** | Who receives sign-up codes nobody asked for. Default: **Who answers, then Workser**. Email and phone only. |
+| **Team behind this line** | The teammates who can take the work on. Free; add as many as you like. |
+
+The team line changes by channel: "Who answers passes each email on; the teammate replies from this address." / phone:
+"takes the call and passes it on; the teammate calls back from this number." / chat: "takes each message and passes it on;
+the teammate replies in the same chat."
+
+A line card reads **"\<answeredBy\> answers, with \<A\> and \<B\> behind it"**, and either **"How we answer: set"** or
+**"Set how it answers"**.
+
+## How we answer
+
+Each line has one guide that everyone answering it follows, whoever picks up. Empty fields mean the AI agent's own way.
+
+| Field | What it sets |
+| --- | --- |
+| **How we sound** | Tone, for example "Warm and short. First names. No emoji." |
+| **Always** | What every reply should do: offer pickup times, give the order number |
+| **Never** | What no reply may do: promise a delivery date, offer a discount |
+| **Ask me first when** | The cases that wait for your yes. On email and chat you see the reply first; on a call the caller hears that someone will get back to them |
+| **Sign-off** | How every written reply ends (email) |
+| **Business hours** | The hours the line says the team is back; messages are still answered |
+
+Limits are short by design: 300 characters for tone, 800 for Always and Never, 500 for Ask-me, 120 for the sign-off.
+
+## What the team shares
+
+Everything that arrives is in the same page, with who answered and who did the work, so a hand-off does not create a second
+inbox. The reply keeps the same address, number or chat; the AI agent never says it is somebody else.
+
+## If something is wrong
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| The page says "Nothing in yet" | No address, number or chat app is connected | Use the three setup buttons |
+| A contact is **Not answered** | Nobody has picked it up | Answer it, or give the line a team |
+| A contact is **Needs you** | It waits for a decision | Open it from **Needs you** |
+| A reply does not follow the guide | The guide is empty, or the line has none | **Settings › Identity › Lines → How we answer** |
+| The wrong AI agent answers | **Who answers** is set to another agent | Change it in Lines |
+| The guide says "Coming with the next update" | This server has an older core | The line answers in each AI agent's own way until it updates |
+
+## Related
+
+- [Lines and identity](/using/settings): where Lines and Email/Phone sit
+- [Work email](/using/email) and [Work phone](/using/phone)
+- [Procedures](/using/procedures): how recurring work is done
+- [The AI agent panel](/using/agent-panel): the teammates behind the line

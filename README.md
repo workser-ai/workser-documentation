@@ -10,7 +10,12 @@ Use Node.js 22 LTS. The installed Mintlify CLI rejects Node.js 25 and newer.
 mint dev --no-open
 mint validate --telemetry=false
 mint broken-links --telemetry=false
+node scripts/check-copy.mjs
 ```
+
+`check-copy.mjs` is the drift guard: it fails on the stale facts the docs once carried (a Free plan, 18 roles, 20
+Automations, a 20% phone markup, a Software Developer role). Run it before every publish; the drift table in
+`docs/plans/documentation/PLAN.md` says what each line should be instead.
 
 On a Mac with Homebrew Node 22 installed, select that runtime for the command:
 
@@ -26,12 +31,17 @@ When updating a claim, check the current source in the surrounding Workser works
 
 | Documentation | Source to verify |
 | --- | --- |
+| Plans, prices, credits, add-ons, guarantee | `web/workser-web/src/constants/pricing.ts` (`PLAN_LIMITS`, `PLAN_CREDITS`, `PAID_ONLY_LINE`, add-ons), `src/lib/seo/plan-facts.ts`, and the live `https://workser.ai/api/public/plans` once deployed |
+| AI agent roles and teams (16/11, names and members) | `web/workser-web/src/lib/computer-web/workforce-templates.pure.ts` (`WORKFORCE_TEMPLATES`, `HIDDEN_FROM_HIRE`) and `src/app/(marketing)/ai-agents/ai-agents-copy.ts` |
+| Settings rows, groups and what each page does | `web/workser-web/src/lib/computer-web/usage.pure.ts` (`settingsEntries`, `linkOnlySettings`, `SETTINGS_ALIASES`) and `src/components/computer-web/SettingsSheet.tsx` |
+| Workspace tabs and the "+" launcher | `web/workser-web/src/components/computer-web/workspace/registry.tsx`, `src/lib/computer-web/workspace-tabs.pure.ts`, `workspace-openers.pure.ts` |
+| The agent side panel and its tabs | `web/workser-web/src/design/one/react/chat/side-tabs.pure.ts` |
+| Cards, purchases, passkeys and Agentcard | `web/workser-web/src/lib/computer-web/merchant-purchases.pure.ts`, `src/components/computer-web/MerchantPurchasesSection.tsx`, `CardsTab.tsx` |
+| What is live vs held | `web/workser-web/src/lib/computer-web/room-hold.ts` and the feature flags in `src/constants/pricing.ts` (`CARD_CHECKOUT_LIVE`, `CLOUD_BROWSER_LIVE`) |
 | AI workforce positioning, FAQ and key facts | `web/workser-web/src/constants/faq.ts`, `src/lib/seo/llms-text.ts` (the site's `/llms-full.txt`) and `src/app/(marketing)/blog/posts.ts` |
-| AI agent roles and teams | `web/workser-web/src/app/(marketing)/ai-agents/ai-agents-copy.ts` and `src/lib/computer-web/workforce-templates.pure.ts` |
 | Use cases and comparisons | `web/workser-web/src/app/(marketing)/for/segments.ts` and `compare/competitors.ts` (dated, sourced facts: link, don't copy) |
 | Automations, Company knowledge, side panel tabs | `web/workser-web/src/lib/computer-web/automation-browse.pure.ts`, `brain-thread.pure.ts` and `src/design/one/react/chat/side-tabs.pure.ts` |
 | Workser Code positioning and role groups | `web/workser-web/src/app/code/page.tsx`, `feature-sections.tsx`, `data.ts` and `faq.tsx` |
-| Published plans, allowances and cloud rates | `web/workser-web/src/constants/pricing.ts` and `src/app/(marketing)/pricing/page.tsx` |
 | Supported agents and app creation options | `on-device/computer-use-ai-agent/workser-desktop-ai-agent/src/app/orbit/lib/agents.ts` and `useAppTypes.ts` |
 | Mobile store availability | Desktop `src/app/orbit/components/PublishMobileDialog.tsx` |
 | Role configuration and approvals | Desktop `src-electron/orbit/daemon/agent-roles.ts` and `approval.ts` |

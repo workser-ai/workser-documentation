@@ -42,6 +42,8 @@
               "ai-workforce/connectors",
               "ai-workforce/chat-apps",
               "ai-workforce/whatsapp-meta-access-key",
+              "ai-workforce/whatsapp-assign-account",
+              "ai-workforce/whatsapp-business-account-id",
               "ai-workforce/identity"
             ]
           },
@@ -57,6 +59,85 @@
               "ai-workforce/faq",
               "enterprise-vs-consumer",
               "changelog"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Using Workser",
+        "groups": [
+          {
+            "group": "Start here",
+            "pages": [
+              "using/overview",
+              "using/workspace",
+              "using/chats",
+              "using/tasks"
+            ]
+          },
+          {
+            "group": "Your AI agents",
+            "pages": [
+              "using/agent-panel",
+              "using/skills-and-kits",
+              "using/mcp-servers",
+              "using/memory",
+              "using/models",
+              "using/autonomy-and-probation",
+              "using/approvals",
+              "using/sharing-and-handoffs"
+            ]
+          },
+          {
+            "group": "Money and identity",
+            "pages": [
+              "using/cards-and-agentcard",
+              "using/email",
+              "using/phone",
+              "using/invoices-and-payments",
+              "using/credits-and-usage"
+            ]
+          },
+          {
+            "group": "Work and data",
+            "pages": [
+              "using/business-records",
+              "using/selling-orders-and-deliveries",
+              "using/marketing-and-campaigns",
+              "using/bookings",
+              "using/documents",
+              "using/business-profile",
+              "using/front-desk",
+              "using/procedures"
+            ]
+          },
+          {
+            "group": "Build and operate",
+            "pages": [
+              "using/computer",
+              "using/logins",
+              "using/browser",
+              "using/connectors",
+              "using/code-in-the-app",
+              "using/creative",
+              "using/cloud",
+              "using/web-watch-software"
+            ]
+          },
+          {
+            "group": "Settings and team",
+            "pages": [
+              "using/settings",
+              "using/people-and-roles",
+              "using/notifications"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "using/glossary",
+              "using/for-ai-agents",
+              "using/troubleshooting"
             ]
           }
         ]

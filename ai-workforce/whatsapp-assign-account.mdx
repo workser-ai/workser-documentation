@@ -1,0 +1,59 @@
+---
+title: "Fix: “WhatsApp does not show that ID to this token”"
+description: "Workser cannot connect your WhatsApp number because the Meta system user does not have your WhatsApp account yet. Give it the account in four steps, with screenshots, then make a new access key."
+keywords: ["WhatsApp does not show that ID to this token", "assign WhatsApp account to system user", "Meta system user WhatsApp account", "WhatsApp Cloud API token permission"]
+---
+
+When you press **Connect** for WhatsApp in Workser, you may see:
+
+> WhatsApp does not show that ID to this token. Check the ID, and that the system user has this WhatsApp account assigned.
+
+It means the access key you pasted works, but Meta says that key is **not allowed to see your WhatsApp account**. The fix is to give the key's system user your WhatsApp account, then make a new key. The numbers you typed are usually fine.
+
+<Note>
+  Not sure how to make the access key at all? Start with [Get your WhatsApp access key from Meta](/ai-workforce/whatsapp-meta-access-key).
+</Note>
+
+<Steps>
+  <Step title="Open your WhatsApp account in Meta">
+    In [Meta Business Settings](https://business.facebook.com/settings/whatsapp-business-accounts), open **Accounts → WhatsApp accounts** and click your number. Your test number looks like `+1 555-…` and says *Test Number*. If your account is not in this list, it belongs to a different business portfolio or to your personal developer account, and the system user cannot reach it from here.
+
+    <Frame>
+      <img src="/images/whatsapp-meta/a-whatsapp-accounts.png" alt="The WhatsApp accounts page in Meta Business Settings with the Assign people button" />
+    </Frame>
+
+    Press **Assign people**.
+  </Step>
+
+  <Step title="Pick the system user">
+    The list holds the people in your business and your **system users**. Tick the system user you made for Workser. It is marked *(system user)*.
+
+    <Frame>
+      <img src="/images/whatsapp-meta/b-add-system-user.png" alt="Add people and set permissions with the system user ticked" />
+    </Frame>
+  </Step>
+
+  <Step title="Give it full access">
+    Under **Full access**, turn on **Everything**, then press **Assign**. Workser needs to send messages for this account, and Meta only allows that with this permission.
+
+    <Frame>
+      <img src="/images/whatsapp-meta/c-full-access.png" alt="The Everything switch turned on and the Assign button" />
+    </Frame>
+  </Step>
+
+  <Step title="Check it, then make a new key">
+    Go to **Users → System users**, click the system user, and look at **Assigned assets**. You should see your app and your **WhatsApp account**, both with *Full access*.
+
+    <Frame>
+      <img src="/images/whatsapp-meta/d-account-assigned.png" alt="The system user with the app and the WhatsApp account assigned, both with Full access" />
+    </Frame>
+
+    An access key only knows what the system user had when the key was made, so the old key still cannot see the account. Press **Generate token** and make a new one with the steps in [Get your WhatsApp access key from Meta](/ai-workforce/whatsapp-meta-access-key), then paste it into Workser and press **Connect** again.
+  </Step>
+</Steps>
+
+## Still the same message?
+
+- Check the **WhatsApp number ID** against Meta's **WhatsApp → API Setup** page. For the **WhatsApp business account ID**, do not use the *Messaging account ID* on that page. [Find the real one in the address bar](/ai-workforce/whatsapp-business-account-id).
+- Make sure the new key was made for the same app whose App ID you pasted into Workser.
+- Make sure you pasted the new key, not the old one.

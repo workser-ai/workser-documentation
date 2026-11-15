@@ -1,0 +1,61 @@
+---
+title: "MCP servers: tools from other systems"
+description: "Connect an MCP server so an AI agent can use its tools, choose how it signs in, and decide whether that AI agent shares the project's connectors or only its own."
+keywords: ["Workser MCP", "Model Context Protocol", "connect MCP server", "AI agent tools"]
+---
+
+**An MCP server gives an AI agent extra tools from another system.** Workser connects to servers that speak the Model
+Context Protocol over **Streamable HTTP**; the server's tools then become callable in that AI agent's Tasks.
+
+## Add one
+
+<Steps>
+  <Step title="Open the AI agent's Manage dialog">
+    From **Settings › AI workforce**, or the gear on an AI agent's card, open the AI agent and go to **Connectors & skills**.
+  </Step>
+  <Step title="Open Connectors added by link">
+    Choose **Add a connector by link**. The dialog is **Add MCP server**.
+  </Step>
+  <Step title="Name it and give the endpoint">
+    **Name**, then **MCP endpoint URL**. HTTPS is required except for localhost. A URL with a fragment or embedded
+    credentials is rejected.
+  </Step>
+  <Step title="Choose how it signs in">
+    **Connection method** is one of: none, a bearer token, custom headers, or OAuth with scopes, resource and client keys.
+    Secrets are referred to by environment key, not typed into the page.
+  </Step>
+  <Step title="Save, then publish the agent">
+    The warning on the form is literal: changes update the draft config only. **Publish the agent** for the tools to reach
+    production runs.
+  </Step>
+</Steps>
+
+Saved servers show **Enabled** or **Disabled** and a line naming the transport, the URL and the auth method.
+
+You can also connect an MCP server from the project's **Connectors**, where it wears an **MCP** badge ("An MCP server: your AI
+agents use its tools directly"). Only `https:` addresses are accepted there; an expired server says **Sign in again**.
+
+## Sharing: the project's connectors or only its own
+
+At the top of **Connectors & skills** is one switch: **Isolated AI agent** — "Uses only the connectors, skills and plugins
+given to it here. The project's shared ones are left out."
+
+Below it, **Connectors**, **Skills** and **Plugins** each offer **All shared** or **Only selected**. A selected connector
+allows all of its actions; **All shared** keeps the project's existing limits. This is how one AI agent can have a tool that
+no other AI agent has.
+
+## What to check when it does not work
+
+| Symptom | What to check |
+| --- | --- |
+| The tools never appear in a Task | The agent was not published after the MCP change; the form saves the draft only |
+| "Only https MCP servers can be connected here." | The address is `http:` or has a fragment |
+| The connector says **Sign in again** | The server's OAuth token expired; reconnect it |
+| The AI agent ignores a connector the project has | It is set to **Only selected**, or **Isolated AI agent** is on |
+| A tool runs but fails | The server's own permissions or env keys are missing; check its **Advanced runtime env inputs** |
+
+## Related
+
+- [Connectors](/ai-workforce/connectors): the apps and services an AI agent can use
+- [Skills and agent kits](/using/skills-and-kits): step-by-step ways of working, a different kind of tool
+- [The AI agent panel](/using/agent-panel): the Manage dialog's sections

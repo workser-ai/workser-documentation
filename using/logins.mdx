@@ -1,0 +1,101 @@
+---
+title: "Logins: saved passwords, keys and notes"
+description: "Save a login once, choose which AI agents may use it, and see every place it is signed in. Values go in and never come back out; your AI agents type them by name."
+keywords: ["Workser logins", "saved passwords AI agent", "credentials vault", "AI agent sign in"]
+---
+
+**A saved login lets an AI agent sign in to a site without ever seeing the password.** Save it once in **Settings › Identity ›
+Logins**; the AI agent types it by name on the computer, and you can see where the site is signed in and sign it out from one
+place.
+
+The same list opens as a workspace tab called **Credentials**: "Saved logins and keys, and where your AI agents are signed in".
+
+## What the page shows
+
+**Business logins · n** is one row per site, joining:
+
+- the saved login (or key, or note),
+- everywhere that site is signed in right now,
+- the connected app for it, if any,
+- and **Who may use it**.
+
+Tags on a row: **Password**, **2FA**, **Login** / **API key** / **Note**, **Scripts may read it**, and **Not in the cloud
+browser yet**. Last-used reads "Used today", "Used yesterday", "Used N days ago" or "Not used yet".
+
+A **Sign-ins checked after every task** block lists each computer with when it was last checked and **Check now** — which wakes
+a sleeping computer for a few seconds.
+
+## Save one
+
+**Add a login or key** opens **A login, key or note**:
+
+| Kind | Fields |
+| --- | --- |
+| **Login** | Name, Website, Username or email, Password, 2FA setup key (optional) |
+| **API key** | Name, the secret value |
+| **Note** | Name, the note |
+
+Values go in and never come back out. Editing shows "Saved — type to replace"; leaving the box empty keeps what is stored.
+
+- **Who may use it**: a new item is shared with every AI agent, and you switch off anyone who should not have it. "Every AI
+  agent can use it. Switch off anyone who shouldn't."
+- **Scripts may read it** is off by default. Turned on, a script an AI agent runs in its workspace can read the secret as an
+  environment variable: "Tasks started by a customer's message still ask you first."
+- **Recent uses** (on an existing item): the newest 20 uses — which AI agent, where, what was used, when — with **Open task**
+  or **Open chat**. Failed attempts are tagged **Didn't work**. No values are shown.
+
+The foot line is the promise: "Works everywhere your AI agents work: their computers."
+
+## Where it is signed in
+
+Each site row lists its places:
+
+- **Signed in · password saved in the browser for …**
+- **Signed in · signed in**
+- **Signed in · signed in (not set up as a site)**
+- **signed in again by itself** (the cloud browser re-signs in)
+- **asks you when signed out**
+
+Actions are **Sign out** for one place, **Sign out everywhere**, and **Stop** for the cloud browser signing in automatically.
+Signing out does not delete the vault entry; **Remove** does: "It leaves the vault, so no AI agent can use it again.
+Sign-ins already on a computer stay until you sign them out below."
+
+## AI agents' own accounts
+
+**Your AI agents' own logins** lists the accounts an AI agent created for itself, with whether the password is in the vault or
+it signs in with a code. **Forget** removes the password from the vault; the account itself stays on the site until you close
+it there. Empty: "No logins yet. Give an AI agent a work email or phone number, and its accounts show here."
+
+## A different login for one AI agent or one customer
+
+Overrides are not on the Logins page. They live in:
+
+- **An AI agent's Manage dialog → Its own logins**: "Jobs use the project's shared logins. Choose a different one here and only
+  this AI agent uses it."
+- **A customer's record → Logins**: a different account for every AI agent working for that customer.
+
+Owners and admins set them, names only; no value is ever shown. A job reads the AI agent's choice first, then the customer's,
+then the project's.
+
+## What is not here
+
+- **Passkeys are not saved in the vault.** A passkey appears only for approving money: card purchases and payments open the
+  card service's passkey page. The vault stores passwords, API keys, notes and a 2FA setup key.
+- **A login is not an account.** Workser stores the credential; the account, its plan and its recovery stay with the site.
+
+## If something is wrong
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| An AI agent cannot sign in | No saved login, or the site signed it out | Save the login, or answer the **Save your sign-in** card |
+| "Sign in again" on a connector | The connector's own token expired | Reconnect it in **Connectors** |
+| The page says only an owner or admin can see logins | Your role, or the vault failed to load | Ask an owner or admin; **Try again** |
+| A saved login is gone after a reset | It was only signed in on the computer | Save it here first, then sign in |
+| "Not in the cloud browser yet" | The item predates the cloud browser | **Edit · Share** and save it once |
+
+## Related
+
+- [The cloud computer](/using/computer): where the logins are typed
+- [Approvals](/using/approvals): the passkey for money, and "Save your sign-in"
+- [Connectors](/using/connectors): apps that sign in with OAuth or a key
+- [Logins and computers](/ai-workforce/logins-and-computers): the short guide

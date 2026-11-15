@@ -1,0 +1,104 @@
+---
+title: "Your business profile"
+description: "What your AI agents know about the business: the project's name and description, the business records switch, your kind of business, fields, record access, sync and payouts."
+keywords: ["Workser business profile", "business description AI agent", "Workser business records", "record access Workser"]
+---
+
+**Your business profile is what every AI agent reads before it works: the project's name, a plain description, and the
+records, fields and access rules around it.** It lives in two places: **Settings › General** for the project itself, and
+**Settings › Business** for the records and how they are shared.
+
+## Settings › General
+
+| Field | What it does |
+| --- | --- |
+| **Picture** | The project's image, used in the app and the launcher |
+| **Name** | Up to 80 characters |
+| **Description** | Up to 1,000 characters. **Every AI agent reads it to understand the business**, so write it as you would brief a new colleague: what you sell, who buys, how you work |
+| **Created** | When the project was made |
+| **Delete this project** | Type the name to confirm; it removes the project and its work. Owners and admins only |
+
+The description is not Company knowledge. **Company knowledge** is the business-wide facts and rules every AI agent follows
+(facts, products, tone, **Never** rules). The description is the short story of this project.
+
+## Settings › Business
+
+This is the records side. Owners and admins change it; everyone else reads.
+
+### Use Workser business records
+
+The master switch: **"Customers, orders, bookings and stock."** Off by default. On means AI agents can read and update your
+products, stock, customers and orders; the **Data** tab fills in. Turning it on also shows **Open the shop**.
+
+### Kind of business
+
+Pick one or more business packs. Today the catalog has **Shop**; a business keeps at least one kind, and more kinds are
+coming. The pack decides the record names and default fields.
+
+### Booking page
+
+A public page where customers book themselves, with no sign-in:
+
+- On or off, with **Copy link** and **Open**.
+- An address (checked as you type), a heading, an introduction, the services to show, and whether customers choose who they
+  book with or take whoever is free.
+- Notes and an after-booking message.
+- A **Still to do** list: services, opening hours, and deposits when card payments are not live yet.
+
+The page lives at `/book/<slug>`. A service can ask for a deposit; the slot is held while the customer pays.
+
+### Your own records
+
+Kinds of record Workser has no table for: Vehicles, Properties, Cases, and so on. Add, rename or delete a kind. You can
+also show a table from your project's database as records; the table itself is not changed.
+
+### Your fields
+
+Typed fields on each record kind: text, choice/status, money with a currency, a link to another record, and an **AI field**
+(with instructions, an output type, and which fields it reads). Each AI fill uses credits. Fields can be renamed, hidden or
+deleted (with a confirmation).
+
+### Who sees what
+
+Record-level roles, separate from the business roles Owner/Admin/Member/View only. Each role maps a record kind to **Hidden**,
+**See** or **Change**, can hide fields, and can limit locations. People and AI agents get one role or none; **none means they
+see everything**. Owners and admins always see everything and are the only ones who change this.
+
+### Connected systems
+
+Keep records the same as the apps the business already uses: **HubSpot**, **Salesforce**, **Shopify**. Connect each app in
+Connectors, then here turn sync on, choose what crosses and which way, who wins per field, and see the last run, set-aside
+rows, **Retry** and **Sync now**. Core runs it every 10 minutes while on. It never creates pipelines or stages for you, and
+orders only ever come in from Shopify.
+
+### Get paid
+
+Your own Stripe account for invoices, payment links and booking deposits. Its badge reads **Ready** or **Not set up**;
+**Set up payouts** opens Stripe's onboarding. See [Invoices, proposals and getting paid](/using/invoices-and-payments).
+
+## What an AI agent reads
+
+- The project **description** and its **name**.
+- **Company knowledge**, including **Never** rules.
+- The **records** and **fields** it has access to, under **Who sees what**.
+- Its own instructions, Skills and memory.
+
+It does not read the whole business database by default: access is what **Who sees what** grants, and an AI agent with no
+record role sees everything.
+
+## If something is missing
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| The Data tab is empty | **Use Workser business records** is off | Turn it on in Settings › Business |
+| An AI agent cannot see a record | Its record role is **Hidden**, or a field is hidden | Change **Who sees what** |
+| A field cannot be edited | Your record role is **See**, or it is an AI field still filling | Ask an owner or admin, or wait for the fill |
+| Sync has not run | The connector is signed out, or the sync is off | Reconnect in Connectors, then **Sync now** |
+| The booking link says it is unavailable | The booking page is off | Turn it on, or check its **Still to do** list |
+
+## Related
+
+- [Company knowledge](/ai-workforce/company-knowledge): the facts and rules every AI agent follows
+- [Business records](/using/overview): the Data tab and the 19 tables
+- [Invoices, proposals and getting paid](/using/invoices-and-payments)
+- [Settings](/using/settings): where every row is

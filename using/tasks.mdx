@@ -1,0 +1,93 @@
+---
+title: "Tasks and Requests"
+description: "What a Task's states mean, the four kinds of ask, how to answer or retry one, and where everything waiting for you is collected in Requests."
+keywords: ["Workser task status", "What does Stuck mean", "Requests in Workser", "approve an AI agent step", "AI agent ask"]
+---
+
+**A Task is one piece of work: it starts when you Send, moves through steps, may ask you something, and ends as Done or
+Stuck.** You follow it in the chat where you asked. Everything waiting for you is collected in **Requests** (the page at
+`/needs-you`, titled Requests), so you do not have to hunt through chats.
+
+## The words a Task uses
+
+| Word | What it means |
+| --- | --- |
+| **Queued** | Waiting for a free place in the plan's "Tasks at once". |
+| **Starting…** | Its computer or workspace is being prepared. |
+| **Working** | It is doing the work now. |
+| **Request** | It asked you something and is waiting. |
+| **Ready for you** | It finished a step that needs a person before it carries on. |
+| **Waiting** | It is waiting on something else — a free computer, or a step outside it. The Task's own line says which. |
+| **Paused** | Stopped for now; you can let it carry on. |
+| **Done** | Finished. A final check says "Checked: done", or "Not sure it's complete" when it could not confirm. |
+| **Didn't finish** | It ended without doing the work. The reason is in the chat. The task badge and Requests say **Stuck** for the same state. |
+| **Put away** | You stopped it, or it was cancelled. |
+
+## The four kinds of ask
+
+Every ask looks the same and its head says what kind it is:
+
+| Head | It asks | Your answers |
+| --- | --- | --- |
+| **Question for you** | A question, with choices or free text | A chip (its words are the answer), or "Or say it in your own words" |
+| **Needs your OK** | What it will do if you agree | **Yes, go ahead** / **No**, or **Allow once** / **Don't send** |
+| **Needs your permission** | A step on a computer or in an app | **Allow** / **Deny**, and sometimes **Always allow** |
+| **Stuck and waiting for you** | What happened, what it tried, what it needs | **Carry on**, or tell it what to do next and **Send**, or **Dismiss** |
+
+Asks are docked at the foot of the conversation, just above the message box, under the newest reply. When one Task asks
+several yes/no questions, you answer them one page at a time ("Reply 2 of 3") and nothing is sent until you review.
+
+Two answers have their own buttons inside the same card: **money** opens the card service's passkey page ("Approve with your
+passkey"), and **Save your sign-in for \<site\>** asks for a username, password and optional 2FA key, saves it to the Logins
+vault for that AI agent, and never puts those values in the chat.
+
+**Always allow** is for an owner or admin and is offered only on a permission ask. It lets that AI agent do that kind of step
+without asking again ("Always allow for \<name\>"); you can undo it in Autonomy.
+
+Replying to a Stuck Task does not resume the old one: the card says so. **Your reply starts the next Task for this AI agent,
+with your words.**
+
+## Requests
+
+**Requests** is the page with every question, approval, suggestion, payment and sign-in waiting on you, grouped by project
+and "Most urgent first". Filters are **All**, **Approvals**, **Questions**, **Suggestions**, **Payments** and **Sign-ins**,
+and **From** narrows to one AI agent. Home shows the first few under **Requests**, with **See all**.
+
+- If two identical approvals are waiting, it offers **Approve all N** or "I'll read them one by one".
+- Answer one and the card leaves the list. "That one is already answered." means someone else got there first.
+- **Nothing is waiting on you.** is the empty state; your team is still working.
+
+## Watch, take over, or step in
+
+- **Watch**: a Task's live view shows the screen it is working on. The Watch tab becomes a replay after it ends.
+- **Take over**: on the project's cloud computer or browser, choose **Take over the computer** or **Take over the browser**.
+  In the computer view it is **Take control**, and **Give back to \<agent\>** returns it. While you hold it, the Task waits;
+  you can keep it for 30 more minutes.
+- **Stop**: the send button becomes **Stop** when the box is empty. It asks "Stop this task? What it has done so far is
+  kept." with **Stop task** and **Keep going**.
+- **Retry**: a failed Task's own conversation offers **Retry**, which sends the same starting message again. The AI agent's
+  message in a chat does not: it says what got stuck and why.
+
+## When it says Done
+
+The chat shows each step, so you can check the evidence. If the result is a document, a sheet, a deck, an image or a page, it
+is in the Task's **Result**; if it changed an app, the **Changes** tab shows the diff with Preview, Publish and Undo.
+
+The final check has three outcomes: **Checked: done**, **Not sure it's complete** (finished, but it could not confirm), and
+**Didn't finish** with the reason.
+
+## Cost and the 10% pause
+
+Work is charged in credits as it runs. A single paid Task pauses and asks after it uses **10% of the month's credits**
+(Starter: 200; Pro: 1,050; Team: 10% of the team's shared credits, 440 for two people), so one Task cannot quietly use the
+month. A Task that passes its limit pauses and asks whether to keep going or stop. With no answer in 4 hours, the Task stops. Nothing is billed past
+your credits: work stops until you add credits or change plan.
+
+A Task with its own **Credit limit per task** (Manage → Advanced) stops at that limit without asking.
+
+## Related
+
+- [Chats](/using/chats): giving the Task and reading the answer
+- [Approvals and Stuck](/ai-workforce/approvals-and-stuck): the rules behind what asks
+- [Autonomy and probation](/using/autonomy-and-probation): reducing the asks over time
+- [Troubleshooting](/using/troubleshooting): when a Task will not move

@@ -1,0 +1,67 @@
+---
+title: "Web pages, Watch and Software"
+description: "Open a web page beside your work, watch a Task live or replay it, and find everything Workser Code built in the Apps tab."
+keywords: ["Workser web page tab", "Watch AI agent", "replay a task", "Workser Software"]
+---
+
+**Three workspace views for looking rather than doing: a plain web page, a Task's live work or replay, and the Apps list of
+everything Workser Code built.** They are tabs like any other, opened from the "+" launcher or from a link.
+
+## A web page
+
+Type an address into the "+" launcher and it opens as a **Web page** tab. It is a plain page in a sandbox, useful for checking
+a site without leaving Workser.
+
+- **Reload** and **Open in new tab** are in the head.
+- The tab cannot tell when a site refuses to be shown inside another page, so after a wait it says quietly: "Still opening.
+  Some sites don't allow being shown inside another page." Then **Open in new tab**, **Open in the cloud browser** or **Open
+  on the computer**.
+- Only web addresses open here: "Only web pages (http and https) open in a tab."
+
+There is no address bar inside the tab; open another page from the launcher.
+
+## Watch a Task
+
+**Watch** is a Task's own work as a page:
+
+- When the Task runs on a computer, **Watch** opens the computer's screen.
+- When it runs in a browser, it shows that browser.
+- When it works in a sandbox, it shows its workbench: "The sandbox has no screen, so this is its work as it happens: files,
+  commands and the app it serves."
+- When it works through connectors, it shows the activity: "This task works through your connectors, with no computer, so
+  this is what it is doing there."
+
+The head says **"\<name\> is working"**, **"waiting for you"**, **"Starting soon"**, **"Paused"**, **"Done"**, **"Stuck"** or
+**"Stopped"**. With teammates, **Watch the team** shows every screen, the lead's plan and the team's talk.
+
+When the Task ends, the same tab becomes its **Replay**: "The task has ended. Play it back step by step." with a summary —
+"Took 14 min · 23 steps · 3 files". A Task that is not on the board any more says: "This task isn't on the board any more. Its
+steps and results are in the chat."
+
+**Take over** from Watch works as it does on the computer, and giving the computer back answers the "please step in" ask.
+
+## Software is the Apps tab
+
+The old **Software** gallery is retired: **More → Software** and an AI agent's **Software** row now land on the **Apps** tab.
+There you find every app Workser Code built, with its state (**Live · domain**, **Preview**, **Deploying**, **Didn't build**),
+search, **New**, **Plan** and **Cloud**. A failed build offers **Ask Workser Code to fix it**.
+
+Database, sign-in, storage and hosting are set up the first time an app needs them.
+
+## If something is wrong
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| A web page stays blank | The site refuses to be framed | **Open in new tab**, the cloud browser, or the computer |
+| **This address can't open here** | It is not `http` or `https` | Use a web address |
+| Watch says the Task is gone | The Task finished a while ago | Read its steps and results in the chat |
+| **Paused** in Watch | The Task is paused | Resume it from the chat |
+| **Software** opens Apps | The gallery was retired | Use the Apps tab |
+| No apps in Apps | Nothing has been built | **New** or **Build an app** |
+
+## Related
+
+- [Workser Code in the app](/using/code-in-the-app): build and publish
+- [Cloud](/using/cloud): data, keys, domains, builds and logs
+- [Tasks and Requests](/using/tasks): what Watch is showing
+- [The workspace](/using/workspace): the tabs around it

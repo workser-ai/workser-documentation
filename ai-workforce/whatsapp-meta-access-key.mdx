@@ -36,9 +36,9 @@ Workser needs one thing from Meta to answer your customers on WhatsApp: an **acc
   </Step>
 
   <Step title="Give it your WhatsApp account">
-    Press **Assign assets** again. This time open the **WhatsApp accounts** tab (not "Messaging accounts"), tick your WhatsApp account, turn on full control, and press **Assign assets**.
+    Press **Assign assets** again. This time open the **WhatsApp accounts** tab (not "Messaging accounts"), tick your WhatsApp account, turn on full control, and press **Assign assets**. If that tab shows nothing to tick, assign it from the other side: [give the system user your WhatsApp account](/ai-workforce/whatsapp-assign-account), with screenshots.
 
-    Workser checks this when you connect. A key that is not allowed to message for your WhatsApp account is refused.
+    Workser checks this when you connect. A key that is not allowed to message for your WhatsApp account is refused with “WhatsApp does not show that ID to this token”.
   </Step>
 
   <Step title="Press Generate token and pick your app">
@@ -68,7 +68,7 @@ Workser needs one thing from Meta to answer your customers on WhatsApp: an **acc
   </Step>
 
   <Step title="Copy the key into Workser">
-    Press **Copy**. Meta shows the key only once, so paste it into the **Access key** field in Workser right away, together with your app ID, app secret, number ID and business account ID, and press **Connect**.
+    Press **Copy**. Meta shows the key only once, so paste it into the **Access key** field in Workser right away, together with your app ID, app secret, number ID and business account ID ([where to find each ID](/ai-workforce/whatsapp-business-account-id)), and press **Connect**.
 
     <Frame>
       <img src="/images/whatsapp-meta/7-copy-token.png" alt="The Token created box with a Copy button" />
@@ -77,6 +77,22 @@ Workser needs one thing from Meta to answer your customers on WhatsApp: an **acc
     Workser stores it encrypted and never shows it again. If you lose it, make a new one the same way.
   </Step>
 </Steps>
+
+## When it works
+
+Workser shows **Connected** with your number's name. This is what it looks like for Meta's free test number.
+
+<Frame>
+  <img src="/images/whatsapp-meta/h-connected.png" alt="Workser's WhatsApp setup showing Connected as the test number, with the remaining steps listed below" />
+</Frame>
+
+The list under **Connected** shows what is left before customers get answers. Switch your Meta app to **Live** (Workser shows how). Until it is Live, Meta delivers no messages to Workser, not even from your own phone or with Meta’s test number.
+
+<Tip>
+  Meta asks for a **Privacy policy URL** before it lets you publish. Use the privacy page of your own business website. No website yet? Ask Workser Code to build a one-page site with a privacy policy for your business and put it online, then paste its link into Meta (**App settings → Basic**).
+</Tip>
+
+Then send your WhatsApp number a message from your own phone and press **Check for messages**. A real message that gets an answer is the proof that it works.
 
 ## If something goes wrong
 
@@ -95,6 +111,10 @@ Workser needs one thing from Meta to answer your customers on WhatsApp: an **acc
 
   <Accordion title="Workser says the key is for a different app">
     The key must be made for the same app whose ID you pasted. Generate it again and choose that app in step 4.
+  </Accordion>
+
+  <Accordion title="Workser says “WhatsApp does not show that ID to this token”">
+    The system user does not have your WhatsApp account yet. Follow [Fix: WhatsApp does not show that ID to this token](/ai-workforce/whatsapp-assign-account), then make a new key.
   </Accordion>
 
   <Accordion title="Workser says the key is missing a permission or cannot message for the account">

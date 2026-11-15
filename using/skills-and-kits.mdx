@@ -1,0 +1,86 @@
+---
+title: "Skills and agent kits"
+description: "Teach an AI agent a way of working with a Skill, and save everything that makes it good at its job as a kit you can hire again or move to another project."
+keywords: ["Workser skill", "AI agent skills", "agent kit", "hire another like this", "SKILL.md"]
+---
+
+**A Skill is a step-by-step way of doing something that an AI agent follows when the job calls for it. A kit is everything
+that makes one AI agent good at its job in this business, saved in one place.** Skills are shared; kits are how you repeat a
+setup without explaining it again.
+
+## Skills
+
+A Skill is a folder with a `SKILL.md` in it: instructions an AI agent reads when the work matches. Skills reach an AI agent
+at three scopes:
+
+- **its own** (only this AI agent),
+- **the project's** (every AI agent in the project),
+- **the business's** (every AI agent in every project).
+
+### Where they are
+
+- **Panel → Profile → Skills**: the chips for every Skill that reaches this AI agent. **Add** opens the add-skills sheet;
+  **Manage** opens the full list.
+- **Manage → Connectors & skills → Skills**: the same list, with **Add skills** and **Write your own**.
+- **Settings › Skills**: the project and business Skills, in one place, for people who are setting up the whole team.
+
+Empty, both say **"No skills yet"**.
+
+### Add a Skill
+
+<Steps>
+  <Step title="Open Add skills">
+    From the AI agent's Profile, or Manage → Connectors & skills.
+  </Step>
+  <Step title="Pick where it comes from">
+    **Library** (Skills Workser already knows), **Paste a link** (a GitHub, skills.sh or skillsmp link, or an
+    `npx skills add` command) or **Browse**. A link is read first: "Reading the link", then "Found N skills in \<repo\>".
+  </Step>
+  <Step title="Choose who gets it">
+    Under **Give to**, pick **\<name\> (this AI agent)**, **All in \<project\>** or **Whole business**.
+  </Step>
+  <Step title="Install">
+    Rows that passed the safety check show a check; blocked ones say **Blocked**; installed ones say **Installed** or
+    **Update**. Then **Install N skills**. The result names the target: "Installed N skills for \<target\>".
+  </Step>
+</Steps>
+
+**Only an owner or admin can install skills.** Everyone else sees "Only an owner or admin can install skills."
+
+Limits: a Skill name is letters, numbers, dots, dashes and underscores (up to 120 characters), a description is up to 300
+characters, its instructions up to 20,000 characters, and a Skill folder up to 2 MB. One install can add up to 50 Skills.
+
+## Kits
+
+Everything that makes an AI agent good at its job here: its **Guides**, **Skills**, **Connectors**, **Knowledge**, the
+**Workspace** it starts from, its **Trust** (probation) and its **Quality** (practice rounds). **Manage → Expert kit** shows
+the kit, what a role's usual kit would still add, and a history of every change with **Undo**.
+
+Three things you can do from it:
+
+- **Get set up**: the AI agent reads the business and proposes its own setup in its chat — Skills, connectors, files and
+  guides. You add what fits.
+- **Hire another like this**: a new AI agent with the same instructions, Skills, connectors and setup. Not offered for the
+  main Workser agent.
+- **Save as kit** (Advanced, under **Share this setup**): save this setup so you can hire from it in any of your projects.
+
+### What a kit leaves out
+
+A kit carries instructions and workspace, Skills, guides, knowledge, routines and the list of connectors. It does **not**
+carry logins, secrets, memory or customer data. When you export a kit file, knowledge files are named but not included — the
+file stays behind, so a kit can be shared without leaking it.
+
+A kit file is at most **2 MB**. Uploading something else says: "That file isn't a kit. Export one from an AI agent's Advanced
+settings."
+
+### Hire from a saved kit
+
+Above the hire picker, **Your saved kits** lists each kit with what it holds ("5 skills · 2 guides · 1 routine · 3 apps"),
+**Download**, **Delete** and **Hire**. Hiring asks for a name only. The note is the honest part: its routines wait for your
+yes, its guides wait for you to keep them, and its first Task asks for the connectors it needs.
+
+## Related
+
+- [The AI agent panel](/using/agent-panel): where Skills and the Expert kit live
+- [Memory](/using/memory): what a kit deliberately does not carry
+- [Connectors](/ai-workforce/connectors): what an AI agent may use

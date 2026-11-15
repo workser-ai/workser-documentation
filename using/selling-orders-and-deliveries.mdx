@@ -1,0 +1,111 @@
+---
+title: "Selling: orders, deliveries and refunds"
+description: "Take an order, mark it paid, close it, cancel it, refund it and move its deliveries — with the exact states and buttons in the Data tab."
+keywords: ["Workser orders", "AI agent order", "refund an order", "order deliveries", "Workser shop"]
+---
+
+**Orders in Workser follow a sale from the first line item to the delivery at the door.** They live in **Data › Orders**,
+beside **Customers**, **Products**, **Deliveries**, **Payments** and **Shipping**. An AI agent can create an order, chase it
+and start a delivery; a refund is for a person.
+
+## The order list
+
+The list is a table, not a board. Its first columns are **Customer**, **Placed**, **Status**, **Payment** and **Total**, then
+any other visible field. Search, filter, sort and saved views work as in every Data table.
+
+A **Which orders** filter separates real money from tests:
+
+- **Real orders**
+- **Paid in live mode**
+- **Test orders**
+- **All orders**
+
+Orders and Customers carry a **Needs attention** line (for example "3 unpaid orders"), and it opens exactly the records it
+counts. Empty: "No orders yet. Add one, or ask an AI agent to." A filtered empty says "No orders match those filters."
+
+## Take an order
+
+**Add order** opens **New order**:
+
+| Field | Notes |
+| --- | --- |
+| **Order number** | Required, for example `INV-1042` |
+| **Type** | Sale, Booking, Subscription or Invoice |
+| **Status** | Draft, Pending, Paid or Completed (cancelling is a separate action) |
+| **Currency** | Prefilled from the business |
+| **Customer (optional)** | Search existing customers, or leave it blank |
+| **Line items** | Name, price and quantity per row, with a product picker: **Search products…**, **Create new product** |
+
+Price is typed as you say it (12.50); Workser stores cents. **Create order** confirms "Order created."
+
+## Move an order along
+
+The **Manage** section offers the one move that fits the current state:
+
+| From | Button | What it does |
+| --- | --- | --- |
+| Unpaid / open | **Mark as paid** | For money taken outside Workser, like cash or a bank transfer. The order is then paid in full. |
+| Paid | **Close** | Paid and finished, so it leaves the open list |
+| Completed | **Open again** | Puts the closed order back in the open list |
+
+A cancelled or refunded order offers no move.
+
+## Cancel an order
+
+**Cancel order** asks first: **"Cancel order #1042?"** — "The order is marked cancelled, its stock goes back and its open
+deliveries stop. A payment already taken isn't refunded here."
+
+Choose a reason: **The customer changed their mind**, **Looked like fraud**, **Not enough stock**, **The payment was
+declined**, **Another reason**. Then **Cancel the order**. A cancelled order cannot be reopened or refunded from this screen.
+
+## Refund an order
+
+**Refund** is for an owner or admin, and only when money was taken and some is left. The sheet says
+**"Refund order #1042?"**, how much is left, and "The money goes back to the customer's card. This can't be undone."
+
+- **Amount (USD)**, **Why** (The customer asked, Wrong or damaged item, Charged by mistake, The order was cancelled,
+  Something else) and an optional **Note**.
+- **Keep it** or **Refund**. Success: "Refunded $48.00."
+- Errors: "Refund an amount more than zero." / "You can refund up to $48.00."
+
+A part-refund leaves the rest refundable.
+
+## Deliveries
+
+The **Delivery** section lists each delivery as a **Shipment · Pending**-style row. Empty: "Nothing sent, picked up or
+booked for this order yet."
+
+**Start a delivery** asks for a **Kind of delivery** (Shipment, Digital, Appointment, Service visit, Pickup), a
+**Carrier (optional)** and a **Tracking number (optional)**, then **Start it**.
+
+- Open deliveries offer **Mark done**, **Hold**, and **Release** when on hold.
+- A delivery has its own record: Order, Type, Status, Carrier, Tracking, Shipped, Expected, Delivered, Scheduled, Where,
+  With, Ready, Picked up, Done, Cancelled.
+- When it has not shipped, a **Location** section offers **Move to** and **Move** ("Moved to Downtown.").
+- Tracking is a link when it is an `https` address.
+
+Shipping addresses, methods and amounts are fields on the order and the delivery; zones and rates live in the **Shipping**
+table.
+
+## What changes stock
+
+Cancelling says the stock goes back, and that is core's behaviour. The web app itself never edits stock on cancel, refund or
+delivery; stock changes on the **Shop** page and on the product record. The product record says: "Change stock and prices on
+the Shop page; your AI agents read the same list."
+
+## If something is wrong
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| An order is missing from the list | The **Which orders** filter hides test or live orders | Switch to **All orders** |
+| No **Refund** button | The payment was not taken, it is fully refunded, or you are not an owner or admin | Check **Payment**; ask an owner or admin |
+| **Mark as paid** is gone | The order is already paid or completed | Use **Close** or **Open again** |
+| A delivery cannot move | It has shipped, or there is no other location | Move it before it ships |
+| A cancelled order needs money back | Cancelling does not refund | Refund before cancelling, or use the payment's refund in Stripe |
+
+## Related
+
+- [Business records](/using/business-records): the Data tab and every table
+- [Invoices, proposals and getting paid](/using/invoices-and-payments): billing rather than a sale
+- [Your business profile](/using/business-profile): records switch, fields and access
+- [Payments and payouts](/using/invoices-and-payments): where the money lands

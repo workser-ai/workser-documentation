@@ -1,0 +1,119 @@
+---
+title: "Marketing: campaigns, discounts and website content"
+description: "Plan and send email or SMS campaigns, make promo codes, and keep your pages and blog posts in the same Data tab — with consent and results in plain words."
+keywords: ["Workser marketing", "email campaign AI agent", "promo codes Workser", "SMS campaign"]
+---
+
+**Marketing in Workser is three tables in the Data tab: Campaigns, Discounts, and the Pages and Blog posts of your website.**
+An AI agent can write a campaign, plan the audience and schedule it; sending is still your call.
+
+## Campaigns
+
+**Data › Campaigns** lists every campaign with its status. An email campaign opens in the **Composer** screen, not a form.
+
+### Make one
+
+**New campaign** asks for:
+
+- **Name**
+- **Type**: **Email** or **SMS**
+- **Subject** (email)
+- **Description**
+- **Message**
+- **AI generated**: "Mark this campaign as AI-authored."
+
+**Create** says "Draft campaign made." It starts as a draft; scheduling and sending happen on its page.
+
+### The campaign page
+
+| Section | What it shows |
+| --- | --- |
+| **Results** | One headline ("Sent to 1,240 · 38% opened · 12 sales, ฿18,400") and **The numbers** |
+| **Message** | The subject and the message as it will go out |
+| **Audience** | "80 people will get this", and who is left out and why |
+| **Sending** | Email only: progress, the time, the sender, **Send from** when there are several inboxes |
+| **Offer** | The discount this campaign carries, if any |
+| **Daily results** | Social and ads campaigns, or days already recorded |
+
+Statuses are **Draft**, **Scheduled**, **Sending**, **Sent**, **Paused** and **Ended**.
+
+### The actions
+
+| State | Buttons |
+| --- | --- |
+| Draft with people to send to | **Send to 80 people** (or "Send to 1 person") and **Schedule…** |
+| Draft with nobody to send to | **Schedule…** only |
+| Scheduled / sending | **Pause**, **Send now** (or "Send the other 40 now"), **End** |
+| Paused | **Resume**, **End** |
+| Sent | **End** |
+
+**Schedule…** asks for **Send on**, then **Schedule**; the note says it goes out from the team address at that time.
+**Send now** asks first: "Send “Spring Sale” to 80 people? The emails go out from team@… right away and can't be taken back."
+Over 500 in a day, the rest follow the next day. **End** is final: "It stops for good and can't be started again. Its
+results stay here."
+
+### Audience and consent
+
+There are no hand-made segments. The audience is the people the campaign's channel can reach, and the screen is honest about
+it: "12 in this audience haven't agreed to email, so they won't get it. Anyone who unsubscribes is left out."
+
+Consent is per customer, on the customer record: **Subscribe**, **Unsubscribe** or **Subscribe again**, with a confirmation
+after an unsubscribe.
+
+### Email vs SMS
+
+- **Email** gets a subject, a sender, send-now and progress.
+- **SMS** has the message and scheduling in this screen; there is no send-now or progress card here.
+
+Opens and clicks only appear when they are above zero; core-sent email does not record opens, so do not expect an open rate
+on every campaign.
+
+### Senders
+
+**Sending** names the sender: "Sent from team@…, an AI agent's email address." If no AI agent has an inbox, it says so and
+asks you to give one an address first — see [Work email](/using/email).
+
+## Discounts
+
+**Data › Discounts** lists offers with their state: **Off**, **Ended**, **Scheduled**, **Used up** or **Active**.
+
+**New discount** asks for a **Code**, **Title**, **Type** (**Percentage**, **Fixed amount**, **Free shipping**, **Buy X get Y**),
+the amount or value, a currency where needed, a minimum purchase, a usage limit and whether it is active. The row menu has
+**Edit**, **Sync to Stripe** and **Delete**.
+
+A discount's own screen lists its codes:
+
+- **Main code** (cannot be removed) and codes for one customer.
+- **Make codes** in a batch: **How many (up to 100)**, **Starts with**, **Uses for each** ("No limit"), then **Make codes**.
+- **Add a code**: Code, Uses allowed, Only for one customer, **Find a customer**, **Add code**.
+- Each row says "3 of 10 used", "3 used" or "Not used yet". Removing asks: "SPRING3 stops working. Orders that already used it
+  keep their discount."
+
+## Pages and blog posts
+
+**Pages** and **Blog posts** are ordinary records in the same group:
+
+- A **Page** shows Status (draft, published, archived), Web address, Kind, Published, Written by, Updated and **Title in
+  search results**.
+- A **Blog post** adds Category, Summary and **Description in search results**.
+
+They are website content, edited as records. The public **booking page** is separate: it is set up in **Settings › Business →
+Booking page**, not built from a Page record.
+
+## If something is wrong
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| **Send now** is missing | The campaign is SMS, or no AI agent has a work email | Schedule it, or give an AI agent an inbox |
+| "No AI agent has an email address to send from yet" | No work email is set up | [Work email](/using/email) |
+| Only some people will get it | They have not agreed to that channel | Check consent on the customer record |
+| A code does not work | It is expired, off, used up, or limited to one customer | Check its state and codes |
+| Opens show nothing | Core-sent email does not record opens | Judge it by sends, clicks and sales |
+| A page link is wrong | The Web address field was changed | Edit the record's Web address |
+
+## Related
+
+- [Business records](/using/business-records): the Data tab
+- [Work email](/using/email): the inbox a campaign sends from
+- [Bookings](/using/bookings): the booking page and its services
+- [Selling: orders and refunds](/using/selling-orders-and-deliveries)

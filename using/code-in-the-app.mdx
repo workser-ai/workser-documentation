@@ -1,0 +1,125 @@
+---
+title: "Workser Code in the app: build and publish"
+description: "Build an app from a template or your own words, preview it, publish it, and roll back to an earlier version — all from the Workser workspace, with no desktop app."
+keywords: ["Workser Code", "build an app with AI", "publish an app", "app versions", "Workser Code web"]
+---
+
+**Workser Code is the AI agent that builds and changes apps, and on the web its work lives in workspace tabs: a Code tab for
+the project, an App tab for each app, and a Cloud tab for what runs it.** You talk to it in the main chat; nothing starts
+until you press Send.
+
+The desktop app adds local checkpoints, the CLI and a sync to your machine. On the web there are no checkpoints: rolling back
+is **Versions → Make this live**.
+
+## Start an app
+
+<Steps>
+  <Step title="Press New, or Build an app">
+    The template picker opens: **Websites**, **Sell and take bookings**, **Tools for your team**, **Campaigns and launches**,
+    **Get found online**, **Connect your other apps**, **Watch and alert**, **Numbers and reports**, and **Popular apps**.
+  </Step>
+  <Step title="Pick a template, or describe it">
+    **Describe it** takes plain words ("takes bookings for my nail salon: 3 staff, 40-minute slots, a deposit by card").
+    **Build with Workser Code** puts the request in the chat.
+  </Step>
+  <Step title="Check the words">
+    A template shows **What Workser Code will be asked**, with blanks marked. **Use this template** puts it in the chat:
+    "Fill in the marked parts in the chat before you send." Nothing starts until you press Send.
+  </Step>
+</Steps>
+
+Workser Code plans it with you first: the pages, what customers can do, and what it costs to run.
+
+## The Code tab
+
+One Code tab shows the project's Workser Code work. Its sections are a line of chips:
+
+| Section | What it holds |
+| --- | --- |
+| **Code** | Your app's files and saved versions |
+| **Design** | How your app looks |
+| **Project** | Plan, Board, Decisions and Docs |
+| **Workflows** | Steps that run on their own |
+| **Memory** | What your AI agents know about this project |
+| **Saved files** | What your AI agents made |
+
+Inside **Project**, the views are **Plan** ("what this project is building towards, and the proof for each part"), **Board**
+("every task, from plan to done"), **Decisions** ("what was settled, why, and when") and **Docs** ("requirements and notes").
+
+## The App tab
+
+Each app has its own tab with five tools: **Preview**, **Design**, **Code**, **Cloud** and **Versions**.
+
+- **Preview** is the app as it will look, in **Preview**, **Live**, or **Building now** while Workser Code works. Pick a
+  device size, a page, refresh, or open it in a new tab.
+- **Design** shows the app's screens on the design canvas.
+- **Code** is the app's files (read-only in this tab).
+- **Cloud** opens on **Data**: database, users, storage, keys, payments, connections, web address, builds, logs and usage.
+- **Versions** lists every build, newest first.
+
+The **···** menu has **View the task**, **Launch checklist**, **Copy live link** / **Copy preview link**, **Switch to**, **Open
+Workflow**, **Open Docs** and **Open Files**.
+
+## Preview, then publish
+
+**Preview** is your test copy; **Live** is what customers see. Publishing puts the preview live:
+
+<Steps>
+  <Step title="Press Publish">
+    The dialog has **Publish** and **Web address**.
+  </Step>
+  <Step title="Check the version">
+    The newest ready preview is named ("version 12"). If the latest change is still building or did not build, it says which
+    older version would go live.
+  </Step>
+  <Step title="Publish">
+    **Publish version 12** starts the ladder: **Saving → Building → Live**, with "Live at …" at the end. Visitors see it in a
+    minute or two.
+  </Step>
+</Steps>
+
+Toasts: **"Your app is live"**, **"Publishing… your visitors see it in a minute or two."**, or a failure that says the reason
+is in the dialog. If the build failed, **Ask Workser Code to fix it** puts the fix in the chat.
+
+**Web address** sets the free `workser.app` name, separately for **Live** and **Preview**, or connects a domain you own. A
+custom domain needs DNS records at your registrar; SSL is issued automatically.
+
+## Versions and rollback
+
+**Versions** lists each build: **Live**, **Building…**, **Ready**, **Didn't build**. Any ready version that is not live offers
+**Make this live** → "Put version 9 live for everyone?" → **Make it live**. That is the web's rollback.
+
+No versions yet: "Each time Workser Code changes your app, a version shows up here, and you can put any earlier one back
+live."
+
+## Apps and the Apps tab
+
+The **Apps** tab lists everything Workser Code built, with **New**, **Plan**, **Cloud**, search and a **Start from a
+template** row. A card says **Live · yourdomain**, **Preview**, **Deploying** or **Didn't build**; a failed build offers
+**Ask Workser Code to fix it**.
+
+## What is different on the web
+
+- **No local checkpoints, sync or `verify`.** Those are desktop and CLI features.
+- **The Code tab is editable; the App tab's Code section is read-only.** Both show the same files.
+- **Publishing is one press by the signed-in person.** Plan limits apply to the number of apps and custom domains, not to the
+  press itself.
+
+## If something is wrong
+
+| Symptom | Likely cause | Fix |
+| --- | --- | --- |
+| **No app yet** in the Code tab | Nothing has been built | **New** or **Build an app** |
+| **Preview is building** | A change is being built | Wait; the Live tab still shows the last live version |
+| **Preview didn't build** | A build error | **Fix it** / ask Workser Code, then publish again |
+| Publish is disabled | Nothing has built yet | Finish a preview first; the dialog says why |
+| **This app has not been deployed to Live yet** | It only has a preview | **Publish** |
+| A custom domain says **Needs attention** | DNS is wrong or not propagated | Check the records in **Web address** |
+| An older version should be live | — | **Versions → Make this live** |
+
+## Related
+
+- [Workser Code docs](/code/overview): the desktop workspace, CLI and roles
+- [The App tab's Cloud](/using/cloud): data, users, keys, domains, builds and logs
+- [Creative](/using/creative): design work outside an app
+- [The workspace](/using/workspace): the tabs around it
