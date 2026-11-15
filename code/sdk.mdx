@@ -165,7 +165,7 @@ Sign-in, sessions, password handling and OAuth belong to the **app's own auth se
 
 A user list is personal data — don't log it, paste it into a conversation, or hand it to a third-party tool unasked.
 
-## Connected apps
+## Connectors
 
 The connection is owned by the **project, not the app**. An owner connects Gmail once and every app in the project can send mail — no OAuth flow to implement, no tokens to store, no refresh logic.
 
@@ -191,7 +191,7 @@ await workser.connect.safeRun(actionSlug, schemaValidatedArguments, {
 });
 ```
 
-`safeRun` checks connection readiness. It does not grant end-user permission or open a desktop approval prompt. Your server must authenticate the user, authorize the business operation and validate the arguments. [App connections](/code/app-connections) covers both development-time use by agents and runtime use by your app.
+`safeRun` checks connection readiness. It does not grant end-user permission or open a desktop approval prompt. Your server must authenticate the user, authorize the business operation and validate the arguments. [App connections](/code/connectors) covers both development-time use by agents and runtime use by your app.
 
 <Warning>
 `run()` sends someone's real email, posts to their real Slack, charges a real card. Always pass an `idempotencyKey` keyed on the thing that must happen once — an order id, a message id — not a fresh UUID.

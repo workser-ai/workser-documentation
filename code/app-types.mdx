@@ -3,7 +3,7 @@ title: "What you can build"
 description: "The kinds of app a Workser Code project can hold, what each is for, and why several of them share one database."
 ---
 
-A Workser Code **project** is not one app. It is a workspace that can hold several, and they share the project's database, storage, connected apps and secrets — which is exactly what you want when your storefront and your admin tool are looking at the same orders.
+A Workser Code **project** is not one app. It is a workspace that can hold several, and they share the project's database, storage, connectors and secrets — which is exactly what you want when your storefront and your admin tool are looking at the same orders.
 
 ## Current creation options
 
@@ -38,10 +38,10 @@ your-project/
 ├─ storefront      (web app)      ─┐
 ├─ admin           (web app)       ├─ same database
 ├─ orders-api      (API)           │  same storage
-└─ nightly-report  (scheduled job) ─┘  same connected apps
+└─ nightly-report  (scheduled job) ─┘  same connectors
 ```
 
-The database belongs to the **project**, not to a single app. So does the storage bucket, so do the connected apps you authorised once, and so do the secrets. Adding the admin tool six weeks after the storefront does not mean wiring any of that up again.
+The database belongs to the **project**, not to a single app. So does the storage bucket, so do the connectors you authorised once, and so do the secrets. Adding the admin tool six weeks after the storefront does not mean wiring any of that up again.
 
 <Warning>
 Because the bucket is shared, keys should be namespaced — `invoices/2026/…` rather than files dumped at the root. Two apps writing `logo.png` to the same bucket are writing to the same object.
@@ -55,7 +55,7 @@ Web apps publish to an address. Phones do not work that way — an app has to ge
 
 <CardGroup cols={2}>
   <Card title="What every project gets" icon="database" href="/code/infrastructure">
-    The database, sign-in, files, domains and connected apps.
+    The database, sign-in, files, domains and connectors.
   </Card>
   <Card title="Putting an app on a phone" icon="mobile" href="/code/mobile-apps">
     Preview on your own phone, share a link, or install on the phones you know.

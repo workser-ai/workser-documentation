@@ -39,8 +39,9 @@
             "group": "Tools and identity",
             "pages": [
               "ai-workforce/logins-and-computers",
-              "ai-workforce/connect-your-apps",
+              "ai-workforce/connectors",
               "ai-workforce/chat-apps",
+              "ai-workforce/whatsapp-meta-access-key",
               "ai-workforce/identity"
             ]
           },
@@ -79,7 +80,7 @@
               "code/project-workspace",
               "code/roles",
               "code/infrastructure",
-              "code/app-connections",
+              "code/connectors",
               "code/agent-cloud",
               "code/preview-and-publish",
               "code/mobile-apps"
@@ -163,6 +164,14 @@
   },
   "redirects": [
     {
+      "source": "/ai-workforce/connect-your-apps",
+      "destination": "/ai-workforce/connectors"
+    },
+    {
+      "source": "/code/app-connections",
+      "destination": "/code/connectors"
+    },
+    {
       "source": "/workser-business/overview",
       "destination": "/ai-workforce/overview"
     },
@@ -180,7 +189,7 @@
     },
     {
       "source": "/workser-business/connections-integrations",
-      "destination": "/ai-workforce/connect-your-apps"
+      "destination": "/ai-workforce/connectors"
     },
     {
       "source": "/workser-business/web-development",

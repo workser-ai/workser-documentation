@@ -1,46 +1,49 @@
 ---
 title: "Plans, credits & cloud usage"
-description: "How Workser Code is paid for: it is included in every Workser plan (Free, Starter $20, Pro $100, Team $20 per person), with a free hosting base and hosting past it in credits."
-keywords: ["Workser Code pricing", "AI app builder pricing", "hosting credits"]
+description: "How Workser Code is paid for: it is included in every Workser plan (Starter $20, Pro $100, Team $20 per person), with a free hosting base for each project with a live app and hosting past it on your monthly invoice."
+keywords: ["Workser Code pricing", "AI app builder pricing", "app hosting pricing"]
 ---
 
 **Workser Code is included in every Workser plan.** One plan covers your AI workforce, Workser Code and the hosting your apps run on. The full plan comparison, add-ons and charging rules are in [Plans, credits and add-ons](/ai-workforce/plans-and-credits); this page covers what is specific to building and hosting apps.
 
 ## Compare plans
 
-| | Free | Starter | Pro | Team |
-| --- | --- | --- | --- | --- |
-| Price | $0 | $20 a month | $100 a month | $20 per person a month, 2 people minimum |
-| Credits | 50 to start, given once | 1,800 a month | 10,000 a month | 1,800 a month per person, shared |
-| Workser Code | Build an app with a database | Build and ship apps | Build and ship apps | Build and ship apps |
-| Projects | 1, with 1 app | 4, 10 apps each | 20, 20 apps each | 4, plus 1 per person |
-| Custom domains | None | 3 | Unlimited | 3 |
-| Backups | None | Daily | Daily, with 7-day point-in-time restore | Daily |
-| App user sign-in | No user limit | No user limit | No user limit | No user limit |
+| | Starter | Pro | Team |
+| --- | --- | --- | --- |
+| Price | $20 a month | $100 a month | $20 per person a month, 2 people minimum |
+| Credits | 2,000 a month | 10,500 a month | 2,200 a month per person, shared |
+| Workser Code | Build and ship apps | Build and ship apps | Build and ship apps |
+| Projects | 4, 10 apps each | 20, 20 apps each | 4, plus 1 per person, 10 apps each |
+| Free hosting base | 1 app project | 3 app projects | 1 app project for the team |
+| Custom domains | 2 per project | Unlimited | 2 per project |
+| Backups | Daily | Daily, with 7-day point-in-time restore | Daily |
+| App user sign-in | No user limit | No user limit | No user limit |
 
-Every paid project has its own dedicated Postgres database. Multiple apps in a project share that database and its file storage. Domain registration is bought separately, and you configure the domain's DNS records.
+Every paid project has its own dedicated Postgres database. Multiple apps in a project share that database and its file storage. Need more projects? Add them for $3 a month each; each extra project adds one more free hosting base. Domain registration is bought separately, and you configure the domain's DNS records.
 
-Paid plans have a 7-day money-back guarantee: your plan price back, minus credits you used. It replaces the old Spark free trial.
+Every plan is paid; there is no free plan. Paid plans have a 7-day money-back guarantee: your plan price back, minus credits you used.
 
 **Spark** ($10 a month, 800 credits) is sold only in the desktop app, and current Spark customers keep it.
 
 **Enterprise** has custom pricing, capacity and credit terms. [Talk to us](https://workser.ai/contact).
 
-## Cloud overage
+## Hosting past the free base
 
-Every paid plan includes one free hosting base, per organization per month: **0.5 GB database, 5 compute hours, 10 GB files, 2 GB transfer and 500 workflow runs**. Past that, hosting is paid from your credits:
+Each project with a live app gets a free hosting base every month: **0.5 GB database, 5 compute hours, 10 GB files, 2 GB transfer and 500 workflow runs**, up to your plan's number of bases (Starter 1, Pro 3, Team 1) plus one for each extra project you buy. The bases are added together, so three app projects on Pro share 1.5 GB of database, 15 compute hours, 30 GB of files, 6 GB of transfer and 1,500 workflow runs. Every paid plan gets at least one base, even before an app goes live.
 
-| Cloud resource | Credits |
+Past the free base, hosting goes on your plan's monthly invoice, never your credits, so your credits stay for your AI agents:
+
+| Cloud resource | Price |
 | --- | --- |
-| Database storage | 200 per GB a month |
-| Database compute | 40 per hour |
-| File storage | 10 per GB a month |
-| Data transfer (egress) | 60 per GB |
-| Workflow runs | 100 per 1,000 runs |
+| Database storage | $2 per GB a month |
+| Database compute | $0.40 per hour |
+| File storage | $0.10 per GB a month |
+| Data transfer (egress) | $0.60 per GB |
+| Workflow runs | $1 per 1,000 runs |
 
-100 credits = $1 when you pay. For example, 10 GB of transfer past the free base is 600 credits, or $6.
+For example, 10 GB of transfer past the free base is $6 on your next invoice. If hosting passes $20 in a month on Starter, $100 on Pro or $20 per person on Team, we email the owners; your apps keep running.
 
-Project, app and domain limits need a plan upgrade rather than credits.
+Project, app and domain limits need a plan upgrade or extra projects rather than credits.
 
 ## Workser Code credits
 
@@ -57,7 +60,7 @@ You do not need a separate AI subscription to use the built-in agent. Its model 
 - A task that fails pays for what actually ran.
 - Plan credits refresh every month and unused ones expire. Credits you buy never expire: 1,000 for $10.
 
-Free runs on one fast model. Paid plans choose premium AI models.
+Every plan can choose premium AI models.
 
 ## Agent Cloud (Beta) and other hosted AI
 

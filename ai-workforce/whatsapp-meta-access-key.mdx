@@ -1,0 +1,105 @@
+---
+title: "Get your WhatsApp access key from Meta"
+description: "Step by step, with screenshots: create a Meta system user, give it your app and WhatsApp account, and copy the access key that lets your Workser AI agents answer customers on WhatsApp."
+keywords: ["WhatsApp access token", "Meta system user token", "WhatsApp Cloud API token", "connect WhatsApp to AI agent"]
+---
+
+Workser needs one thing from Meta to answer your customers on WhatsApp: an **access key** (Meta calls it an *access token*). It is how Workser sends your AI agent's replies from your number. This page shows how to make it in about 5 minutes.
+
+<Note>
+  Just trying it out? On your app's **WhatsApp → API Setup** page, Meta shows a temporary access token that works for 24 hours. You can paste that into Workser to test. For a number that keeps answering customers, make the permanent key below.
+</Note>
+
+**Before you start**, you need a Meta Business app with WhatsApp added, and a WhatsApp account, both in the same Meta business portfolio. You open everything below from [Meta Business Settings](https://business.facebook.com/settings/system-users).
+
+<Steps>
+  <Step title="Create a system user">
+    In Business Settings, open **Users → System users** and press **Add**. Name it anything you like, set the role to **Employee**, and press **Create system user**.
+
+    <Frame>
+      <img src="/images/whatsapp-meta/1-create-system-user.png" alt="The Create system user box in Meta Business Settings with the role set to Employee" />
+    </Frame>
+
+    Employee is enough. It gives the key access only to what you assign in the next two steps.
+  </Step>
+
+  <Step title="Give it your app">
+    Click the system user you just made, then press **Assign assets**. Open the **Apps** tab, tick your app, turn on **Manage app**, and press **Assign assets**.
+
+    <Frame>
+      <img src="/images/whatsapp-meta/2-generate-token-button.png" alt="The system user page with the Assign assets and Generate token buttons" />
+    </Frame>
+
+    <Frame>
+      <img src="/images/whatsapp-meta/3-assign-app.png" alt="Assigning the app to the system user with Manage app turned on" />
+    </Frame>
+  </Step>
+
+  <Step title="Give it your WhatsApp account">
+    Press **Assign assets** again. This time open the **WhatsApp accounts** tab (not "Messaging accounts"), tick your WhatsApp account, turn on full control, and press **Assign assets**.
+
+    Workser checks this when you connect. A key that is not allowed to message for your WhatsApp account is refused.
+  </Step>
+
+  <Step title="Press Generate token and pick your app">
+    On the system user, press **Generate token**. Choose your app in the list and press **Next**.
+
+    <Frame>
+      <img src="/images/whatsapp-meta/4-select-app.png" alt="Choosing the app to generate a token for" />
+    </Frame>
+  </Step>
+
+  <Step title="Choose when it expires">
+    Pick **Never**, then **Next**.
+
+    <Frame>
+      <img src="/images/whatsapp-meta/5-expiry.png" alt="Token expiry with Never selected" />
+    </Frame>
+
+    Meta suggests 60 days. A key that expires makes your AI agent stop replying until you paste a new one, so Never is the safe choice for a live number. If you pick 60 days, put a reminder in your calendar.
+  </Step>
+
+  <Step title="Tick the two WhatsApp permissions">
+    Tick **whatsapp_business_messaging** and **whatsapp_business_management**, then press **Continue**. The extra `whatsapp_business_manage_events` is optional.
+
+    <Frame>
+      <img src="/images/whatsapp-meta/6-permissions.png" alt="Selecting the whatsapp_business_messaging and whatsapp_business_management permissions" />
+    </Frame>
+  </Step>
+
+  <Step title="Copy the key into Workser">
+    Press **Copy**. Meta shows the key only once, so paste it into the **Access key** field in Workser right away, together with your app ID, app secret, number ID and business account ID, and press **Connect**.
+
+    <Frame>
+      <img src="/images/whatsapp-meta/7-copy-token.png" alt="The Token created box with a Copy button" />
+    </Frame>
+
+    Workser stores it encrypted and never shows it again. If you lose it, make a new one the same way.
+  </Step>
+</Steps>
+
+## If something goes wrong
+
+<AccordionGroup>
+  <Accordion title="Meta says “No permissions available”">
+    The system user has no role on your app yet. Close the box, go back to step 2, give the system user your app with **Manage app** turned on, then press **Generate token** again.
+
+    <Frame>
+      <img src="/images/whatsapp-meta/x-no-permissions.png" alt="The No permissions available message when generating a token" />
+    </Frame>
+  </Accordion>
+
+  <Accordion title="My app is not in the Apps list">
+    The app still belongs to your personal developer account. In Business Settings open **Accounts → Apps → Add → Connect an app ID**, enter your app ID, and approve it. Then repeat step 2.
+  </Accordion>
+
+  <Accordion title="Workser says the key is for a different app">
+    The key must be made for the same app whose ID you pasted. Generate it again and choose that app in step 4.
+  </Accordion>
+
+  <Accordion title="Workser says the key is missing a permission or cannot message for the account">
+    Check step 3 (the WhatsApp account with full control) and step 6 (both WhatsApp permissions ticked). Then make a new key and connect again.
+  </Accordion>
+</AccordionGroup>
+
+Back to [linking chat apps](/ai-workforce/chat-apps).

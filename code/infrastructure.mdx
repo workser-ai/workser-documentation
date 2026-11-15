@@ -1,6 +1,6 @@
 ---
 title: "What every project gets"
-description: "Database, sign-in, files, web address, connected apps and secrets — provisioned for you, ready for your agent to use."
+description: "Database, sign-in, files, web address, connectors and secrets — provisioned for you, ready for your agent to use."
 ---
 
 The hard part of turning an idea into working software usually isn't the code. It's everything the code needs in order to run: somewhere to keep data, a way for people to sign in, somewhere to put uploaded files, an address on the internet.
@@ -26,7 +26,7 @@ Workser Code brings these services into the project workspace. Provision the res
   <Card title="Web" icon="globe">
     A stable `*.workser.app` address from the first publish, plus custom domains.
   </Card>
-  <Card title="Connected apps" icon="plug">
+  <Card title="Connectors" icon="plug">
     Gmail, Slack, Google Sheets, Stripe and more — connected once, usable by every app in the project.
   </Card>
   <Card title="Keys & secrets" icon="lock">
@@ -111,14 +111,14 @@ workser domain rm app.example.com
 
 Domain changes use the applicable desktop approval policy. Reserved Workser and provider hostnames are refused. See [Security & approvals](/code/security-and-approvals).
 
-## Connected apps
+## Connectors
 
-Authorize Gmail, Slack, Sheets or another available tool for the project. **Your coding agents can use it while developing and maintaining software, and your finished apps can call its actions from their backend.** Workser manages the connection; your app still owns its end-user permissions. See [App connections](/code/app-connections).
+Authorize Gmail, Slack, Sheets or another available tool for the project. **Your coding agents can use it while developing and maintaining software, and your finished apps can call its actions from their backend.** Workser manages the connection; your app still owns its end-user permissions. See [Connectors](/code/connectors).
 
 ```bash
 workser app list                    # what's connectable and what's connected
 workser app connect gmail           # returns a link the USER opens
-workser app tools gmail             # a connected app's callable actions and their inputs
+workser app tools gmail             # a connector's callable actions and their inputs
 workser app run GMAIL_SEND_EMAIL --body '{"to":"…","subject":"…","body":"…"}'
 ```
 
