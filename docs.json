@@ -29,7 +29,6 @@
           {
             "group": "Working with AI agents",
             "pages": [
-              "ai-workforce/chats-and-tasks",
               "ai-workforce/automations",
               "ai-workforce/approvals-and-stuck",
               "ai-workforce/company-knowledge"
@@ -299,6 +298,10 @@
     {
       "source": "/workser-desktop/faq",
       "destination": "/code/faq"
+    },
+    {
+      "source": "/ai-workforce/chats-and-tasks",
+      "destination": "/using/chats"
     }
   ],
   "logo": {
