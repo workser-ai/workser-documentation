@@ -1,0 +1,58 @@
+---
+title: "AI model routing: the best AI model for each task"
+description: "On Auto, Workser reads each task and sends it to the AI model that does that kind of work best, within a price cap, switching models as a task moves from one kind of work to another."
+keywords: ["AI model routing", "best AI model for each task", "automatic AI model selection", "AI agent model switching", "cost-effective AI agents", "Workser Auto"]
+---
+
+**On Auto, every task gets the AI model that does that kind of work best, within a price cap that makes your credits go further.** You don't choose anything: Workser reads what you asked, picks the model, and keeps the picks up to date as new models launch.
+
+## How Auto picks a model
+
+When a message arrives, Workser reads what kind of work it is: building software, design and video, office documents and spreadsheets, research, writing, marketing, sales, legal, money, translation, data, reading long documents, customer replies, and more. It then runs the task on the model that scores best for that kind of work on current benchmarks, from models priced under a cap.
+
+- **A short follow-up keeps the model.** "OK, go ahead" or "thanks" says nothing about the work, so it stays on the model the conversation was already using.
+- **Customers get a model built for replies.** Messages from customers in your [chat apps](/ai-workforce/chat-apps) run on a fast model made for answering, never a more expensive one.
+- **The picks keep up.** As new models launch, Workser re-checks the benchmarks and moves each kind of work to the best model under the cap. Your AI agents get better without you changing anything.
+
+Each task's activity shows a line saying which model it used and why, for example "Building software: …" or "Research: …".
+
+## Models change as the work changes
+
+One task often crosses kinds of work: research the competitors, then build the page, then write the launch email.
+
+- **At each step of the to-do.** When the AI agent moves to a to-do item of another kind, the next steps run on that kind's model. The switch happens only when the item changes, never call by call, so the work stays fast. A step that names no kind of work keeps the model it had.
+- **Helpers on a specialist model.** For a big piece of work with a small result (search forty files, compare six options), an AI agent can hand the piece to a helper of itself: the same AI agent, with the same knowledge and permissions, running on the best model for that piece.
+- **Screen work on a screen model.** When an AI agent works a website or desktop app by looking at the screen and clicking, those steps run on a model that is strong at reading screens, then the work goes back to its own model. Reading pages as text, files and commands stay on the task's model.
+
+## Your own choice always wins
+
+If you pick a model for a chat or set an AI agent's default ([AI models](/using/models)), Workser keeps it for everything, helpers included. The one exception is screen work with a model that cannot see images: those steps go to the screen model, and the task says so in one line.
+
+**Fast** and **Smart** are your choice too: Auto routing applies only when the picker reads **Auto**.
+
+## What it costs
+
+Each model call is charged at what the AI provider actually charged for it, plus Workser's usage rate, as soon as the call finishes. Behind each model Workser uses only providers at a fixed price (no short-term discounts that could end), the fastest ones first, with a backup ready when one is down. See [Credits and usage](/using/credits-and-usage).
+
+## Common questions
+
+<AccordionGroup>
+  <Accordion title="Which AI model does Workser use?">
+    On Auto, the best model for each kind of work, chosen from current benchmarks and priced under a cap. Building software, office documents, research, writing, legal work and customer replies each have their own pick, and a task can move between them as its to-do changes. You can also choose any model yourself.
+  </Accordion>
+  <Accordion title="Do I have to choose a model?">
+    No. Leave the picker on Auto and Workser chooses for every task. Choose a model only when you want one for a reason of your own.
+  </Accordion>
+  <Accordion title="Will Auto pick an expensive model?">
+    No. Auto only picks models priced under a cap, and each call is charged at what the provider actually charged plus Workser's usage rate, so you never pay for an expensive model you didn't choose.
+  </Accordion>
+  <Accordion title="Why did the model change in the middle of a task?">
+    The task moved to a different kind of work, for example from research to building, or to a step that works on the screen. The task's activity shows a line for each change.
+  </Accordion>
+</AccordionGroup>
+
+## Related
+
+- [AI models](/using/models): choose a model for a chat or an AI agent
+- [Many jobs at once](/ai-workforce/many-jobs-at-once): how AI agents work in parallel
+- [Plans and credits](/ai-workforce/plans-and-credits)

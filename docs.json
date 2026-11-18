@@ -31,7 +31,9 @@
             "pages": [
               "ai-workforce/automations",
               "ai-workforce/approvals-and-stuck",
-              "ai-workforce/company-knowledge"
+              "ai-workforce/company-knowledge",
+              "ai-workforce/model-routing",
+              "ai-workforce/many-jobs-at-once"
             ]
           },
           {
